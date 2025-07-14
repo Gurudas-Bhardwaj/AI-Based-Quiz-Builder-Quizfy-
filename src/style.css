@@ -1,0 +1,25 @@
+@font-face {
+  font-family: Poppins;
+  src: url("./assests/fonts/Poppins-Regular.ttf");
+}
+@font-face {
+  font-family: Outfit;
+  src: url('./assests//fonts/Outfit-Regular.ttf');
+}
+@font-face {
+  font-family: spaceGrotesk;
+  src: url("./assests/fonts/SpaceGrotesk-Regular.ttf");
+}
+@font-face {
+  font-family: Montserrat;
+  src: url("./assests/fonts/Montserrat-Regular.ttf");
+}
+
+@import "tailwindcss";
+
+@theme{
+  --font-poppins : Poppins, "sans-serif";
+  --font-Outfit : Outfit, "sans-serif";
+  --font-space : spaceGrotesk, "sans-serif";
+  --font-Montserrat : Montserrat, "sans-serif";
+}
