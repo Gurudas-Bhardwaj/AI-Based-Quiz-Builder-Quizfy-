@@ -19,9 +19,9 @@ const SideBar = () => {
               </div>
           </div>
 
-          <div className=' '>
+          <div className=''>
             <div className='flex gap-3 flex-col text-xs'>
-              <div className="flex border-l-2 gap-2  w-full cursor-pointer border-l-purple-400 pl-2 justify-start items-center">
+              <div className="flex border-l-2 gap-2  w-full cursor-pointer border-l-purple-900 pl-2 justify-start items-center">
                 <img src={home} className="w-3" alt="" />
                 <p className='font-Outfit'>Home</p>
               </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router';
+import { href, NavLink } from 'react-router';
 import Slogan from '../Messages/Slogan.jsx';
 
 const SignUp = () => {
@@ -31,17 +31,18 @@ const SignUp = () => {
           setTimeout(()=>{
             setDisplay("none");
           },3000)
-        
+          
           console.log(response)
           return;
-      }
-
-      setMessage(message.Message);
-      setStatus(true);
-      setDisplay("flex");
-      setTimeout(()=>{
-        setDisplay("none");
-      },3000)
+        }
+        
+        setMessage(message.Message);
+        setStatus(true);
+        setDisplay("flex");
+        setTimeout(()=>{
+          window.location.href="/login";
+          setDisplay("none");
+      },2000)
       console.log(message);  
   }
 

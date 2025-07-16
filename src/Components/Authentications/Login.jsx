@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 import Slogan from '../Messages/Slogan.jsx';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
 
   //toaster data / messages data to show what's going on after try to login
   const [message, setMessage] = useState("");
@@ -29,8 +31,9 @@ const Login = () => {
         setDisplay("flex");
         setStatus(false);
         setTimeout(()=>{
+          
           setDisplay("none");
-        },3000)
+        },2000)
       
         console.log(response)
         return;
@@ -41,6 +44,7 @@ const Login = () => {
       setStatus(true);
       setDisplay("flex");
       setTimeout(()=>{
+        window.location.href = "/App/Home";
         setDisplay("none");
       },3000)
       console.log(message);

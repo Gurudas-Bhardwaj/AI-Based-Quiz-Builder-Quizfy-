@@ -12,6 +12,7 @@ const Login = lazy(()=> import("./Components/Authentications/Login.jsx"))
 const SignUp = lazy(()=> import("./Components/Authentications/SignUp.jsx"))
 const App = lazy(()=> import("./Components/App/appLayout.jsx"));
 const Home = lazy(()=> import("./Components/App/Home/Home.jsx"));
+const ProfileSetting = lazy(()=> import("./Components/App/Home/Setting.jsx"));
 
 const route = createBrowserRouter([
   {
@@ -42,13 +43,21 @@ const route = createBrowserRouter([
     children:[
       {path : "Home" ,element : <Home/>},
     ]
+  },
+  {
+    path : "/App/setting",
+    element :
+    <Suspense fallback={<Basic/>}>
+          <ProfileSetting/>
+    </Suspense>
+
   }
 ])
 
 createRoot(document.getElementById('root')).render(
-   <StrictMode>
+  //  <StrictMode>
     <AuthProvider>
       <RouterProvider router={route} />
     </AuthProvider>
-  </StrictMode>
+  // </StrictMode>
 )
