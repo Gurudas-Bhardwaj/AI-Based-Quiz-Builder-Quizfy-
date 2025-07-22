@@ -9,9 +9,6 @@ const accessOnlyRoute = ({children}) => {
   if(!isLogin) return <Navigate to="/Login" replace/>
 
   return children;
-
-
-  return children;
 }
 
 export default accessOnlyRoute

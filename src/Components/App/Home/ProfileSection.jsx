@@ -25,7 +25,7 @@ const ProfileSection = (props) => {
     }
 
   return (
-    <div className='absolute z-10 transition-all  top-9 -left-52 border pt-4 pb-4 pr-2 pl-2 border-white rounded-sm  bg-white ' style={{"display":props.display?"flex":"none","boxShadow":"0 2px 8px rgba(0, 0, 0, 0.4)"}}>
+    <div className={`absolute z-10 transition-all  top-9 -left-52 border pt-4 pb-4 pr-2 pl-2 border-white rounded-sm  bg-white ${props.display ? "block":"hidden"}`} style={{"boxShadow":"0 2px 8px rgba(0, 0, 0, 0.4)"}}>
                   <div className='w-full'>
                     <div className='flex flex-col w-full pl-2'>
                         <p className='font-Outfit text-sm '>{userName}</p>
@@ -42,9 +42,9 @@ const ProfileSection = (props) => {
                       </div>
                     </div>
                     <div className='flex gap-2 cursor-pointer flex-col mt-5'>
-                      <NavLink to="/App/setting" className='text-sm hover:bg-gray-100 rounded-sm cursor-pointer p-1 font-Outfit pl-2'>
+                      <button onClick={()=>{props.setSettingState(true); props.onClose()}} className='text-sm w-full flex justify-start hover:bg-gray-100 rounded-sm cursor-pointer p-1 font-Outfit pl-2'>
                         <p>Account Settings</p>
-                      </NavLink>
+                      </button>
                       <div className='text-sm   hover:bg-gray-100 rounded-sm cursor-pointer p-1 font-Outfit pl-2'>
                         <p>Billing</p>
                       </div>

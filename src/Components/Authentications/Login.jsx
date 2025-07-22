@@ -11,7 +11,7 @@ const Login = () => {
   //toaster data / messages data to show what's going on after try to login
   const [message, setMessage] = useState("");
   const[Status, setStatus] = useState(false);
-  const[display, setDisplay] = useState("none");
+  const[display, setDisplay] = useState(false);
   
 
   const loginUser = async()=>{
@@ -28,11 +28,11 @@ const Login = () => {
 
     if(!response.ok){
         setMessage(message.Message);
-        setDisplay("flex");
+        setDisplay(true);
         setStatus(false);
         setTimeout(()=>{
           
-          setDisplay("none");
+          setDisplay(false);
         },2000)
       
         console.log(response)
@@ -42,10 +42,10 @@ const Login = () => {
       localStorage.setItem("accessToken",message.accessToken);
       setMessage(message.Message);
       setStatus(true);
-      setDisplay("flex");
+      setDisplay(true);
       setTimeout(()=>{
         window.location.href = "/App/Home";
-        setDisplay("none");
+        setDisplay(false);
       },3000)
       console.log(message);
     
@@ -119,7 +119,7 @@ const Login = () => {
             </div>
         </div>
       </div>
-      <div className='fixed top-[80%] transition-all left-0 flex justify-center items-center w-screen' style={{"display" : display}}>
+      <div className={`fixed ${display?"flex":"hidden"} top-[80%] transition-all left-0 flex justify-center items-center w-screen`}>
         <Slogan status={Status} details={message} />
       </div>
     </main>

@@ -258,6 +258,7 @@ const Landing_Page = () => {
             </section>
 
         </div>
+
     </main>
   )
 }

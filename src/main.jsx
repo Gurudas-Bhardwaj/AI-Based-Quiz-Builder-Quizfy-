@@ -8,11 +8,14 @@ import Basic from './Components/Loader/Basic.jsx';
 import AuthProvider from './Context/authContext.jsx';
 import LoggedInRoute from './Components/Protected_Route/LoggedInRoute.jsx';
 import ForUnLoggedUser from './Components/Protected_Route/accessOnlyRoute.jsx';
+import RankingPresentation from './Components/App/Presentation/RankingPresentation.jsx';
+import OpenEndedPresentation from './Components/App/Presentation/OpenEndedPresentation.jsx';
+
 const Login = lazy(()=> import("./Components/Authentications/Login.jsx"))
 const SignUp = lazy(()=> import("./Components/Authentications/SignUp.jsx"))
 const App = lazy(()=> import("./Components/App/appLayout.jsx"));
 const Home = lazy(()=> import("./Components/App/Home/Home.jsx"));
-const ProfileSetting = lazy(()=> import("./Components/App/Home/Setting.jsx"));
+const PollPresentation = lazy(()=> import("./Components/App/Presentation/PollPresentation.jsx"));
 
 const route = createBrowserRouter([
   {
@@ -45,13 +48,24 @@ const route = createBrowserRouter([
     ]
   },
   {
-    path : "/App/setting",
-    element :
-    <Suspense fallback={<Basic/>}>
-          <ProfileSetting/>
+    path : "/App/Presentation/Poll",
+    element : <Suspense fallback={<Basic/>}>
+      <PollPresentation/>
     </Suspense>
-
-  }
+  },
+  {
+    path : "/App/Presentation/Ranking",
+    element : <Suspense fallback={<Basic/>}>
+      <RankingPresentation/>
+    </Suspense>
+  },
+  {
+    path : "/App/Presentation/OpenEnded",
+    element : <Suspense fallback={<Basic/>}>
+      <OpenEndedPresentation/>
+    </Suspense>
+  },
+  
 ])
 
 createRoot(document.getElementById('root')).render(

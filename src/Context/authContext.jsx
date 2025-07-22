@@ -3,6 +3,8 @@
   const AuthContext = createContext();
 
   export const AuthProvider = ({ children }) => {
+
+
     const [isLogin, setIsLogin] = useState(false);
     const [userName, setUserName] = useState(null);
     const [email, setEmail] = useState(null);
@@ -19,9 +21,14 @@
     const refreshToken = async () => {
       try {
         const response = await fetch('http://localhost:9000/user/token/RefreshAccessToken', {
-          method: 'GET',
-          credentials: 'include',
-        });
+            method: 'GET',
+            credentials: 'include' // THIS IS THE MOST IMPORTANT PART
+          });
+
+        if (!response.ok) {
+          console.log(response);
+          throw new Error('Refresh failed');
+        }
 
         const data = await response.json();
         const accessToken = data.accessToken;
@@ -56,7 +63,7 @@
 
         const decoded = parseJWT(token);
         const isExpired = decoded?.exp * 1000 < Date.now();
-
+        // const isExpired = true;//for production purpose 
         if (isExpired) {
           await refreshToken();
         } else {

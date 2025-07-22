@@ -1,0 +1,8 @@
+This file is made for mentioning the changes that'll be made before deploying the project.
+
+Change all the file and image directory remove the leading '.'.
+
+Changes in url(Change where server is hosted) : 
+1) Login.jsx
+2) SignUp.jsx
+3) AccountSettingPOPUP.jsx

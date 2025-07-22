@@ -1,0 +1,18 @@
+.displaySideBar{
+    display: flex;
+}
+
+.displayMenu{
+    display: none;
+}
+
+@media (max-width : 768px) {
+    .displaySideBar{
+        display: none;
+    }
+
+    .displayMenu{
+    display: block;
+    }
+
+}
