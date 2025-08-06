@@ -5,13 +5,56 @@ import { ImCross } from 'react-icons/im'
 import poll from "../../../../assests/Images/Background_Images/PollOne.png"
 import poll2 from "../../../../assests/Images/Background_Images/PollTwo.png"
 import poll3 from "../../../../assests/Images/Background_Images/Poll3.png"
-import background1 from "../../../../assests/Images/Background_Images/BackGround1.png"
-import background2 from "../../../../assests/Images/Background_Images/simpleBackground2.jpg"
-import background3 from "../../../../assests/Images/Background_Images/simpleBackground9.jpg"
-import { NavLink } from 'react-router'
+import { NavLink, useNavigate } from 'react-router'
+import { useAuth } from '../../../../Context/authContext'
 
 
 const Poll = ({onClose}) => {
+
+  const {userId} = useAuth();
+  const navigate = useNavigate();
+
+  const options = [
+        { text: "Option A", color: "#FF0000" },
+        { text: "Option B", color: "#00FF00" },
+        { text: "Option C", color: "#0000FF" },
+        { text: "Option D", color: "#FFA500" }
+      ];
+
+
+  const handleTemplateClick = async (designType, designTemplate) => {
+    try {
+      // 1. Create Presentation
+      const presRes = await fetch("http://localhost:9000/handleQuestions/createPresentation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user: userId, title: "Untitled Presentation" })
+      });
+
+      const { presentationId } = await presRes.json();
+
+      // 2. Create Sample First Question
+      const quesRes = await fetch("http://localhost:9000/handleQuestions/addQuestion", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          presentationId,
+          designType,
+          designTemplate,
+          question: "Who is best hokage among of all them?",
+          options,
+        })
+      });
+
+      const { question } = await quesRes.json();
+
+      // 3. Redirect to question editor view
+      navigate(`/App/Presentation/${presentationId}/${question._id}`);
+    } catch (err) {
+      console.error("Something went wrong:", err);
+    }
+  };
+
   return (
     <section className='w-full h-full flex justify-center items-center'>
         <div className=' bg-white w-[90%] sm:w-[80%] md:w-[78%]  h-[500px] border-2 border-white rounded-2xl '>
@@ -44,24 +87,24 @@ const Poll = ({onClose}) => {
                     <h1 className='font-Outfit pl-1'>Blank Poll</h1>
                 </div>
                 <div className='flex flex-col gap-1'>
-                  <NavLink state={{backgroundImage : background1,color : "Black"}} to="/App/Presentation/Poll" className="h-40  w-full flex  justify-center items-center border-2 border-stone-400 hover:border-black text-stone-400 bg-center  bg-no-repeat  hover:text-black cursor-pointer rounded-sm" style={{backgroundImage: `url(${poll})`,backgroundSize: 'cover', // or 'cover'
+                  <div onClick={()=>handleTemplateClick("poll","bg-poll1")}   className="h-40  w-full flex  justify-center items-center border-2 border-stone-400 hover:border-black text-stone-400 bg-center  bg-no-repeat  hover:text-black cursor-pointer rounded-sm" style={{backgroundImage: `url(${poll})`,backgroundSize: 'cover', // or 'cover'
     backgroundPosition: 'center',}}>
                         
-                    </NavLink>
+                    </div>
                     <h1 className='font-Outfit pl-1'>Design with vibrant vibe</h1>
                 </div>
                 <div className='flex flex-col gap-1'>
-                    <NavLink state={{backgroundImage : background2,color : "Black"}} to="/App/Presentation/Poll" style={{backgroundImage: `url(${poll2})`,backgroundSize: 'cover', // or 'cover'
+                    <div  onClick={() => handleTemplateClick("poll", "bg-poll2")} style={{backgroundImage: `url(${poll2})`,backgroundSize: 'cover', // or 'cover'
     backgroundPosition: 'center',}} className='h-40  w-full flex justify-center items-center border-2 border-stone-400 hover:border-black text-stone-400 hover:text-black cursor-pointer rounded-sm'>
                         
-                    </NavLink>
+                    </div>
                     <h1 className='font-Outfit pl-1'>Design with a aesthetic look</h1>
                 </div>
                 <div className='flex flex-col gap-1'>
-                    <NavLink state={{backgroundImage : background3,color : "white"}} to="/App/Presentation/Poll" style={{backgroundImage: `url(${poll3})`,backgroundSize: 'cover', // or 'cover'
+                    <div onClick={() => handleTemplateClick("poll", "bg-poll3")} style={{backgroundImage: `url(${poll3})`,backgroundSize: 'cover', // or 'cover'
     backgroundPosition: 'center',}} className='h-40  w-full flex justify-center items-center border-2 border-stone-400 hover:border-black text-stone-400 hover:text-black cursor-pointer rounded-sm'>
                         
-                    </NavLink>
+                    </div>
                     <h1 className='font-Outfit pl-1'>Design with a aesthetic look</h1>
                 </div>
             </div>

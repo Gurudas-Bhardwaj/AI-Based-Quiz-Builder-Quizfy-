@@ -14,10 +14,11 @@ import NotificationCom from './NotificationCom'
 import AccountSettingPOPUP from './AccountSettingPOPUP'
 import Poll from './featureModel/Poll'
 import Ranking from './featureModel/ranking'
-import OpenEnded from './featureModel/openEnded'
+import OpenEnded from './featureModel/OpenEnded'
 
 const Home = () => {
   const {userName}=useAuth();
+  // console.log(userId);
 
   const [state, setState] = useState(false);
   const [NotificationState, setNotificationState] = useState(false);

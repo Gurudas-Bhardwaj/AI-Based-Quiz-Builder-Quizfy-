@@ -8,14 +8,15 @@ import Basic from './Components/Loader/Basic.jsx';
 import AuthProvider from './Context/authContext.jsx';
 import LoggedInRoute from './Components/Protected_Route/LoggedInRoute.jsx';
 import ForUnLoggedUser from './Components/Protected_Route/accessOnlyRoute.jsx';
-import RankingPresentation from './Components/App/Presentation/RankingPresentation.jsx';
-import OpenEndedPresentation from './Components/App/Presentation/OpenEndedPresentation.jsx';
+// import RankingPresentation from './Components/App/Presentation/RankingPresentation.jsx';
+// import OpenEndedPresentation from './Components/App/Presentation/OpenEndedPresentation.jsx';
+import New from "./New.jsx"
 
 const Login = lazy(()=> import("./Components/Authentications/Login.jsx"))
 const SignUp = lazy(()=> import("./Components/Authentications/SignUp.jsx"))
 const App = lazy(()=> import("./Components/App/appLayout.jsx"));
 const Home = lazy(()=> import("./Components/App/Home/Home.jsx"));
-const PollPresentation = lazy(()=> import("./Components/App/Presentation/PollPresentation.jsx"));
+const PresentationView = lazy(()=>import("./Components/App/Presentation/PresentationView.jsx"));
 
 const route = createBrowserRouter([
   {
@@ -48,23 +49,35 @@ const route = createBrowserRouter([
     ]
   },
   {
-    path : "/App/Presentation/Poll",
-    element : <Suspense fallback={<Basic/>}>
-      <PollPresentation/>
-    </Suspense>
+    path : "App/Presentation/:presentationId/:questionId",
+    element : <Suspense fallback={<Basic/>}> 
+    {/* <ForUnLoggedUser> */}
+      <PresentationView/>
+    {/* </ForUnLoggedUser> */}
+  </Suspense>
   },
+  // {
+  //   path : "/App/Presentation/Poll",
+  //   element : <Suspense fallback={<Basic/>}>
+  //     <PollPresentation/>
+  //   </Suspense>
+  // },
+  // {
+  //   path : "/App/Presentation/Ranking",
+  //   element : <Suspense fallback={<Basic/>}>
+  //     <RankingPresentation/>
+  //   </Suspense>
+  // },
+  // {
+  //   path : "/App/Presentation/OpenEnded",
+  //   element : <Suspense fallback={<Basic/>}>
+  //     <OpenEndedPresentation/>
+  //   </Suspense>
+  // },
   {
-    path : "/App/Presentation/Ranking",
-    element : <Suspense fallback={<Basic/>}>
-      <RankingPresentation/>
-    </Suspense>
-  },
-  {
-    path : "/App/Presentation/OpenEnded",
-    element : <Suspense fallback={<Basic/>}>
-      <OpenEndedPresentation/>
-    </Suspense>
-  },
+    path : "/socketIO",
+    element : <New/>
+  }
   
 ])
 

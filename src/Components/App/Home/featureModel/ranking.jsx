@@ -4,12 +4,55 @@ import { ImCross } from 'react-icons/im'
 import ranking1 from '../../../../assests/Images/Background_Images/Ranking1.png'
 import ranking2 from '../../../../assests/Images/Background_Images/Ranking2.png'
 import ranking3 from '../../../../assests/Images/Background_Images/Ranking3.png'
-import { NavLink } from 'react-router'
-import background1 from "../../../../assests/Images/Background_Images/SimpleBackground8.jpg"
-import background2 from "../../../../assests/Images/Background_Images/SimpleBackground7.jpg"
-import background3 from "../../../../assests/Images/Background_Images/SimpleBackground6.jpg"
+import { NavLink, useNavigate } from 'react-router'
+import { useAuth } from '../../../../Context/authContext'
 
 const Ranking = ({onClose}) => {
+
+  const {userId} = useAuth();
+  const navigate = useNavigate();
+
+  const options = [
+        { text: "Option A", color: "#FF0000" },
+        { text: "Option B", color: "#00FF00" },
+        { text: "Option C", color: "#0000FF" },
+        { text: "Option D", color: "#FFA500" }
+      ];
+
+
+  const handleTemplateClick = async (designType, designTemplate) => {
+    try {
+      // 1. Create Presentation
+      const presRes = await fetch("http://localhost:9000/handleQuestions/createPresentation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user: userId, title: "Untitled Presentation" })
+      });
+
+      const { presentationId } = await presRes.json();
+
+      // 2. Create Sample First Question
+      const quesRes = await fetch("http://localhost:9000/handleQuestions/addQuestion", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          presentationId,
+          designType,
+          designTemplate,
+          question: "Who is best hokage among of all them?",
+          options,
+        })
+      });
+
+      const { question } = await quesRes.json();
+
+      // 3. Redirect to question editor view
+      navigate(`/App/Presentation/${presentationId}/${question._id}`);
+    } catch (err) {
+      console.error("Something went wrong:", err);
+    }
+  };
+
   return (
     <section className='w-full h-full flex justify-center items-center'>
       <div className=' bg-white w-[90%] sm:w-[80%] md:w-[78%]  h-[500px] border-2 border-white rounded-2xl '>
@@ -42,24 +85,24 @@ const Ranking = ({onClose}) => {
               <h1 className='font-Outfit pl-1'>Blank ranking Questions</h1>
             </div>
             <div className='flex flex-col gap-1'>
-              <NavLink to='/App/Presentation/Ranking' state={{backgroundImage : background1}} style={{backgroundImage: `url(${ranking3})`,backgroundSize: 'cover',
+              <div onClick={() => handleTemplateClick("ranking", "bg-ranking3")} style={{backgroundImage: `url(${ranking3})`,backgroundSize: 'cover',
                 backgroundPosition: 'center',}} className='h-40  w-full flex justify-center items-center border-2 border-stone-400 hover:border-black text-stone-400 hover:text-black cursor-pointer rounded-sm'>
                 
-              </NavLink>
+              </div>
               <h1 className='font-Outfit pl-1'>Realistic and aesthetic vibe</h1>
             </div>
             <div className='flex flex-col gap-1'>
-              <NavLink to='/App/Presentation/Ranking' state={{backgroundImage : background2}} style={{backgroundImage: `url(${ranking2})`,backgroundSize: 'cover',
+              <div onClick={() => handleTemplateClick("ranking", "bg-ranking2")} style={{backgroundImage: `url(${ranking2})`,backgroundSize: 'cover',
                 backgroundPosition: 'center',}} className='h-40  w-full flex justify-center items-center border-2 border-stone-400 hover:border-black text-stone-400 hover:text-black cursor-pointer rounded-sm'>
                 
-              </NavLink>
+              </div>
               <h1 className='font-Outfit pl-1'>Blend of blue and white</h1>
             </div>
             <div className='flex flex-col gap-1'>
-              <NavLink to='/App/Presentation/Ranking' state={{backgroundImage : background3}} style={{backgroundImage: `url(${ranking1})`,backgroundSize: 'cover',
+              <div onClick={() => handleTemplateClick("ranking", "bg-ranking1")} style={{backgroundImage: `url(${ranking1})`,backgroundSize: 'cover',
                 backgroundPosition: 'center',}}  className='h-40  w-full flex justify-center items-center border-2 border-stone-400 hover:border-black text-stone-400 hover:text-black cursor-pointer rounded-sm'>
                 
-              </NavLink>
+              </div>
               <h1 className='font-Outfit pl-1'>Mixture of vibrant Colors</h1>
             </div>
           </div>

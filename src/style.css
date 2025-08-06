@@ -2,18 +2,22 @@
   font-family: Poppins;
   src: url("./assests/fonts/Poppins-Regular.ttf");
 }
+
 @font-face {
   font-family: Outfit;
   src: url('./assests//fonts/Outfit-Regular.ttf');
 }
+
 @font-face {
   font-family: spaceGrotesk;
   src: url("./assests/fonts/SpaceGrotesk-Regular.ttf");
 }
+
 @font-face {
   font-family: Montserrat;
   src: url("./assests/fonts/Montserrat-Regular.ttf");
 }
+
 @font-face {
   font-family: Sora;
   src: url("./assests/fonts/Sora-Regular.ttf");
@@ -21,10 +25,20 @@
 
 @import "tailwindcss";
 
-@theme{
-  --font-poppins : Poppins, "sans-serif";
-  --font-Outfit : Outfit, "sans-serif";
-  --font-space : spaceGrotesk, "sans-serif";
-  --font-Montserrat : Montserrat, "sans-serif";
-  --font-Sora : Sora, "sans-serif";
+@theme {
+  --font-poppins: Poppins, "sans-serif";
+  --font-Outfit: Outfit, "sans-serif";
+  --font-space: spaceGrotesk, "sans-serif";
+  --font-Montserrat: Montserrat, "sans-serif";
+  --font-Sora: Sora, "sans-serif";
+  --background-image-poll1: url("./assests/Images/Background_Images/Poll/PollBGOne.png");
+  --background-image-poll2: url("./assests/Images/Background_Images/Poll/PollBG2.jpg");
+  --background-image-poll3: url("./assests/Images/Background_Images/Poll/pollBG3.jpg");
+  --background-image-ranking1: url("./assests/Images/Background_Images//Ranking/RankingBG1.jpg");
+  --background-image-ranking2: url("./assests/Images/Background_Images/Ranking/rankingBG2.jpg");
+  --background-image-ranking3: url("./assests/Images/Background_Images/Ranking/rankingBG3.jpg");
+  --background-image-openEnded1: url("./assests/Images/Background_Images/Open_Ended/openEnded1.jpg");
+  --background-image-openEnded2: url("./assests/Images/Background_Images/Open_Ended/openEndedBG1.jpg");
+  --background-image-openEnded3: url("./assests/Images/Background_Images/Open_Ended/openEnded3.jpg");
+  
 }
