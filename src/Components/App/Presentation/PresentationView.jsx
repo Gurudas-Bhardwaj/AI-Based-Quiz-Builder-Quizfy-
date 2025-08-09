@@ -20,6 +20,7 @@ const PresentationView = () => {
     const { presentationId, questionId } = useParams();
     const [question, setQuestion] = useState('');
     const [options, setOptions] = useState([]);
+    
 
     const location = useLocation();
 
@@ -54,11 +55,11 @@ const PresentationView = () => {
     const renderQuestionSection = () => {
         switch (designType) {
             case "poll":
-                return <PollType question={question} options={options} designTemplate={designTemplate} />;
+                return <PollType questionId={questionId} question={question} options={options} designTemplate={designTemplate} />;
             case "openEnded":
-                return <OpenEndedType question={question} options={options} designTemplate={designTemplate} />;
+                return <OpenEndedType questionId={questionId} question={question} designTemplate={designTemplate} />;
             case "ranking":
-                return <RankingType question={question} options={options} designTemplate={designTemplate} />;
+                return <RankingType questionId={questionId} question={question} options={options} designTemplate={designTemplate} />;
         }
     }
 
@@ -81,7 +82,7 @@ const PresentationView = () => {
 
                             <div className='font-Outfit text-[13px]'>
                                 <p>Vibrant Color Mixture</p>
-                                <p className='text-[10px] text-stone-600 flex gap-1 justify-start items-center    '><FaRegUser /> My Presentation</p>
+                                <p className='text-[10px] text-stone-600 flex gap-1 justify-start items-center    '><FaRegUser /> <input type="text"  className='h-full w-[70%] pl-1' value={"My Presentation"}/></p>
                             </div>
 
                             <div className='h-5 w-1 border-r border-r-stone-200'></div>

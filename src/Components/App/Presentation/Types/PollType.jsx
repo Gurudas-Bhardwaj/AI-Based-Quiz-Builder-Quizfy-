@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { BiBug } from 'react-icons/bi'
 import { FaPlus, FaRegComment, FaRegUser } from 'react-icons/fa'
 import { FiUser } from 'react-icons/fi'
@@ -13,12 +13,117 @@ import { BsThreeDots } from 'react-icons/bs'
 import { LuFileStack } from 'react-icons/lu'
 import background1 from "../../../../assests/Images/Background_Images/Poll/PollBG2.jpg"
 
-const PollType = ({ question, options, designTemplate }) => {
+const PollType = ({ questionId, question, options, designTemplate }) => {
 
     const location = useLocation();
-
-    const [showOptions, setShowOptions] = useState(false);
     const [showSlide, setShowSlide] = useState(false);
+
+    const [localQuestion, setLocalQuestion] = useState(question);
+    const [localOptions, setLocalOptions] = useState(options);
+
+
+
+
+    const debounceTimer = useRef(null); // to store timeout id
+
+    const handleColorChange = (index, newColor) => {
+        // Update local UI instantly
+        setLocalOptions(prev =>
+            prev.map((opt, i) => i === index ? { ...opt, color: newColor } : opt)
+        );
+
+        // Clear previous timer
+        if (debounceTimer.current) {
+            clearTimeout(debounceTimer.current);
+        }
+
+        // Set new timer for API request
+        debounceTimer.current = setTimeout(async () => {
+            try {
+                const res = await fetch(
+                    `http://localhost:9000/handleQuestions/questions/${questionId}/options/${index}/color`,
+                    {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ color: newColor })
+                    }
+                );
+
+                const data = await res.json();
+                if (res.ok) {
+                    setLocalOptions(data.options);
+                    console.log("success");
+                } else {
+                    console.error(data.Message);
+                }
+            } catch (err) {
+                console.error("Error updating color:", err);
+            }
+        }, 2000); // 2 seconds debounce
+    };
+
+    const debounceRef = useRef(null);
+    const latestOptionsRef = useRef(localOptions); // Track latest state
+
+    const handleOptionChange = (index, newText) => {
+        // Update both state and ref
+        const newOptions = localOptions.map((opt, i) =>
+            i === index ? { ...opt, text: newText } : opt
+        );
+
+        setLocalOptions(newOptions);
+        latestOptionsRef.current = newOptions;
+
+
+        clearTimeout(debounceRef.current);
+        debounceRef.current = setTimeout(async () => {
+            try {
+                const res = await fetch(`http://localhost:9000/handleQuestions/questions/${questionId}/options`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ options: latestOptionsRef.current }),
+                });
+                if (res.ok)
+                     console.log("✅ Saved:", latestOptionsRef.current);
+
+            } catch (error) {
+                console.error("❌ Failed to save:", error);
+            }
+        }, 2000); 
+    };
+
+    const debounceForQuestion = useRef(null);
+
+    function updateQuestion(newQuestion) {
+        setLocalQuestion(newQuestion);
+
+        if (debounceForQuestion.current)
+            clearTimeout(debounceForQuestion.current);
+
+        debounceForQuestion.current = setTimeout(async () => {
+            try {
+                const response = await fetch(`http://localhost:9000/handleQuestions/questions/${questionId}/editQuestion`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ question: newQuestion }),
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    setLocalQuestion(data.question);
+                    console.log("Successfull!")
+                } else {
+                    console.log("Error")
+                }
+            }
+            catch (e) {
+                console.log("error : ", e)
+            }
+        }, 2000)
+
+    }
 
     return (
         <div>
@@ -40,7 +145,7 @@ const PollType = ({ question, options, designTemplate }) => {
                             <p className='font-Outfit text-xs pt-2'>1</p>
                             <div className={`w-[80%] ${designTemplate} border flex bg-cover bg-center justify-center flex-col items-center border-indigo-300 rounded-2xl h-14 gap-1`}>
                                 <PiRankingDuotone className='text-sm' />
-                                <h1 className={`text-[7px] pl-1 text font-Outfit `}>{question}</h1>
+                                <h1 className={`text-[7px] pl-1 text font-Outfit `}>{localQuestion}</h1>
                             </div>
                         </div>
                     </div>
@@ -56,7 +161,7 @@ const PollType = ({ question, options, designTemplate }) => {
                                 <p className='font-Outfit text-xs pt-2'>1</p>
                                 <div className={`w-[80%] ${designTemplate} border flex justify-center flex-col items-center border-indigo-300 bg-cover bg-center  rounded-2xl h-14 gap-1`} >
                                     <PiRankingDuotone className='text-sm' />
-                                    <h1 className={`text-[7px] pl-1 text font-Outfit `}>{question}</h1>
+                                    <h1 className={`text-[7px] pl-1 text font-Outfit `}>{localQuestion}</h1>
                                 </div>
                             </div>
                         </div>
@@ -67,17 +172,17 @@ const PollType = ({ question, options, designTemplate }) => {
 
                             <div className={`h-[75%] bg-cover bg-center ${designTemplate} w-[95%] text-white`}>
                                 <div className={`w-full text-black font-Outfit text-2xl pt-7 pl-7`}>
-                                    <h1>Q) {question}</h1>
+                                    <h1>Q) {localQuestion}</h1>
                                 </div>
                                 <div className='w-full flex justify-center mt-10 items-center h-[70%]'>
                                     <div className='w-[95%] md:w-[85%] grid grid-cols-4 place-items-center gap-4 h-full'>
 
-                                        {options.map((key, index) => (
-                                            <div key={key._id} className='w-full h-full font-Outfit flex flex-col justify-end pb-5 items-center'>
+                                        {localOptions.map((key, index) => (
+                                            <div key={index} className='w-full h-full font-Outfit flex flex-col justify-end pb-5 items-center'>
                                                 <div>
                                                     <p className='text-black'>{key.votes}</p>
                                                 </div>
-                                                <div className='bg-indigo-400 h-[100%] w-[80%]' style={{ backgroundColor: key.color }}></div>
+                                                <div className='bg-indigo-400 h-[2%] w-[80%]' style={{ backgroundColor: key.color }}></div>
                                                 <div className='h-4 w-[80%] mt-1  text-white text-sm bg-black flex justify-center items-center'>
                                                     <p>{key.text}</p>
                                                 </div>
@@ -106,7 +211,7 @@ const PollType = ({ question, options, designTemplate }) => {
                                     </div>
                                     <div className='pt-5 flex flex-col'>
                                         <label htmlFor="Question" className='font-Outfit text-sm  text-gray-900'>Question :</label>
-                                        <input type="text" id='Question' className='h-7 w-[89%] border border-stone-300 bg-stone-200 focus:bg-white  focus:border-indigo-300 font-Sora pl-1 text-xs rounded-lg ' value={question} onChange={(e) => setQuestion(e.target.value)} />
+                                        <input type="text" id='Question' className='h-7 w-[89%] border border-stone-300 bg-stone-200 focus:bg-white  focus:border-indigo-300 font-Sora pl-1 text-xs rounded-lg ' value={localQuestion} onChange={(e) => updateQuestion(e.target.value)} />
                                     </div>
 
                                     <div className='w-[95%] mt-3 h-1 border-b border-stone-300'></div>
@@ -116,14 +221,14 @@ const PollType = ({ question, options, designTemplate }) => {
                                             <p className='text-xs font-Outfit font-semibold'>Options</p>
                                         </div>
                                         <div className='flex gap-2  flex-col'>
-                                            {options.map((key, index) => (
+                                            {localOptions.map((key, index) => (
 
-                                                <div key={key._id} className='relative flex items-center gap-2'>
-                                                    <input value={key.text} onChange={(e) => setOption1(e.target.value)} type="text" className='h-7 w-[60%] border border-stone-300 bg-stone-200 focus:bg-white  focus:border-indigo-300 font-Sora pl-7 text-xs rounded-lg' />
+                                                <div key={index} className='relative flex items-center gap-2'>
+                                                    <input value={key.text} onChange={(e) => handleOptionChange(index, e.target.value)} type="text" className='h-7 w-[60%] border border-stone-300 bg-stone-200 focus:bg-white  focus:border-indigo-300 font-Sora pl-7 text-xs rounded-lg' />
                                                     <label className="absolute top-[5px] left-[3px] cursor-pointer inline-block h-5  w-5 rounded-full overflow-hidden" style={{ backgroundColor: key.color }}>
                                                         <input
                                                             value={key.color}
-                                                            onChange={(e) => setColorPicker1(e.target.value)}
+                                                            onChange={(e) => handleColorChange(index, e.target.value)}
                                                             type="color"
                                                             className=" w-full h-full opacity-0 cursor-pointer"
                                                         />

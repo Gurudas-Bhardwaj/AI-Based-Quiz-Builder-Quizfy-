@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { BiBug } from 'react-icons/bi'
 import { FaPlus, FaRegComment, FaRegUser } from 'react-icons/fa'
 import { FiUser } from 'react-icons/fi'
@@ -10,67 +10,50 @@ import { RxCross1, RxCross2 } from 'react-icons/rx'
 import { NavLink } from 'react-router'
 import { useLocation } from 'react-router'
 
-const OpenEndedType = ({question,  designTemplate}) => {
+const OpenEndedType = ({ questionId, question, designTemplate }) => {
 
     const location = useLocation();
-        const backgroundImage = location.state?.backgroundImage;
-    
-    
-        const data = [
-            {
-                response : "User 1 Response"
-            },        {
-                response : "User 2 Response"
-            },
-            {
-                response : "User 3 Response"
-            },
-            {
-                response : "User 4 Response"
-            },
-            {
-                response : "User 5 Response"
-            },
-            {
-                response : "User 6 Response"
-            },
-            {
-                response : "User 7 Response"
-            },
-            {
-                response : "User 8 Response"
-            },
-            {
-                response : "User 9 Response"
-            },
-            {
-                response : "User 10 Response"
-            },
-            {
-                response : "User 11 Response"
-            },
-            {
-                response : "User 12 Response"
-            },
-            {
-                response : "User 13 Response"
-            },
-            {
-                response : "User 14 Response"
-            },
-            {
-                response : "User 15 Response"
-            },
-            {
-                response : "User 16 Response"
-            },
-            {
-                response : "User 17 Response"
-            },
-            {
-                response : "User 18 Response"
-            },
-        ];
+    const [localQuestion, setLocalQuestion] = useState(question);
+
+    const debounceForQuestion = useRef(null);
+
+    function updateQuestion(newQuestion) {
+        setLocalQuestion(newQuestion);
+
+        if (debounceForQuestion.current)
+            clearTimeout(debounceForQuestion.current);
+
+        debounceForQuestion.current = setTimeout(async () => {
+            try {
+                const response = await fetch(`http://localhost:9000/handleQuestions/questions/${questionId}/editQuestion`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ question: newQuestion }),
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    setLocalQuestion(data.question);
+                    console.log("Successfull!")
+                } else {
+                    console.log("Error")
+                }
+            }
+            catch (e) {
+                console.log("error : ", e)
+            }
+        }, 2000)
+
+    }
+
+    const data = [
+        {
+            response: "Please help"
+        },
+
+    ];
 
     return (
         <div className='bg-stone-200 h-[500px] w-screen  overflow-hidden overflow-y-hidden'>
@@ -85,7 +68,7 @@ const OpenEndedType = ({question,  designTemplate}) => {
                             <p className='font-Outfit text-xs pt-2'>1</p>
                             <div className={`w-[80%] ${designTemplate} border flex justify-center flex-col items-center border-indigo-300 rounded-2xl h-14 gap-1 bg-cover bg-center`}>
                                 <PiRankingDuotone className='text-sm' />
-                                <h1 className={`text-[7px] text font-Outfit`}>{question}</h1>
+                                <h1 className={`text-[7px] text-center font-Outfit`}>{localQuestion}</h1>
                             </div>
                         </div>
                     </div>
@@ -97,18 +80,22 @@ const OpenEndedType = ({question,  designTemplate}) => {
                 <section className='w-[60%] flex justify-center '>
                     <div className='w-full h-full flex flex-col mt-6 items-center '>
 
-                        <div  className={`h-[75%] bg-cover bg-center ${designTemplate} w-[95%]`}>
+                        <div className={`h-[75%] bg-cover bg-center ${designTemplate} w-[95%]`}>
                             <div className='w-full font-Outfit text-2xl pt-7 pl-7'>
-                                <h1>Q) {question}</h1>
+                                <h1>Q) {localQuestion}</h1>
                             </div>
                             <div className='w-full flex justify-center mt-4 items-center h-[77%]'>
-                                <div className='w-[100%] pl-3 pr-3 overflow-auto grid grid-cols-4 place-items-start gap-4 h-full'>
-                                    {data.map((data) => (
-                                        <div className='w-full border border-black bg-indigo-400 flex justify-center font-Outfit items-center'>
+                                {data.length > 0 ? <div className='w-[100%] pl-3 pr-3 overflow-auto grid grid-cols-4 place-items-start gap-4 h-full'>
+                                    {data.map((data, index) => (
+                                        <div key={index} className='w-full border border-black bg-indigo-400 flex justify-center font-Outfit items-center'>
                                             <p className='p-3    text-sm text-white'>{data.response}</p>
                                         </div>
                                     ))}
-                                </div>
+                                </div> : (
+                                    <div className='text-center font-Outfit text-xl text-gray-500'>
+                                        <h1>Answer will be displayed here!</h1>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -130,7 +117,7 @@ const OpenEndedType = ({question,  designTemplate}) => {
                                 </div>
                                 <div className='pt-5 flex flex-col'>
                                     <label htmlFor="Question" className='font-Outfit text-sm  text-gray-900'>Question :</label>
-                                    <input type="text" id='Question' className='h-7 w-[89%] border border-stone-300 bg-stone-200 focus:bg-white  focus:border-indigo-300 font-Sora pl-1 text-xs rounded-lg ' value={question} onChange={(e) => setQuestion(e.target.value)} />
+                                    <input type="text" id='Question' className='h-7 w-[89%] border border-stone-300 bg-stone-200 focus:bg-white  focus:border-indigo-300 font-Sora pl-1 text-xs rounded-lg ' value={localQuestion} onChange={(e) => updateQuestion(e.target.value)} />
                                 </div>
 
                                 <div className='w-[95%] mt-3 h-1 border-b border-stone-300'></div>
@@ -141,8 +128,8 @@ const OpenEndedType = ({question,  designTemplate}) => {
                                     </div>
                                     <div className='w-full flex flex-col overflow-auto'>
                                         <div className='flex gap-2 overflow-visible  flex-col'>
-                                            {data.map((data, index) => (
-                                                <div className='w-full flex items-center gap-2'>
+                                            {data.length >= 1 ? data.map((data, index) => (
+                                                <div key={index} className='w-full flex items-center gap-2'>
                                                     <div className='w-[70%] font-Outfit text-sm bg-stone-300 p-1 pl-2 rounded-xl'>
                                                         {data.response}
                                                     </div>
@@ -150,7 +137,11 @@ const OpenEndedType = ({question,  designTemplate}) => {
                                                         <RxCross2 />
                                                     </div>
                                                 </div>
-                                            ))}
+                                            )) : (
+                                                <div className='pt-5 pl-5 text-gray-500 font-Outfit'>
+                                                    Answer will be displayed here.
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

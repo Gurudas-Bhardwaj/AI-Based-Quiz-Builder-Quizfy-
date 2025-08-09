@@ -33,11 +33,7 @@ const OpenEnded = ({ onClose }) => {
           presentationId,
           designType,
           designTemplate,
-          question: "Who is best hokage among of all them?",
-          option1: "Naruto Uzumaki",
-          option2: "Minato Namikaze",
-          option3: "Hashirama Senju",
-          option4: "Tobirama Senju",
+          question: "Question will Be Displayed Here!",
         })
       });
 

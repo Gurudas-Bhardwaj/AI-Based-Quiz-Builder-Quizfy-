@@ -39,7 +39,7 @@ const Ranking = ({onClose}) => {
           presentationId,
           designType,
           designTemplate,
-          question: "Who is best hokage among of all them?",
+          question: "Question will be displayed here!",
           options,
         })
       });
