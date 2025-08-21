@@ -10,17 +10,17 @@ const appLayout = () => {
   const [open, setOpen] = useState(false);
   
   return (
-    <div className='overflow-hidden w-screen flex justify-center'>
+    <div className='overflow-hidden w-[99%] flex justify-center'>
 
       <div className='hidden md:block w-1/5'>
         <SideBar/>
       </div>
 
-      <div className='w-[90%] md:w-4/5'>
+      <div className='overflow-x-hidden w-[90%] md:w-4/5'>
         <Outlet/>
       </div>
 
-      <div className='w-[10%]' onClick={()=>{setOpen(!open)}}>
+      <div className='w-[10%] md:w-[0%] overflow-x-hidden' onClick={()=>{setOpen(!open)}}>
         <img src={menu} className='w-5 flex md:hidden displayMenu mt-8' alt="" />
         <SlidingSideBar isopen={open} onClose={() => setOpen(false)}/>
       </div>

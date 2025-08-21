@@ -52,7 +52,15 @@ const route = createBrowserRouter([
     ]
   },
   {
-    path : "App/Presentation/:presentationId/:questionId",
+    path : "App/Presentation/:presentationId/:questionId?",
+    element : <Suspense fallback={<Basic/>}> 
+    {/* <ForUnLoggedUser> */}
+      <PresentationView/>
+    {/* </ForUnLoggedUser> */}
+  </Suspense>
+  },
+  {
+    path : "App/Presentation/:presentationId",
     element : <Suspense fallback={<Basic/>}> 
     {/* <ForUnLoggedUser> */}
       <PresentationView/>

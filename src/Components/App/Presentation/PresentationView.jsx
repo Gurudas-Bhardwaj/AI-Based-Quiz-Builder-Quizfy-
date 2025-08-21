@@ -14,13 +14,16 @@ import { BsThreeDots } from 'react-icons/bs'
 import PollType from './Types/PollType'
 import OpenEndedType from './Types/OpenEndedType'
 import RankingType from './Types/RankingType'
+import { Bug, Cog, Radio, Rocket, User, UserCog } from 'lucide-react';
 
 const PresentationView = () => {
 
     const { presentationId, questionId } = useParams();
-    const [question, setQuestion] = useState('');
-    const [options, setOptions] = useState([]);
-    
+    console.log(presentationId)
+
+    const [allQuestion, setAllQuestion] = useState([]);
+    const [currentQuestion, setCurrentQuestion] = useState([]);
+    const [presentation, setPresentation] = useState([]);
 
     const location = useLocation();
 
@@ -29,37 +32,56 @@ const PresentationView = () => {
     const [designType, setDesignType] = useState("");
     const [designTemplate, setDesignTemplate] = useState("");
 
-    const findDetails = async () => {
-        const response = await fetch("http://localhost:9000/handleQuestions/searchQuestion", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ presentationId, questionId })
-        });
+const findDetails = async (presentationID, questionID) => {
+  try {
+    const response = await fetch("http://localhost:9000/handleQuestions/searchQuestion", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ presentationId: presentationID }),
+    });
 
-        const result = await response.json();
-        if (!response.ok) return;
+    const result = await response.json();
+    if (!response.ok) return;
 
-        setDesignType(result.question.designType);
-        setDesignTemplate(result.question.designTemplate);
-        setQuestion(result.question.question);
-        setOptions(result.question.options)
-        console.log(result);
+    // ✅ update states
+    setPresentation(result.presentation);
+    setAllQuestion(result.question);
+
+    // ✅ pick question based on questionID (if provided)
+    if (questionID) {
+      const found = result.question.find((q) => q._id === questionID);
+      setCurrentQuestion(found || null);
+    } else {
+      setCurrentQuestion(result.question[0] || null); // fallback to first question
     }
 
-    useEffect(() => {
-        findDetails();
-    }, [])
+    console.log("Fetched presentation:", result.presentation);
+    console.log("Fetched questions:", result.question);
+  } catch (error) {
+    console.error("Error in findDetails:", error);
+  }
+};
 
-    const renderQuestionSection = () => {
+
+    useEffect(() => {
+        findDetails(presentationId, questionId);
+    }, [presentationId, questionId]);
+
+    useEffect(() => {
+        console.log("question updated:", allQuestion);
+        console.log("Presentation updated:", currentQuestion);
+    }, [presentation, allQuestion]);
+
+    const renderQuestionSection = (designType) => {
         switch (designType) {
             case "poll":
-                return <PollType questionId={questionId} question={question} options={options} designTemplate={designTemplate} />;
+                return <PollType  questionId={questionId} presentation={presentation} allQuestion={allQuestion} currentQuestion={currentQuestion}/>;
             case "openEnded":
-                return <OpenEndedType questionId={questionId} question={question} designTemplate={designTemplate} />;
+                return <OpenEndedType questionId={questionId} presentationName={PresentationName} question={question} designTemplate={designTemplate} presentationId={presentationId} />;
             case "ranking":
-                return <RankingType questionId={questionId} question={question} options={options} designTemplate={designTemplate} />;
+                return <RankingType questionId={questionId} presentation={presentation} allQuestion={allQuestion} currentQuestion={currentQuestion} />;
         }
     }
 
@@ -80,15 +102,17 @@ const PresentationView = () => {
                                 <IoMdArrowRoundBack />
                             </NavLink>
 
-                            <div className='font-Outfit text-[13px]'>
+                            <div className='font-Outfit relative text-[13px]'>
                                 <p>Vibrant Color Mixture</p>
-                                <p className='text-[10px] text-stone-600 flex gap-1 justify-start items-center    '><FaRegUser /> <input type="text"  className='h-full w-[70%] pl-1' value={"My Presentation"}/></p>
+                                <p className='text-[10px] text-stone-600 flex  justify-start items-center    '><User size={13} />{presentation.title}
+                                 </p>
+                                 
                             </div>
 
                             <div className='h-5 w-1 border-r border-r-stone-200'></div>
 
                             <div className='h-7 w-7 flex bg-stone-200 justify-center items-center rounded-full'>
-                                <RiSettings4Line className='' />
+                                <Cog size={19}/>
                             </div>
                         </div>
 
@@ -124,13 +148,14 @@ const PresentationView = () => {
                             <div className='h-5 w-1 border-r border-r-stone-200'></div>
 
                             <div className='hidden md:flex'>
-                                <button className='text-xs cursor-pointer flex bg-gray-300 text-black font-Outfit rounded-2xl pt-1 pb-1 pr-4 pl-4 gap-1'>
-                                    <BiBug className='mt-[2px]' />Report a Bug
+                                <button className='text-xs cursor-pointer flex justify-center items-center bg-gray-300 text-black font-Outfit rounded-2xl pt-1 pb-1 pr-4 pl-4 gap-1'>
+                                    <Bug size={13} />Report a Bug
                                 </button>
                             </div>
 
                             <div>
-                                <button className='text-xs cursor-pointer bg-indigo-400 text-white font-Outfit rounded-2xl pt-1 pb-1 pr-5 pl-5'>
+                                <button className='text-xs cursor-pointer bg-indigo-400 flex justify-center items-center gap-1 text-white font-Outfit rounded-2xl pt-1 pb-1 pr-4 pl-4'>
+                                    <Radio size={13} color='white'/>
                                     Go Live
                                 </button>
                             </div>
@@ -141,8 +166,9 @@ const PresentationView = () => {
 
 
                 {/* <PollType/> */}
+                
+                {renderQuestionSection(currentQuestion.designType)}
 
-                {renderQuestionSection()}
             </div>
         </main>
     )

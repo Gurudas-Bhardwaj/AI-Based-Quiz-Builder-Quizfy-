@@ -1,26 +1,44 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { BiBug } from 'react-icons/bi'
-import { FaPlus, FaRegComment, FaRegUser } from 'react-icons/fa'
+import { FaComment, FaPlus, FaRegComment, FaRegUser } from 'react-icons/fa'
 import { FiUser } from 'react-icons/fi'
 import { GoPlus } from 'react-icons/go'
 import { IoMdArrowRoundBack } from 'react-icons/io'
 import { PiCursorClickDuotone, PiRankingDuotone } from 'react-icons/pi'
 import { RiEdit2Fill, RiSettings4Line } from 'react-icons/ri'
 import { RxCross1, RxCross2 } from 'react-icons/rx'
-import { NavLink } from 'react-router'
+import { NavLink, useNavigate } from 'react-router'
 import { useLocation } from 'react-router'
 import { BsThreeDots } from 'react-icons/bs'
 import { LuFileStack } from 'react-icons/lu'
-import background1 from "../../../../assests/Images/Background_Images/Poll/PollBG2.jpg"
+import NewSlide from './Slide Functionality/NewSlide'
+import { ChartBarDecreasing, ChartBarIncreasing, ChartColumn } from 'lucide-react'
+import { MdOutlinePoll } from 'react-icons/md'
 
-const PollType = ({ questionId, question, options, designTemplate }) => {
+const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) => {
 
-    const location = useLocation();
+    const navigate = useNavigate();
+
     const [showSlide, setShowSlide] = useState(false);
+    const [localQuestion, setLocalQuestion] = useState(currentQuestion.question);
+    const [localOptions, setLocalOptions] = useState(currentQuestion.options);
+    const [presentationName, setPresentationName] = useState(presentation.title);
 
-    const [localQuestion, setLocalQuestion] = useState(question);
-    const [localOptions, setLocalOptions] = useState(options);
+    const [designTemplate, setDesignTemplate] = useState(currentQuestion.designTemplate);
+    const [presentationId, setPresentationId] = useState(presentation._id);
 
+    const [NewSlideAppreance, setNewSlideAppearence] = useState(false);
+
+
+    const [selectedQuestion, setSelectedQuestion] = useState('');
+
+    useEffect(() => {
+        setLocalQuestion(currentQuestion.question)
+        setLocalOptions(currentQuestion.options);
+        setPresentationId(presentation._id);
+        setSelectedQuestion(currentQuestion._id);
+        setDesignTemplate(currentQuestion.designTemplate)
+    }, [currentQuestion, selectedQuestion])
 
 
 
@@ -84,12 +102,12 @@ const PollType = ({ questionId, question, options, designTemplate }) => {
                     body: JSON.stringify({ options: latestOptionsRef.current }),
                 });
                 if (res.ok)
-                     console.log("✅ Saved:", latestOptionsRef.current);
+                    console.log("✅ Saved:", latestOptionsRef.current);
 
             } catch (error) {
                 console.error("❌ Failed to save:", error);
             }
-        }, 2000); 
+        }, 2000);
     };
 
     const debounceForQuestion = useRef(null);
@@ -125,8 +143,24 @@ const PollType = ({ questionId, question, options, designTemplate }) => {
 
     }
 
+    const switchQuestions = async (questionID) => {
+        setSelectedQuestion(questionID);
+        navigate(`/App/Presentation/${presentationId}/${questionID}`);
+    }
+
+    const setIcon = (designType)=>{
+        switch(designType){
+            case "poll":
+                return <MdOutlinePoll className='text-blue-400' size={16} /> 
+            case "ranking":
+                return <ChartBarDecreasing color='indigo' size={14} />
+            case "openEnded":
+                return <FaComment   className='text-orange-400'/>
+        }
+    }
+
     return (
-        <div>
+        <div className='relative'>
             <div className='bg-gray-200 relative h-[500px] w-screen  overflow-hidden overflow-y-hidden'>
                 <div className='absolute top-5 left-4  bg-black pt-1 pb-1 pr-4 pl-4  rounded-3xl flex lg:hidden justify-center items-center gap-2' onClick={() => setShowSlide(!showSlide)}>
                     <LuFileStack className='text-white' />
@@ -137,40 +171,64 @@ const PollType = ({ questionId, question, options, designTemplate }) => {
                         <RxCross2 className='text-white text-sm' />
                     </div>
                     <div className='flex  flex-col gap-4 items-center w-full'>
-                        <button className='flex justify-center text-[13px] gap-1 pt-2 pb-2 pr-6 pl-6 bg-stone-900 text-white items-center font-Outfit rounded-2xl'>
+                        <button onClick={() => setNewSlideAppearence(!NewSlideAppreance)} className='flex justify-center text-[13px] gap-1 pt-2 pb-2 pr-6 pl-6 bg-stone-900 text-white items-center font-Outfit rounded-2xl'>
                             <GoPlus />
                             <p>New Slide</p>
                         </button>
-                        <div className='w-full h-14 flex justify-center gap-2'>
-                            <p className='font-Outfit text-xs pt-2'>1</p>
-                            <div className={`w-[80%] ${designTemplate} border flex bg-cover bg-center justify-center flex-col items-center border-indigo-300 rounded-2xl h-14 gap-1`}>
-                                <PiRankingDuotone className='text-sm' />
-                                <h1 className={`text-[7px] pl-1 text font-Outfit `}>{localQuestion}</h1>
-                            </div>
+                        <div className='h-[400px] flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                            {allQuestion.map((key, index) => (
+                                <div
+                                    onClick={() => switchQuestions(key._id)}
+                                    key={key._id}
+                                    className='w-full h-16 flex justify-center gap-1 cursor-pointer'
+                                >
+                                    <p className='font-Outfit text-xs pt-2'>{index + 1}</p>
+                                    <div
+                                        className={`w-full h-16 border-2 flex justify-center flex-col items-center ${selectedQuestion === key._id ? 'border-indigo-300' : 'border-gray-200'} rounded-xl bg-center ${key.designTemplate} bg-cover gap-1`}>
+                                        {
+                                            setIcon(key.designType)
+                                        }
+                                        <h1 className='text-[7px] text-center font-Outfit'>{key.question}</h1>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
+
                     </div>
                 </div>
                 <div className='flex w-full h-full justify-center '>
                     <section className='w-0 lg:w-[10%]  pt-6 hidden lg:flex justify-center'>
                         <div className='flex  flex-col gap-4 items-center w-full'>
-                            <button className='flex justify-center text-[13px] gap-1 pt-2 pb-2 pr-6 pl-6 bg-stone-900 text-white items-center font-Outfit rounded-2xl'>
+                            <button onClick={() => setNewSlideAppearence(!NewSlideAppreance)} className='flex justify-center text-[13px] gap-1 pt-2 pb-2 pr-6 pl-6 bg-stone-900 text-white items-center font-Outfit rounded-2xl cursor-pointer'>
                                 <GoPlus />
                                 New Slide
                             </button>
-                            <div className='w-full h-14 flex justify-center gap-2'>
-                                <p className='font-Outfit text-xs pt-2'>1</p>
-                                <div className={`w-[80%] ${designTemplate} border flex justify-center flex-col items-center border-indigo-300 bg-cover bg-center  rounded-2xl h-14 gap-1`} >
-                                    <PiRankingDuotone className='text-sm' />
-                                    <h1 className={`text-[7px] pl-1 text font-Outfit `}>{localQuestion}</h1>
+                            <div className='h-[400px] flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                                {allQuestion.map((key, index) => (
+                                <div
+                                    onClick={() => switchQuestions(key._id)}
+                                    key={key._id}
+                                    className='w-full h-16 flex justify-center gap-1 cursor-pointer'
+                                >
+                                    <p className='font-Outfit text-xs pt-2'>{index + 1}</p>
+                                    <div
+                                        className={`w-full h-16 border-2 flex justify-center flex-col items-center ${selectedQuestion === key._id ? 'border-indigo-300' : 'border-gray-200'} rounded-xl bg-center ${key.designTemplate} bg-cover gap-1`}>
+                                        {
+                                            setIcon(key.designType)
+                                        }
+                                        <h1 className='text-[7px] text-center font-Outfit'>{key.question}</h1>
+                                    </div>
                                 </div>
+                            ))}
                             </div>
+
                         </div>
                     </section>
 
                     <section className='w-[100%] md:w-[90%] lg:w-[60%] flex justify-center '>
                         <div className='w-full h-auto flex flex-col mt-6 items-center '>
 
-                            <div className={`h-[75%] bg-cover bg-center ${designTemplate} w-[95%] text-white`}>
+                            <div className={`h-[80%] bg-cover bg-center ${designTemplate} w-[95%] text-white`}>
                                 <div className={`w-full text-black font-Outfit text-2xl pt-7 pl-7`}>
                                     <h1>Q) {localQuestion}</h1>
                                 </div>
@@ -178,13 +236,13 @@ const PollType = ({ questionId, question, options, designTemplate }) => {
                                     <div className='w-[95%] md:w-[85%] grid grid-cols-4 place-items-center gap-4 h-full'>
 
                                         {localOptions.map((key, index) => (
-                                            <div key={index} className='w-full h-full font-Outfit flex flex-col justify-end pb-5 items-center'>
+                                            <div key={index} className='w-full h-full font-Outfit flex flex-col justify-end items-center'>
                                                 <div>
                                                     <p className='text-black'>{key.votes}</p>
                                                 </div>
                                                 <div className='bg-indigo-400 h-[2%] w-[80%]' style={{ backgroundColor: key.color }}></div>
-                                                <div className='h-4 w-[80%] mt-1  text-white text-sm bg-black flex justify-center items-center'>
-                                                    <p>{key.text}</p>
+                                                <div className=' w-[80%] mt-1 text-center text-white text-sm bg-black flex justify-center items-center'>
+                                                    <p className=' inline'>{key.text}</p>
                                                 </div>
                                             </div>
                                         ))}
@@ -282,6 +340,18 @@ const PollType = ({ questionId, question, options, designTemplate }) => {
                     </div>
                 </div>
 
+            </div>
+
+            <div
+                className={`absolute top-[70px] left-3 justify-center items-center transition-all duration-500 ease-out
+                    ${NewSlideAppreance ? 'pointer-events-auto' : 'pointer-events-none'}
+  `}
+            >
+                <NewSlide
+                    isVisible={NewSlideAppreance}
+                    onClose={() => setNewSlideAppearence(false)}
+                    presentationId={presentationId}
+                />
             </div>
 
         </div>

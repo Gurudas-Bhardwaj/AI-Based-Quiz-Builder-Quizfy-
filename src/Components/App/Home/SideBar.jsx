@@ -70,9 +70,9 @@ const SideBar = () => {
             <div className='cursor-pointer'>
               <p className='text-[11px] font-Outfit'>ReadMe</p>
             </div>
-            <div className='cursor-pointer'>
+            <NavLink to="https://tailwind-portfolio-red.vercel.app/" target='main' className='cursor-pointer'>
               <p className='text-[11px] font-Outfit'>About Us</p>
-            </div>
+            </NavLink>
           </div>
         </div>
 
