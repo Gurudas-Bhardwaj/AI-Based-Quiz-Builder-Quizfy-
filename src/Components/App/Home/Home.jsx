@@ -76,7 +76,7 @@ const Home = () => {
                 <div className='w-full flex mt-6'>
                     <div className='flex flex-col pl-8 pt-6 rounded-2xl pr-8' style={{"backgroundColor":"#f8f8fe"}}>
                         <div className='font-space text-[13px] font-bold'>
-                          <p>Popular Features</p>
+                          <p>Create Presentations</p>
                         </div>
 
                         <div className='w-full flex justify-center items-center pt-6 pb-4'>

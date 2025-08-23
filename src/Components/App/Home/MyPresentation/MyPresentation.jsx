@@ -9,6 +9,10 @@ import empty from "../../../../assests/Images/Logo/empty.png"
 import { useNavigate } from 'react-router';
 import { IoIosArrowRoundDown, IoIosPlayCircle } from 'react-icons/io';
 import { BsThreeDots } from 'react-icons/bs';
+import { PiNotePencilBold, PiPencilSimpleLight } from 'react-icons/pi';
+import { TbTrash } from 'react-icons/tb';
+import { FaPencil } from 'react-icons/fa6';
+import { ChartBarBig, Pencil, Radio, SquarePen } from 'lucide-react';
 
 const MyPresentation = () => {
 
@@ -114,14 +118,14 @@ const MyPresentation = () => {
                     <div className='flex w-full'>
                       <div className='w-[45%]'>
                         <div className='p-2 flex gap-2 items-center hover:bg-gray-200 h-full '>
-                          <h1>Name</h1>
+                          <h1>Presentation Name</h1>
                         </div>
                       </div>
                       <div className='w-[15%]'>
-                        <h1>Owner</h1>
+                        <h1>Created By</h1>
                       </div>
                       <div className='w-[15%]'>
-                        <h1>Created</h1>
+                        <h1>Created On</h1>
                       </div>
                       <div className='w-[15%]'>
                       </div>
@@ -149,6 +153,12 @@ const MyPresentation = () => {
                               month: "long",
                               day: "numeric"
                             })}</h1>
+
+                            <div className=' relative -top-10 left-[70%] text-black bg-white border border-white shadow-sm p-2 rounded-xl'>
+                              <div>
+                                
+                              </div>
+                            </div>
                           </div>
                           <div className='w-[15%] flex items-center'>
                             <BsThreeDots className='text-xl cursor-pointer' />
