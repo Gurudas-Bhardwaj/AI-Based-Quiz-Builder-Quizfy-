@@ -28,7 +28,7 @@ const SideBar = () => {
             </NavLink>
             <NavLink to="/App/Admin/MyPresentation" className={ ({isActive}) => `flex cursor-pointer border-l-2 ${isActive?" border-l-purple-900":"border-l-transparent"} gap-2 pl-2  justify-start items-center`}>
               <img src={user} className="w-4" alt="" />
-              <p className='font-Outfit'>My Presentation</p>
+              <p className='font-Outfit'></p>
             </NavLink>
             <div className="flex  gap-2 pl-2 cursor-pointer justify-start items-center">
               <img src={share} className="w-4" alt="" />

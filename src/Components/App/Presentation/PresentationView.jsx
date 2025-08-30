@@ -7,14 +7,15 @@ import { IoMdArrowRoundBack } from 'react-icons/io'
 import { PiCursorClickDuotone, PiRankingDuotone } from 'react-icons/pi'
 import { RiEdit2Fill, RiSettings4Line } from 'react-icons/ri'
 import { RxCross1, RxCross2 } from 'react-icons/rx'
-import { NavLink, useParams } from 'react-router'
+import { NavLink, useNavigate, useParams } from 'react-router'
 import { useLocation } from 'react-router'
 import { LuFileStack } from 'react-icons/lu'
 import { BsThreeDots } from 'react-icons/bs'
 import PollType from './Types/PollType'
 import OpenEndedType from './Types/OpenEndedType'
 import RankingType from './Types/RankingType'
-import { Bug, Cog, Radio, Rocket, User, UserCog } from 'lucide-react';
+import { Bug, Cog, NavigationOff, Radio, Rocket, User, UserCog } from 'lucide-react';
+import ChoiceBTW_ADM_USER from '../Going Live Functionality/ChoiceBTW_ADM_USER'
 
 const PresentationView = () => {
 
@@ -25,12 +26,14 @@ const PresentationView = () => {
     const [currentQuestion, setCurrentQuestion] = useState([]);
     const [presentation, setPresentation] = useState([]);
 
-    const location = useLocation();
+    const navigate = useNavigate();
 
     const [showOptions, setShowOptions] = useState(false);
 
     const [designType, setDesignType] = useState("");
     const [designTemplate, setDesignTemplate] = useState("");
+
+    const[goLiveOption, setGoLiveOption] = useState(false);
 
 const findDetails = async (presentationID, questionID) => {
   try {
@@ -55,10 +58,10 @@ const findDetails = async (presentationID, questionID) => {
       setCurrentQuestion(found || null);
     } else {
       setCurrentQuestion(result.question[0] || null); // fallback to first question
+      console.log("HELLO",result.question[0])
+      navigate(`/App/AdminPanel/Presentation/${presentationID}/${result.question[0]._id}`)
     }
 
-    console.log("Fetched presentation:", result.presentation);
-    console.log("Fetched questions:", result.question);
   } catch (error) {
     console.error("Error in findDetails:", error);
   }
@@ -90,15 +93,15 @@ const findDetails = async (presentationID, questionID) => {
 
 
     return (
-        <main className='w-screen overflow-hidden bg-gray-200'>
-            <div className='w-full h-full flex flex-col justify-center items-center'>
+        <main className='w-screen h-screen overflow-hidden bg-gray-200'>
+            <div className='w-full h-full flex flex-col  items-center'>
 
                 <nav className='w-full flex justify-center bg-white items-center h-14'>
                     <div className='w-[97%] h-full flex justify-between'>
 
                         <div className='flex justify-center gap-2 items-center'>
 
-                            <NavLink to="/App/Home" className=' pr-2' >
+                            <NavLink to="/App/Admin/Home" className=' pr-2' >
                                 <IoMdArrowRoundBack />
                             </NavLink>
 
@@ -154,7 +157,7 @@ const findDetails = async (presentationID, questionID) => {
                             </div>
 
                             <div>
-                                <button className='text-xs cursor-pointer bg-indigo-400 flex justify-center items-center gap-1 text-white font-Outfit rounded-2xl pt-1 pb-1 pr-4 pl-4'>
+                                <button onClick={()=>setGoLiveOption(!goLiveOption)} className='text-xs cursor-pointer bg-indigo-400 flex justify-center items-center gap-1 text-white font-Outfit rounded-2xl pt-1 pb-1 pr-4 pl-4'>
                                     <Radio size={13} color='white'/>
                                     Go Live
                                 </button>
@@ -168,6 +171,18 @@ const findDetails = async (presentationID, questionID) => {
                 {/* <PollType/> */}
                 
                 {renderQuestionSection(currentQuestion.designType)}
+
+                 <div
+                className={`absolute top-[70px] left-3 justify-center items-center transition-all duration-500 ease-out
+                    ${goLiveOption ? 'pointer-events-auto' : 'pointer-events-none'}
+  `}
+            >
+                <ChoiceBTW_ADM_USER
+                    isVisible={goLiveOption}
+                    onClose={() => setGoLiveOption(false)}
+                    presentationId={presentationId}
+                />
+            </div>
 
             </div>
         </main>

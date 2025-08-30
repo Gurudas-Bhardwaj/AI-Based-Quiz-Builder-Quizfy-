@@ -31,14 +31,20 @@
   --font-space: spaceGrotesk, "sans-serif";
   --font-Montserrat: Montserrat, "sans-serif";
   --font-Sora: Sora, "sans-serif";
-  --background-image-poll1: url("./assests/Images/Background_Images/Poll/PollBGOne.png");
-  --background-image-poll2: url("./assests/Images/Background_Images/Poll/PollBG2.jpg");
-  --background-image-poll3: url("./assests/Images/Background_Images/Poll/pollBG3.jpg");
-  --background-image-ranking1: url("./assests/Images/Background_Images//Ranking/RankingBG1.jpg");
-  --background-image-ranking2: url("./assests/Images/Background_Images/Ranking/rankingBG2.jpg");
-  --background-image-ranking3: url("./assests/Images/Background_Images/Ranking/rankingBG3.jpg");
-  --background-image-openEnded1: url("./assests/Images/Background_Images/Open_Ended/openEnded1.jpg");
-  --background-image-openEnded2: url("./assests/Images/Background_Images/Open_Ended/openEndedBG1.jpg");
-  --background-image-openEnded3: url("./assests/Images/Background_Images/Open_Ended/openEnded3.jpg");
-  
+  --background-image-BG-1: url("./assests/Images/Background_Images/BackgroundTemplte/BG-1.jpg");
+  --background-image-BG-2: url("./assests/Images/Background_Images/BackgroundTemplte/BG-2.jpg");
+  --background-image-BG-3: url("./assests/Images/Background_Images/BackgroundTemplte/BG-3.jpg");
+  --background-image-BG-4: url("./assests/Images/Background_Images/BackgroundTemplte/BG-4.jpg");
+  --background-image-BG-5: url("./assests/Images/Background_Images/BackgroundTemplte/BG-5.jpg");
+  --background-image-BG-6: url("./assests/Images/Background_Images/BackgroundTemplte/BG-6.png");
+  --background-image-BG-7: url("./assests/Images/Background_Images/BackgroundTemplte/BG-7.jpg");
+  --background-image-BG-8: url("./assests/Images/Background_Images/BackgroundTemplte/BG-8.jpg");
+  --background-image-BG-9: url("./assests/Images/Background_Images/BackgroundTemplte/BG-9.jpg");
+  --background-image-BG-10: url("./assests/Images/Background_Images/BackgroundTemplte/BG-10.jpg");
+  --background-image-BG-11: url("./assests/Images/Background_Images/BackgroundTemplte/BG-11.png");
+  --background-image-BG-12: url("./assests/Images/Background_Images/BackgroundTemplte/BG-12.png");
+  --background-image-BG-13: url("./assests/Images/Background_Images/BackgroundTemplte/BG-13.jpg");
+  --background-image-BG-14: url("./assests/Images/Background_Images/BackgroundTemplte/BG-14.jpg");
+  --background-image-BG-15: url("./assests/Images/Background_Images/BackgroundTemplte/BG-15.jpg");
+  --background-image-BG-16: url("./assests/Images/Background_Images/BackgroundTemplte/BG-16.jpg");
 }

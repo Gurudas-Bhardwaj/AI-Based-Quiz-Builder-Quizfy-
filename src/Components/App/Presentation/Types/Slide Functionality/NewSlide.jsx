@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { FaCaretUp, FaComment } from 'react-icons/fa';
 import { MdOutlinePoll } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router';
+import { useAuth } from '../../../../../Context/authContext';
 
 const NewSlide = ({ onClose, isVisible, presentationId }) => {
   const [messageBox1, setMessageBox1] = useState(false);
@@ -12,6 +13,9 @@ const NewSlide = ({ onClose, isVisible, presentationId }) => {
   const [selectedTemplate, setSelectedTemplate] = useState(null);
 
   const navigate = useNavigate();
+  
+  const {role} = useAuth();
+  console.log(role)
 
   const handleCreate = async () => {
     if (selectedDesignType && selectedTemplate) {
@@ -29,14 +33,14 @@ const NewSlide = ({ onClose, isVisible, presentationId }) => {
             headers: {
               "Content-Type": "application/json",
             },
-            body : JSON.stringify({question, options, designTemplate : selectedTemplate, presentationId, designType : selectedDesignType})
+            body : JSON.stringify({question, options, designTemplate : selectedTemplate, presentationId, designType : selectedDesignType, role})
         });
         const data = await response.json();
 
 
         if(response.ok){
           onClose();
-          navigate(`/App/Presentation/${presentationId}/${data.id}`);
+          navigate(`/App/AdminPanel/Presentation/${presentationId}/${data.id}`);
         }
         console.log(presentationId)
       }
@@ -53,15 +57,22 @@ const NewSlide = ({ onClose, isVisible, presentationId }) => {
   ];
 
   const templateOptions = [
-    { id: 'ranking1', className: 'bg-ranking1' },
-    { id: 'ranking2', className: 'bg-ranking2' },
-    { id: 'ranking3', className: 'bg-ranking3' },
-    { id: 'poll1', className: 'bg-poll1' },
-    { id: 'poll2', className: 'bg-poll2' },
-    { id: 'poll3', className: 'bg-poll3' },
-    { id: 'open1', className: 'bg-openEnded1' },
-    { id: 'open2', className: 'bg-openEnded2' },
-    { id: 'open3', className: 'bg-openEnded3' },
+    { id: 'BG-1', className: 'bg-BG-1' },
+    { id: 'BG-2', className: 'bg-BG-2' },
+    { id: 'BG-3', className: 'bg-BG-3' },
+    { id: 'BG-4', className: 'bg-BG-4' },
+    { id: 'BG-5', className: 'bg-BG-5' },
+    { id: 'BG-6', className: 'bg-BG-6' },
+    { id: 'BG-7', className: 'bg-BG-7' },
+    { id: 'BG-8', className: 'bg-BG-8' },
+    { id: 'BG-9', className: 'bg-BG-9' },
+    { id: 'BG-10', className: 'bg-BG-10' },
+    { id: 'BG-11', className: 'bg-BG-11' },
+    { id: 'BG-12', className: 'bg-BG-12' },
+    { id: 'BG-13', className: 'bg-BG-13' },
+    { id: 'BG-14', className: 'bg-BG-14' },
+    { id: 'BG-15', className: 'bg-BG-15' },
+    { id: 'BG-16', className: 'bg-BG-16' },
   ];
 
   return (
@@ -131,7 +142,7 @@ const NewSlide = ({ onClose, isVisible, presentationId }) => {
               <div
                 key={template.id}
                 onClick={() => setSelectedTemplate(template.className)}
-                className={`${template.className} border-2 ${selectedTemplate === template.className ? 'border-indigo-400' : 'border-white'} w-full h-16 bg-center bg-cover cursor-pointer`}
+                className={` ${template.className} border-2 ${selectedTemplate === template.className ? 'border-indigo-400' : 'border-white'} w-full h-20 bg-center bg-cover cursor-pointer`}
               />
             ))}
           </div>

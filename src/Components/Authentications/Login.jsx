@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router';
 import Slogan from '../Messages/Slogan.jsx';
+import { useAuth } from '../../Context/authContext.jsx';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -25,6 +26,7 @@ const Login = () => {
     });
 
     const message = await response.json();
+    console.log(message.role)
 
     if(!response.ok){
         setMessage(message.Message);
@@ -44,7 +46,10 @@ const Login = () => {
       setStatus(true);
       setDisplay(true);
       setTimeout(()=>{
-        window.location.href = "/App/Home";
+        if(message.role === 'admin')
+          window.location.href = "/App/Admin/Home";
+        else if(message.role === 'user')
+            window.location.href = "/App/User/Home"
         setDisplay(false);
       },3000)
       console.log(message);

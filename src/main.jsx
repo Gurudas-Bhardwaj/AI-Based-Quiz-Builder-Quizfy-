@@ -8,6 +8,8 @@ import Basic from './Components/Loader/Basic.jsx';
 import AuthProvider from './Context/authContext.jsx';
 import LoggedInRoute from './Components/Protected_Route/LoggedInRoute.jsx';
 import ForUnLoggedUser from './Components/Protected_Route/accessOnlyRoute.jsx';
+import ChoiceBTW_ADM_USER from './Components/App/Going Live Functionality/ChoiceBTW_ADM_USER.jsx';
+import AdminLiveSession from './Components/App/Going Live Functionality/Admin Controlled/AdminLiveSession.jsx';
 
 const MyPresentation = lazy(()=> import("./Components/App/Home/MyPresentation/MyPresentation.jsx"))
 
@@ -17,6 +19,8 @@ const App = lazy(()=> import("./Components/App/appLayout.jsx"));
 const Home = lazy(()=> import("./Components/App/Home/Home.jsx"));
 const PresentationView = lazy(()=>import("./Components/App/Presentation/PresentationView.jsx"));
 
+
+// const user = lazy(()=>import("./Components/App/User/userHome.jsx"));
 
 const route = createBrowserRouter([
   {
@@ -37,7 +41,7 @@ const route = createBrowserRouter([
     ]
   },
   {
-    path:"/App",
+    path:"/App/Admin",
     element : <Suspense fallback={<Basic/>}> 
         {/* <ForUnLoggedUser> */}
           <App/>
@@ -52,7 +56,7 @@ const route = createBrowserRouter([
     ]
   },
   {
-    path : "App/Presentation/:presentationId/:questionId?",
+    path : "App/AdminPanel/Presentation/:presentationId/:questionId?",
     element : <Suspense fallback={<Basic/>}> 
     {/* <ForUnLoggedUser> */}
       <PresentationView/>
@@ -60,14 +64,18 @@ const route = createBrowserRouter([
   </Suspense>
   },
   {
-    path : "App/Presentation/:presentationId",
+    path : "App/AdminPanel/Presentation/:presentationId",
     element : <Suspense fallback={<Basic/>}> 
     {/* <ForUnLoggedUser> */}
       <PresentationView/>
     {/* </ForUnLoggedUser> */}
   </Suspense>
   },
-  
+
+  {
+    path : "/Admin/Quiz/Live/:presentationId",
+    element: <AdminLiveSession/>
+  }
 ])
 
 createRoot(document.getElementById('root')).render(

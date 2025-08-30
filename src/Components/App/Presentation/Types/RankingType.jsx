@@ -14,12 +14,14 @@ import { BsThreeDots } from 'react-icons/bs'
 import { MdEdit, MdOutlinePoll } from 'react-icons/md'
 import NewSlide from './Slide Functionality/NewSlide'
 import { ChartBarDecreasing } from 'lucide-react'
+import { useAuth } from '../../../../Context/authContext'
 
 
 const RankingType = ({ questionId, presentation, allQuestion, currentQuestion }) => {
 
 
     const navigate = useNavigate();
+    const{role} = useAuth();
 
     const [showSlide, setShowSlide] = useState(false);
     const [localQuestion, setLocalQuestion] = useState(currentQuestion.question);
@@ -64,7 +66,7 @@ const RankingType = ({ questionId, presentation, allQuestion, currentQuestion })
                     {
                         method: "PATCH",
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ color: newColor })
+                        body: JSON.stringify({ color: newColor, role })
                     }
                 );
 
@@ -99,7 +101,7 @@ const RankingType = ({ questionId, presentation, allQuestion, currentQuestion })
                 const res = await fetch(`http://localhost:9000/handleQuestions/questions/${questionId}/options`, {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ options: latestOptionsRef.current }),
+                    body: JSON.stringify({ options: latestOptionsRef.current, role }),
                 });
                 if (res.ok)
                     console.log("✅ Saved:", latestOptionsRef.current);
@@ -125,7 +127,7 @@ const RankingType = ({ questionId, presentation, allQuestion, currentQuestion })
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ question: newQuestion }),
+                    body: JSON.stringify({ question: newQuestion, role }),
                 });
 
                 const data = await response.json();
@@ -159,8 +161,9 @@ const RankingType = ({ questionId, presentation, allQuestion, currentQuestion })
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ presentationId, presentationName: newName }),
+                    body: JSON.stringify({ presentationId, presentationName: newName, role }),
                 });
+                console.log(role)
                 const data = await response.json();
                 console.log(data)
             }
@@ -172,7 +175,7 @@ const RankingType = ({ questionId, presentation, allQuestion, currentQuestion })
 
     const switchQuestions = async (questionID) => {
         setSelectedQuestion(questionID);
-        navigate(`/App/Presentation/${presentationId}/${questionID}`);
+        navigate(`/App/AdminPanel/Presentation/${presentationId}/${questionID}`);
     }
 
 
@@ -276,7 +279,7 @@ const RankingType = ({ questionId, presentation, allQuestion, currentQuestion })
 
                     <section className='w-[10%] lg:w-[30%] h-full hidden   sm:flex justify-center '>
                         <div className='w-full h-auto flex justify-center gap-2'>
-                            <div className='bg-white h-[370px] overflow-auto mt-6 border border-white rounded-2xl w-[75%] hidden lg:flex flex-col gap-6'>
+                            <div className='bg-white h-[400px] overflow-auto mt-6 border border-white rounded-2xl w-[75%] hidden lg:flex flex-col gap-6'>
                                 <div className='h-auto flex justify-center w-full overflow-auto items-center'>
                                     <div className='flex pt-5 pl-2 pr-4 justify-between w-full items-center '>
                                         <h1 className='flex gap-1 justify-center items-center text-sm font-Outfit'><MdEdit />Editing Section : </h1>

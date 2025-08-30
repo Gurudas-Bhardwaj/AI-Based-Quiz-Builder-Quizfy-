@@ -62,7 +62,7 @@ const MyPresentation = () => {
 
   const navigateToPres = async (presentationId) => {
 
-    navigate(`/App/Presentation/${presentationId}`)
+    navigate(`/App/AdminPanel/Presentation/${presentationId}`)
   }
 
   return (

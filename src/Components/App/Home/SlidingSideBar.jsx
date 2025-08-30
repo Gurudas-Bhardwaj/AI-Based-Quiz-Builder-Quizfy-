@@ -32,11 +32,11 @@ const SlidingSideBar = ({ isopen, onClose }) => {
 
                 <div className='ml-4'>
                     <div className='flex gap-3 flex-col text-xs'>
-                        <div className="flex border-l-2 gap-2  w-full cursor-pointer border-l-purple-900 pl-2 justify-start items-center">
+                        <NavLink to="/App/Admin/MyPresentation" className="flex border-l-2 gap-2  w-full cursor-pointer border-l-purple-900 pl-2 justify-start items-center">
                             <img src={home} className="w-3" alt="" />
                             <p className='font-Outfit'>Home</p>
-                        </div>
-                        <NavLink to="/App/MyPresentation" className="flex cursor-pointer gap-2 pl-2 justify-start items-center">
+                        </NavLink>
+                        <NavLink to="/App/Admin/MyPresentation" className="flex cursor-pointer gap-2 pl-2 justify-start items-center">
                             <img src={user} className="w-4" alt="" />
                             <p className='font-Outfit'>My Presentation</p>
                         </NavLink>

@@ -30,7 +30,7 @@ const OpenEndedType = ({ questionId, question, designTemplate }) => {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ question: newQuestion }),
+                    body: JSON.stringify({ question: newQuestion, role }),
                 });
 
                 const data = await response.json();

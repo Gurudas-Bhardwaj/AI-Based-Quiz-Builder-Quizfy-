@@ -13,11 +13,14 @@ import { BsThreeDots } from 'react-icons/bs'
 import { LuFileStack } from 'react-icons/lu'
 import NewSlide from './Slide Functionality/NewSlide'
 import { ChartBarDecreasing, ChartBarIncreasing, ChartColumn } from 'lucide-react'
-import { MdOutlinePoll } from 'react-icons/md'
+import { MdEdit, MdOutlinePoll } from 'react-icons/md'
+import { useAuth } from '../../../../Context/authContext'
 
 const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) => {
 
     const navigate = useNavigate();
+
+    const {role} = useAuth();
 
     const [showSlide, setShowSlide] = useState(false);
     const [localQuestion, setLocalQuestion] = useState(currentQuestion.question);
@@ -63,7 +66,7 @@ const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) =>
                     {
                         method: "PATCH",
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ color: newColor })
+                        body: JSON.stringify({ color: newColor, role })
                     }
                 );
 
@@ -99,7 +102,7 @@ const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) =>
                 const res = await fetch(`http://localhost:9000/handleQuestions/questions/${questionId}/options`, {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ options: latestOptionsRef.current }),
+                    body: JSON.stringify({ options: latestOptionsRef.current, role }),
                 });
                 if (res.ok)
                     console.log("✅ Saved:", latestOptionsRef.current);
@@ -125,7 +128,7 @@ const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) =>
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ question: newQuestion }),
+                    body: JSON.stringify({ question: newQuestion, role }),
                 });
 
                 const data = await response.json();
@@ -143,19 +146,46 @@ const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) =>
 
     }
 
+    
+        const debounceForPres = useRef(null);
+        const updatePresentationName = (newName) => {
+            setPresentationName(newName);
+    
+            if (debounceForPres.current)
+                clearTimeout(debounceForPres.current);
+    
+            debounceForPres.current = setTimeout(async () => {
+                try {
+                    const response = await fetch("http://localhost:9000/handleQuestions/presentation/editTitle", {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ presentationId, presentationName: newName, role }),
+                    });
+                    const data = await response.json();
+                    console.log(data)
+                }
+                catch (e) {
+                    console.log("Error : ", e)
+                }
+            }, 2000)
+        }
+    
+
     const switchQuestions = async (questionID) => {
         setSelectedQuestion(questionID);
-        navigate(`/App/Presentation/${presentationId}/${questionID}`);
+        navigate(`/App/AdminPanel/Presentation/${presentationId}/${questionID}`);
     }
 
-    const setIcon = (designType)=>{
-        switch(designType){
+    const setIcon = (designType) => {
+        switch (designType) {
             case "poll":
-                return <MdOutlinePoll className='text-blue-400' size={16} /> 
+                return <MdOutlinePoll className='text-blue-400' size={16} />
             case "ranking":
                 return <ChartBarDecreasing color='indigo' size={14} />
             case "openEnded":
-                return <FaComment   className='text-orange-400'/>
+                return <FaComment className='text-orange-400' />
         }
     }
 
@@ -205,21 +235,21 @@ const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) =>
                             </button>
                             <div className='h-[400px] flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                                 {allQuestion.map((key, index) => (
-                                <div
-                                    onClick={() => switchQuestions(key._id)}
-                                    key={key._id}
-                                    className='w-full h-16 flex justify-center gap-1 cursor-pointer'
-                                >
-                                    <p className='font-Outfit text-xs pt-2'>{index + 1}</p>
                                     <div
-                                        className={`w-full h-16 border-2 flex justify-center flex-col items-center ${selectedQuestion === key._id ? 'border-indigo-300' : 'border-gray-200'} rounded-xl bg-center ${key.designTemplate} bg-cover gap-1`}>
-                                        {
-                                            setIcon(key.designType)
-                                        }
-                                        <h1 className='text-[7px] text-center font-Outfit'>{key.question}</h1>
+                                        onClick={() => switchQuestions(key._id)}
+                                        key={key._id}
+                                        className='w-full h-16 flex justify-center gap-1 cursor-pointer'
+                                    >
+                                        <p className='font-Outfit text-xs pt-2'>{index + 1}</p>
+                                        <div
+                                            className={`w-full h-16 border-2 flex justify-center flex-col items-center ${selectedQuestion === key._id ? 'border-indigo-300' : 'border-gray-200'} rounded-xl bg-center ${key.designTemplate} bg-cover gap-1`}>
+                                            {
+                                                setIcon(key.designType)
+                                            }
+                                            <h1 className='text-[7px] text-center font-Outfit'>{key.question}</h1>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
                             </div>
 
                         </div>
@@ -253,40 +283,54 @@ const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) =>
                         </div>
                     </section>
 
-                    <section className='w-[10%] lg:w-[30%] h-full hidden sm:flex justify-center '>
+                    <section className='w-[10%] lg:w-[30%] h-full hidden   sm:flex justify-center '>
                         <div className='w-full h-auto flex justify-center gap-2'>
-                            <div className='bg-white h-[370px] mt-6 border border-white rounded-2xl w-[75%] hidden lg:flex flex-col gap-6'>
-                                <div className='h-auto flex justify-center w-full items-center'>
+                            <div className='bg-white h-[400px] overflow-auto mt-6 border border-white rounded-2xl w-[75%] hidden lg:flex flex-col gap-6'>
+                                <div className='h-auto flex justify-center w-full overflow-auto items-center'>
                                     <div className='flex pt-5 pl-2 pr-4 justify-between w-full items-center '>
-                                        <h1 className='flex gap-1 justify-center items-center text-sm font-Outfit'><IoMdArrowRoundBack /> Multiple Choice</h1>
+                                        <h1 className='flex gap-1 justify-center items-center text-sm font-Outfit'><MdEdit />Editing Section : </h1>
                                         <div><RxCross2 className='cursor-pointer' /></div>
                                     </div>
 
                                 </div>
                                 <div className='pl-3 '>
+                                    <div >
+                                        <div>
+                                            <h1 className='font-Outfit font-semibold'>Edit Presentation : </h1>
+                                        </div>
+                                        <div className='pt-4 pb-5 flex flex-col gap-1'>
+                                            <div className=''>
+                                                <p className='text-sm font-Outfit '>Presentation Name : </p>
+                                            </div>
+                                            <div>
+                                                <input onChange={(e) => updatePresentationName(e.target.value)} type="text" id='Question' className='h-7 w-[89%] border border-stone-300 bg-stone-200 focus:bg-white  focus:border-indigo-300 font-Sora pl-1 text-xs rounded-lg ' value={presentationName} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='h-1 w-[95%] border-t mb-3 border-t-stone-300'></div>
                                     <div>
                                         <h1 className='font-Sora text-sm  font-semibold'>Edit Question : </h1>
                                     </div>
-                                    <div className='pt-5 flex flex-col'>
+                                    <div className='pt-3 flex flex-col'>
                                         <label htmlFor="Question" className='font-Outfit text-sm  text-gray-900'>Question :</label>
-                                        <input type="text" id='Question' className='h-7 w-[89%] border border-stone-300 bg-stone-200 focus:bg-white  focus:border-indigo-300 font-Sora pl-1 text-xs rounded-lg ' value={localQuestion} onChange={(e) => updateQuestion(e.target.value)} />
+                                        <input onChange={(e) => updateQuestion(e.target.value)} type="text" id='Question' className='h-7 w-[89%] border border-stone-300 bg-stone-200 focus:bg-white  focus:border-indigo-300 font-Sora pl-1 text-xs rounded-lg ' value={localQuestion} />
                                     </div>
 
                                     <div className='w-[95%] mt-3 h-1 border-b border-stone-300'></div>
 
-                                    <div className='mt-4 '>
+                                    <div className='mt-4 pb-4'>
                                         <div className='pb-2'>
-                                            <p className='text-xs font-Outfit font-semibold'>Options</p>
+                                            <p className='text-xs font-Outfit font-semibold'>Edit Options</p>
                                         </div>
                                         <div className='flex gap-2  flex-col'>
                                             {localOptions.map((key, index) => (
 
-                                                <div key={index} className='relative flex items-center gap-2'>
-                                                    <input value={key.text} onChange={(e) => handleOptionChange(index, e.target.value)} type="text" className='h-7 w-[60%] border border-stone-300 bg-stone-200 focus:bg-white  focus:border-indigo-300 font-Sora pl-7 text-xs rounded-lg' />
+                                                <div key={key._id} className='relative flex items-center gap-2'>
+                                                    <input value={key.text} onChange={(e) => handleOptionChange(index, e.target.value)} type="text" className='h-7 w-[75%] border border-stone-300 bg-stone-200 focus:bg-white  focus:border-indigo-300 font-Sora pl-7 text-xs rounded-lg' />
                                                     <label className="absolute top-[5px] left-[3px] cursor-pointer inline-block h-5  w-5 rounded-full overflow-hidden" style={{ backgroundColor: key.color }}>
                                                         <input
                                                             value={key.color}
-                                                            onChange={(e) => handleColorChange(index, e.target.value)}
+                                                            onChange={(e) => { handleColorChange(index, e.target.value) }}
                                                             type="color"
                                                             className=" w-full h-full opacity-0 cursor-pointer"
                                                         />
@@ -295,6 +339,8 @@ const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) =>
                                                     <div> <RxCross1 className='text-sm cursor-pointer' />  </div>
                                                 </div>
                                             ))}
+
+
                                         </div>
                                     </div>
                                 </div>

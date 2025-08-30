@@ -4,17 +4,13 @@ import user from "../../../assests/Images/HomePageImages/user.png"
 import down from "../../../assests/Images/HomePageImages/down.png"
 import AI from "../../../assests/Images/HomePageImages/AI.png"
 import userone from "../../../assests/Images/HomePageImages/user_one.png"
-import poll from "../../../assests/Images/HomePageImages/poll.png"
-import rank from "../../../assests/Images/HomePageImages/rank.png"
-import openEnded from "../../../assests/Images/HomePageImages/openEnded.png"
 import pin from "../../../assests/Images/HomePageImages/pin.png"
 import { useAuth } from '../../../Context/authContext'
 import ProfileSection from './ProfileSection'
 import NotificationCom from './NotificationCom'
 import AccountSettingPOPUP from './AccountSettingPOPUP'
-import Poll from './featureModel/Poll'
-import Ranking from './featureModel/ranking'
-import OpenEnded from './featureModel/OpenEnded'
+import { Plus } from 'lucide-react'
+import SelectPresenation from './Create Presentation From here/SelectPresenation'
 
 const Home = () => {
   const {userName}=useAuth();
@@ -25,8 +21,7 @@ const Home = () => {
 
   const [settingState, setSettingState] = useState(false);
 
-  const[featureDisplay, setFeatureDisplay] = useState(false);
-  const [selectedFeature, setSelectedFeature] = useState(null);
+  const[createPresenation, setCreatePresenatation] = useState(false);
 
   return (
     <main className='w-full relative mt-6'>
@@ -74,49 +69,21 @@ const Home = () => {
                 </div>
 
                 <div className='w-full flex mt-6'>
-                    <div className='flex flex-col pl-8 pt-6 rounded-2xl pr-8' style={{"backgroundColor":"#f8f8fe"}}>
+                    <div className='w-[80%] flex flex-col pl-8 pt-6 rounded-2xl pr-8' style={{"backgroundColor":"#f8f8fe"}}>
                         <div className='font-space text-[13px] font-bold'>
                           <p>Create Presentations</p>
                         </div>
 
-                        <div className='w-full flex justify-center items-center pt-6 pb-4'>
-                            <div className='md:flex grid grid-cols-2 justify-center items-center gap-10'>
-                              <div>
-                                <div className='p-5 border-2 cursor-pointer transition-all border-transparent hover:border-indigo-300 bg-white rounded-2xl' onClick={() => setSelectedFeature("ranking")}>
-                                  <img src={rank} className='w-20' alt="" />
-                                </div>
-                                <div className='w-full flex justify-center items-center'>
-                                  <p className='font-Outfit text-sm pt-2'>Ranking</p>
-                                </div>
-                              </div>
-                              <div>
-                                <div className='p-5 bg-white rounded-2xl border-2 cursor-pointer transition-all border-transparent hover:border-indigo-300' onClick={() => setSelectedFeature("poll")}>
-                                  <img src={poll} className='w-20' alt="" />
-                                </div>
-                                <div className='w-full flex justify-center items-center'>
-                                  <p className='font-Outfit text-sm pt-2'>Poll</p>
-                                </div>
-                              </div>
-
-                              <div>
-                                <div className='p-5 bg-white rounded-2xl border-2 cursor-pointer transition-all border-transparent hover:border-indigo-300' onClick={() => setSelectedFeature("openEnded")}>
-                                  <img src={openEnded} className='w-20' alt="" />
-                                </div>
-                                <div className='w-full flex justify-center items-center'>
-                                  <p className='font-Outfit text-sm pt-2'>Open Ended</p>
-                                </div>  
-                              </div>
-
-                              <div>
-                                <div className='p-5 bg-white rounded-2xl border-2 cursor-pointer transition-all border-transparent hover:border-indigo-300'>
-                                  <img src={pin} className='w-20' alt="" />
-                                </div>
-                                <div className='w-full flex justify-center items-center'>
-                                  <p className='font-Outfit text-sm pt-2'>Pin on Image</p>
-                                </div>
-                              </div>    
-                            </div> 
+                        <div onClick={()=>setCreatePresenatation(!createPresenation)} className='w-full flex flex-col justify-center items-center cursor-pointer mt-6 mb-6'>
+                          <div className='p-5 rounded-full w-auto h-auto border border-gray-300 mb-3 bg-gray-300 inline-flex'>
+                            <Plus size={60}/>
+                          </div>
+                          <div className='w-full flex flex-col justify-center items-center'>
+                            <h1 className='font-Outfit text-lg font-semibold pt-2'>Create Custom Presentation</h1>
+                            <p className='font-Outfit text-sm w-[80%] text-center text-stone-500'>Create Presenation accoring to your choice, You can choose interactive options like poll, Ranking, Open Ended and many more.</p>
+                          </div>
                         </div>
+                        
                     </div>
                 </div>
 
@@ -126,13 +93,11 @@ const Home = () => {
         <div  className={`${settingState ? "flex" : "hidden"} fixed left-0 w-screen h-screen top-0`}>
               <AccountSettingPOPUP onClose={()=>setSettingState(false)}/>
         </div>
-        {selectedFeature && (
-          <div className="fixed w-screen h-screen top-0 left-0 inset-0 bg-black/70 flex justify-center items-center z-50">
-            {selectedFeature === "poll" && <Poll onClose={() => setSelectedFeature(null)} />}
-            {selectedFeature === "ranking" && <Ranking onClose={() => setSelectedFeature(null)} />}
-            {selectedFeature === "openEnded" && <OpenEnded onClose={() => setSelectedFeature(null)} />}
+        {
+          <div className={`fixed top-0 left-0 inset-0 ${createPresenation?'pointer-events-auto' : 'pointer-events-none'} justify-center items-center z-50`}>
+            <SelectPresenation isVisible={createPresenation} onClose={()=>setCreatePresenatation(!createPresenation)} />
           </div>
-        )}
+        }
     </main>
   )
 }
