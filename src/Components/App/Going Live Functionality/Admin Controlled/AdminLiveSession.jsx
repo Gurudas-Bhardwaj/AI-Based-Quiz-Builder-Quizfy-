@@ -1,22 +1,29 @@
-import { Ban, ChartColumn, Cog, ExternalLink, Lightbulb, MessageCircle, MessageCircleMore, PencilLine, Timer, User, Users } from 'lucide-react'
-import React, { use, useEffect, useState } from 'react'
+import { BadgePercent, Ban, BinaryIcon, ChartColumn, Cog, ExternalLink, Lightbulb, MessageCircle, MessageCircleMore, PencilLine, Timer, User, Users } from 'lucide-react'
+import React, { use, useEffect, useRef, useState } from 'react'
 import { IoMdArrowRoundBack, IoMdArrowRoundForward } from 'react-icons/io'
-import { NavLink, useParams } from 'react-router'
+import { Navigate, NavLink, useNavigate, useParams } from 'react-router'
 import { useAuth } from '../../../../Context/authContext'
 import { BiReset } from 'react-icons/bi'
 import { FaCaretUp } from 'react-icons/fa'
 import PopUp from './PopUp'
 import CommentSection from './CommentSection'
 import ParticipantResponse from './ParticipantResponse'
+import Poll from './Types/Poll'
+import { io } from "socket.io-client"
+import Ranking from './Types/Ranking'
 
 const AdminLiveSession = () => {
 
-  const{presentationId} = useParams();
+  const { presentationId } = useParams();
+  const { userName } = useAuth();
 
-  const[allQuestion, setAllQuestion] = useState([])
+  const [currentQuestion, setCurrentQuestion] = useState(null);
+  const [options, setOptions] = useState([]);
+  const [allQuestion, setAllQuestion] = useState([]);
+  const [designType, setDesignType] = useState("");
   
 
-  const { userName } = useAuth();
+  // UI state
   const [comment, setComment] = useState(false);
   const [analytics, setAnalytics] = useState(false);
   const [goLeft, setGoLeft] = useState(false);
@@ -26,45 +33,108 @@ const AdminLiveSession = () => {
   const [resetResult, setResetResult] = useState(false);
   const [currentParticipant, setCurrentParticipant] = useState(false);
   const [openComment, setOpenComment] = useState(false);
-
   const [timerInfo, setTimerInfo] = useState(false);
-
   const [startTimer, setStartTimer] = useState(false);
-
   const [showCommentSection, setShowCommentSection] = useState(false);
   const [showParticipant, setShowParticipant] = useState(false);
 
+  const[showPercentage, setShowPercentage]=useState(false);
 
-  const findQuestion = async()=>{
-    try{
-      const response = await fetch("http://localhost:9000/handleQuestions/searchQuestion",{
-        method : "POST",
-        headers: {
-        "Content-Type": "application/json",
-        },
-        body : JSON.stringify({presentationId})
-      });
+  const [participantList, setParticipantList] = useState([]);
 
-      const data = await response.json();
+  const socket = useRef(null);
+  // const navigate = useNavigate();
 
-      if(!response.ok){
-        console.log("Error :" , data);
-        return;
-      }
+  const addPercentageToQuestion = (question) => {
+    if (!question || !question.options) return question;
 
-      console.log(data);
-      setAllQuestion(data.question);
+    const totalVotes = question.options.reduce((sum, option) => sum + (option.votes || 0), 0);
 
-    }
-    catch(e){
-      console.log("Error : ", e);
-    }
+    const updatedOptions = question.options.map(option => ({
+      ...option,
+      percentage: totalVotes === 0 ? 0 : Math.round((option.votes / totalVotes) * 100)
+    }));
+
+    return {
+      ...question,
+      options: updatedOptions
+    };
+  };
+
+  useEffect(() => {
+    socket.current = io("http://localhost:9000/adminControlledQuiz", {
+      transports: ["websocket", "polling"]
+    });
+
+    socket.current.emit("joinQuizByAdmin", { presentationId });
+
+    socket.current.on("newQuestionForAdmin", ({ question }) => {
+      const updatedQuestion = addPercentageToQuestion(question);
+      setCurrentQuestion(updatedQuestion);
+      setOptions(updatedQuestion ? updatedQuestion.options : []);
+      setDesignType(updatedQuestion ? updatedQuestion.designType : "");
+      console.log("Received question:", updatedQuestion);
+    });
+
+    socket.current.on("voteUpdateForAdmin", ({ question }) => {
+      const updatedQuestion = addPercentageToQuestion(question);
+      setCurrentQuestion(updatedQuestion);
+      setOptions(updatedQuestion ? updatedQuestion.options : []);
+      setDesignType(updatedQuestion ? updatedQuestion.designType : "");
+    });
+
+    socket.current.on("participantsUpdate", ({ participants })=>{
+      console.log("Participants List Updated:", participants);
+      setParticipantList(participants || []);
+    })
+
+
+
+    socket.current.on("quizEnded", () => {
+      alert("Quiz has ended!");
+      setCurrentQuestion(null);
+      window.location = "/"
+    });
+
+
+
+    return () => {
+      socket.current.disconnect();
+    };
+  }, [presentationId]);
+
+  const handleNextQuestion = () => {
+    socket.current.emit("nextQuestion", {
+      presentationId
+    })
   }
 
-  useEffect(()=>{
-    findQuestion();
-  },[])
+  const handleEndQuiz = () => {
+    socket.current.emit("endQuizByAdmin", {
+      presentationId
+    })
+  }
+
+  const handlePrevQuestion = () => {
+    socket.current.emit("previousQuestion", {
+      presentationId
+    })
+  };
+
   
+
+  const chooseDesignType = (type) => {
+    switch (type) {
+      case "poll":
+        return <Poll currentQuestion={currentQuestion} showRespInPercen={showPercentage} />;
+      case "ranking":
+        return <Ranking currentQuestion={currentQuestion} showRespInPercen={showPercentage} />;
+      case "openEnded":
+        return <OpenEnded currentQuestion={currentQuestion} showRespInPercen={showPercentage} />;
+    }
+
+  }
+
 
   return (
     <div className='relative overflow-hidden w-screen h-screen bg-stone-200 flex flex-col items-center   '>
@@ -114,7 +184,7 @@ const AdminLiveSession = () => {
               </button>
             </div>
             <div>
-              <button className=' pt-1 pb-1 pr-3 pl-3 flex gap-1 bg-indigo-400 items-center justify-center text-white rounded-4xl text-xs '>
+              <button onClick={handleEndQuiz} className='cursor-pointer pt-1 pb-1 pr-3 pl-3 flex gap-1 bg-indigo-400 items-center justify-center text-white rounded-4xl text-xs '>
                 <Ban size={13} />
                 <p className=''>Go Offline</p>
               </button>
@@ -125,21 +195,22 @@ const AdminLiveSession = () => {
 
       <div className='absolute top-20 left-20'>
         <div className='bg-white cursor-pointer flex justify-center items-center flex-col p-4 text-sm border border-white rounded-full font-Outfit '
-        onMouseEnter={() => setTimerInfo(true)}
-            onMouseLeave={() => setTimerInfo(false)}>
-              <div className='flex absolute top-2 left-[18px]'>
-                <PopUp isVisible={timerInfo} value={"Respond the Question under Given Time!"} />
-              </div>
-            <div>
-              <h1>60</h1>
-            </div>
+          onMouseEnter={() => setTimerInfo(true)}
+          onMouseLeave={() => setTimerInfo(false)}>
+          <div className='flex absolute top-2 left-[18px]'>
+            <PopUp isVisible={timerInfo} value={"Respond the Question under Given Time!"} />
+          </div>
+          <div>
+            <h1>60</h1>
+          </div>
 
         </div>
       </div>
 
       <div className='w-screen h-[500px] flex justify-center items-center '>
-        <div className='w-[90%] h-[95%] bg-BG-11 bg-contain bg-center bg-no-repeat'>
-        </div>
+        {
+          chooseDesignType(designType)
+        }
       </div>
 
       <div className='fixed h-10 w-screen top-[86%] flex justify-center items-center'>
@@ -151,16 +222,29 @@ const AdminLiveSession = () => {
             className='cursor-pointer relative'
           >
             <PopUp isVisible={currentParticipant} value={"Participant responded"} />
-            <Users onClick={()=>{setShowCommentSection(false); setShowParticipant(!showParticipant)}}  className='' size={17} />
+            <Users onClick={() => { setShowCommentSection(false); setShowParticipant(!showParticipant) }} className='' size={17} />
           </div>
+          {
+          showPercentage ?  
           <div
             onMouseEnter={() => setComment(true)}
             onMouseLeave={() => setComment(false)}
+            onClick={()=>setShowPercentage(!showPercentage)}
             className='cursor-pointer relative'
           >
-            <PopUp isVisible={comment} value={"Enable Comment"} />
-            <MessageCircle className='' size={17} />
-          </div>
+            <PopUp isVisible={comment} value={"Show Response in Number"} />
+            <BinaryIcon className='transition-all duration-500 ease-in-out' size={17} />
+          </div> : 
+            <div
+            onMouseEnter={() => setComment(true)}
+            onMouseLeave={() => setComment(false)}
+            onClick={()=>setShowPercentage(!showPercentage)}
+            className='cursor-pointer relative'
+          >
+            <PopUp isVisible={comment} value={"Show Response in Percentage"} />
+            <BadgePercent className='transition-all duration-500 ease-in-out' size={17} />
+          </div> 
+          }
 
 
           <div onMouseEnter={() => setAnalytics(true)}
@@ -171,7 +255,9 @@ const AdminLiveSession = () => {
             <ChartColumn size={17} />
           </div>
           <div className='flex h-full justify-center items-center gap-2'>
-            <div onMouseEnter={() => setGoLeft(true)}
+            <div
+              onClick={handlePrevQuestion}
+              onMouseEnter={() => setGoLeft(true)}
               onMouseLeave={() => setGoLeft(false)}
               className='cursor-pointer relative'>
               <PopUp isVisible={goLeft} value={"Go To Previous Question"} />
@@ -181,12 +267,13 @@ const AdminLiveSession = () => {
               onMouseEnter={() => setShareLink(true)}
               onMouseLeave={() => setShareLink(false)}
               className='p-2 relative bg-amber-100 border flex justify-center items-center  cursor-pointer border-amber-400 rounded-full'>
-                <div className='absolute top-1 flex left-2'>
-              <PopUp isVisible={shareLink} value={"Share the Link to all"} />
+              <div className='absolute top-1 flex left-2'>
+                <PopUp isVisible={shareLink} value={"Share the Link to all"} />
               </div>
               <Lightbulb className='text-amber-500 ' size={15} />
             </div>
             <div className='cursor-pointer relative '
+              onClick={handleNextQuestion}
               onMouseEnter={() => setGoRight(true)}
               onMouseLeave={() => setGoRight(false)}>
               <PopUp isVisible={goRight} value={"Go to next Question"} />
@@ -200,7 +287,7 @@ const AdminLiveSession = () => {
             onMouseLeave={() => setStopWatch(false)}
           >
             <PopUp isVisible={stopWatch} value={"Start Timer"} />
-            <Timer  size={17} className=''/>
+            <Timer size={17} className='' />
           </div>
 
           {/* Reset Icon with Hover Tooltip */}
@@ -209,7 +296,7 @@ const AdminLiveSession = () => {
             onMouseEnter={() => setResetResult(true)}
             onMouseLeave={() => setResetResult(false)}
           >
-            <PopUp isVisible={resetResult}  value={"Reset Result"} />
+            <PopUp isVisible={resetResult} value={"Reset Result"} />
             <BiReset size={17} />
           </div>
 
@@ -217,9 +304,9 @@ const AdminLiveSession = () => {
             className='cursor-pointer relative'
             onMouseEnter={() => setOpenComment(true)}
             onMouseLeave={() => setOpenComment(false)}
-            onClick={()=>{setShowCommentSection(!showCommentSection); setShowParticipant(false)}}
+            onClick={() => { setShowCommentSection(!showCommentSection); setShowParticipant(false) }}
           >
-            <PopUp  isVisible={openComment}  value={"Open Comment Section"} />
+            <PopUp isVisible={openComment} value={"Open Comment Section"} />
             <MessageCircleMore size={17} />
           </div>
 
@@ -229,13 +316,14 @@ const AdminLiveSession = () => {
       {/* comment section :  */}
       <div className={`absolute top-[22%] left-[73%] transition-all ease-in-out duration-500 ${showCommentSection ? 'opacity-100 ' : 'opacity-0   pointer-events-none'}`}>
         <CommentSection
-          onClose={()=>setShowCommentSection(!showCommentSection)}
+          onClose={() => setShowCommentSection(!showCommentSection)}
           isVisible={showCommentSection}
         />
       </div>
       <div className={`absolute top-[16%] left-[73%] transition-all ease-in-out duration-500 ${showParticipant ? 'opacity-100 ' : 'opacity-0   pointer-events-none'}`}>
         <ParticipantResponse
-          onClose={()=>setShowParticipant(!showParticipant)}
+          participantList = {participantList}
+          onClose={() => setShowParticipant(!showParticipant)}
           isVisible={showParticipant}
         />
       </div>

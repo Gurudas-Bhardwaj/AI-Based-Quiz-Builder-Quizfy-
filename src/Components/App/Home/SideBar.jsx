@@ -15,8 +15,8 @@ const SideBar = () => {
       <div className="flex w-full flex-col gap-5 pl-7">
 
         <div className='w-full'>
-          <div className="ml-2">
-            <img src={Logo} className='w-24' alt="logo" />
+          <div className="ml-2 mt-14 mb-5">
+            <img src={Logo} className='w-36' alt="logo" />
           </div>
         </div>
 

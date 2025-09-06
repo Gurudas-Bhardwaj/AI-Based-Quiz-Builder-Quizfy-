@@ -11,6 +11,7 @@ import NotificationCom from './NotificationCom'
 import AccountSettingPOPUP from './AccountSettingPOPUP'
 import { Plus } from 'lucide-react'
 import SelectPresenation from './Create Presentation From here/SelectPresenation'
+import JoinPresentation from './Join Presentation/JoinPresentation'
 
 const Home = () => {
   const {userName}=useAuth();
@@ -22,6 +23,7 @@ const Home = () => {
   const [settingState, setSettingState] = useState(false);
 
   const[createPresenation, setCreatePresenatation] = useState(false);
+  const [joinPresentation, setJoinPresentation] = useState(false);
 
   return (
     <main className='w-full relative mt-6'>
@@ -87,17 +89,42 @@ const Home = () => {
                     </div>
                 </div>
 
+                <div className='w-full flex mt-8 mb-8'>
+                    <div className='w-[80%] flex flex-col pl-8 pt-6 rounded-2xl pr-8' style={{"backgroundColor":"#f8f8fe"}}>
+                        <div className='font-space text-[13px] font-bold'>
+                          <p>Join Quizies</p>
+                        </div>
+
+                        <div onClick={()=>setJoinPresentation(!joinPresentation)} className='w-full flex flex-col justify-center items-center cursor-pointer mt-6 mb-6'>
+                          <div className='p-5 rounded-full w-auto h-auto border border-gray-300 mb-3 bg-gray-300 inline-flex'>
+                            <Plus size={60}/>
+                          </div>
+                          <div className='w-full flex flex-col justify-center items-center'>
+                            <h1 className='font-Outfit text-lg font-semibold pt-2'>Join a Quiz</h1>
+                            <p className='font-Outfit text-sm w-[80%] text-center text-stone-500'>You can join Quizies made by other and can give answers to questions and be a part of our family</p>
+                          </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                
+
               </div>
             </div>
         </div>
         <div  className={`${settingState ? "flex" : "hidden"} fixed left-0 w-screen h-screen top-0`}>
               <AccountSettingPOPUP onClose={()=>setSettingState(false)}/>
         </div>
-        {
+        
           <div className={`fixed top-0 left-0 inset-0 ${createPresenation?'pointer-events-auto' : 'pointer-events-none'} justify-center items-center z-50`}>
             <SelectPresenation isVisible={createPresenation} onClose={()=>setCreatePresenatation(!createPresenation)} />
           </div>
-        }
+        
+          <div className={`fixed top-0 left-0 inset-0 ${joinPresentation?'pointer-events-auto' : 'pointer-events-none'} justify-center items-center z-50`}>
+            <JoinPresentation isVisible={joinPresentation} onClose={()=>setJoinPresentation(!joinPresentation)} />
+          </div>
+        
     </main>
   )
 }

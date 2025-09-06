@@ -46,10 +46,7 @@ const Login = () => {
       setStatus(true);
       setDisplay(true);
       setTimeout(()=>{
-        if(message.role === 'admin')
           window.location.href = "/App/Admin/Home";
-        else if(message.role === 'user')
-            window.location.href = "/App/User/Home"
         setDisplay(false);
       },3000)
       console.log(message);

@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ChevronDown, Send, User } from 'lucide-react'
 
-const ParticipantResponse = ({ isVisible, onClose }) => {
+const ParticipantResponse = ({ isVisible, onClose, participantList }) => {
+    useEffect(()=>{
+        console.log(participantList);
+    }, [participantList])
+
     return (
         <div className={`w-[300px] h-[500px] rounded-2xl border border-white drop-shadow-2xl pl-5 pt-4 bg-white font-Outfit transition-all ease-in-out duration-500 ${isVisible ? 'opacity-100 -translate-y-5' : 'opacity-0 translate-y-0   pointer-events-none'}`}>
             <div className='w-full'>
@@ -107,46 +111,13 @@ const ParticipantResponse = ({ isVisible, onClose }) => {
                 </div>
                 <div className='w-full mt-5 '>
                     <h1 className='text-sm font-poppins text-stone-800'>Joined By : </h1>
-                    <div className='overflow-auto h-[50%] grid grid-cols-2 mt-3 pr-3 gap-2 place-content-start'>
+                    <div className={`overflow-auto h-[100%] ${ participantList.length > 0 ? "grid grid-cols-2" : "flex justify-center items-center"} mt-3 pr-3 gap-2 place-content-start`}>
+                        {participantList.length === 0 ? <p className='text-sm text-center  text-gray-500'>No participants joined yet.</p> :
+                            participantList.map((participant, index) => (
                         <div className='pl-2 pr-2 pt-1 pb-1   bg-indigo-400 flex justify-center items-center rounded-2xl border border-indigo-400'>
-                            <p className='text-xs  font-Outfit text-white'>Gurudas Bhardwaj</p>
-                        </div>  
-                        <div className='pl-2 pr-2 pt-1 pb-1  bg-indigo-400 flex justify-center items-center rounded-2xl border border-indigo-400'>
-                            <p className='text-xs  font-Outfit text-white'>Preeti Pallav</p>
-                        </div>  
-                        <div className='pl-2 pr-2 pt-1 pb-1  bg-indigo-400 flex justify-center items-center rounded-2xl border border-indigo-400'>
-                            <p className='text-xs  font-Outfit text-white'>Mukesh Kumar</p>
-                        </div>  
-                        <div className='pl-2 pr-2 pt-1 pb-1  bg-indigo-400 flex justify-center items-center rounded-2xl border border-indigo-400'>
-                            <p className='text-xs  font-Outfit text-white'>Naruto Uzumaki</p>
-                        </div>  
-                        <div className='pl-2 pr-2 pt-1 pb-1  bg-indigo-400 flex justify-center items-center rounded-2xl border border-indigo-400'>
-                            <p className='text-xs  font-Outfit text-white'>Sasuke Uchiha</p>
-                        </div>  
-                        <div className='pl-2 pr-2 pt-1 pb-1  bg-indigo-400 flex justify-center items-center rounded-2xl border border-indigo-400'>
-                            <p className='text-xs  font-Outfit text-white'>Kakashi Hatake</p>
-                        </div>  
-                        <div className='pl-2 pr-2 pt-1 pb-1  bg-indigo-400 flex justify-center items-center rounded-2xl border border-indigo-400'>
-                            <p className='text-xs  font-Outfit text-white'>Monkey D.Luffy</p>
-                        </div>  
-                        <div className='pl-2 pr-2 pt-1 pb-1  bg-indigo-400 flex justify-center items-center rounded-2xl border border-indigo-400'>
-                            <p className='text-xs  font-Outfit text-white'>Monkey D.Luffy</p>
-                        </div>  
-                        <div className='pl-2 pr-2 pt-1 pb-1  bg-indigo-400 flex justify-center items-center rounded-2xl border border-indigo-400'>
-                            <p className='text-xs  font-Outfit text-white'>Monkey D.Luffy</p>
-                        </div>  
-                        <div className='pl-2 pr-2 pt-1 pb-1  bg-indigo-400 flex justify-center items-center rounded-2xl border border-indigo-400'>
-                            <p className='text-xs  font-Outfit text-white'>Monkey D.Luffy</p>
-                        </div>  
-                        <div className='pl-2 pr-2 pt-1 pb-1  bg-indigo-400 flex justify-center items-center rounded-2xl border border-indigo-400'>
-                            <p className='text-xs  font-Outfit text-white'>Monkey D.Luffy</p>
-                        </div>  
-                        <div className='pl-2 pr-2 pt-1 pb-1  bg-indigo-400 flex justify-center items-center rounded-2xl border border-indigo-400'>
-                            <p className='text-xs  font-Outfit text-white'>Monkey D.Luffy</p>
-                        </div>  
-                        <div className='pl-2 pr-2 pt-1 pb-1  bg-indigo-400 flex justify-center items-center rounded-2xl border border-indigo-400'>
-                            <p className='text-xs  font-Outfit text-white'>Monkey D.Luffy</p>
-                        </div>  
+                            <p className='text-xs  font-Outfit text-white'>{participant.userName}</p>
+                        </div> )
+                    )}
                     </div>
                 </div>
 
