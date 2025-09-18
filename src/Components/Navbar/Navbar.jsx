@@ -12,14 +12,14 @@ const Navbar = () => {
 
   return (
     <div className='relative h-16 w-screen border-b border-b-gray-200 flex justify-center items-center'>
-      <div className='flex justify-center items-center gap-32'>
+      <div className='flex justify-center items-center gap-36'>
         <div>
           <NavLink to="/">
-            <img src={logo} alt="" className='w-36 mt-4' />
+            <img src={logo} alt="" className='w-40 mt-4' />
           </NavLink>
         </div>
         <div className="hidden lg:flex">
-          <div className='flex w-auto justify-center text-sm items-center gap-7 font-Outfit'>
+          <div className='flex w-auto justify-center text-base items-center gap-7 font-Outfit'>
             <NavLink to="/">Home</NavLink>
             <a href="">How To Use</a>
             <a href="">Pricing</a>
@@ -27,15 +27,15 @@ const Navbar = () => {
             <a href="">ReadMe</a>
           </div>
         </div>
-        <div className='flex gap-9'>
+        <div className='flex gap-10'>
           {isLogin?(
               <div>
-                <NavLink to="/App/Admin/Home" className='pt-1 text-xs cursor-pointer bg-in pb-1 pl-4 pr-4 rounded-3xl border border-blue-500 text-white font-poppins z-10' style={{ backgroundColor: "#5769e7" }}>Go to Home</NavLink>
+                <NavLink to="/App/Admin/Home" className='pt-1 text-sm cursor-pointer bg-in pb-1 pl-4 pr-4 rounded-3xl border border-blue-500 text-white font-poppins z-10' style={{ backgroundColor: "#5769e7" }}>Go to Home</NavLink>
               </div>
             ):(
               <div className='hidden lg:flex '>
-                <NavLink to="/Login" className='pt-1 font-semibold text-xs cursor-pointer bg-in pb-1 pl-6 pr-6 rounded-3xl font-poppins z-10'>Login</NavLink>
-                <NavLink to="/SignUp" className='pt-1 text-xs cursor-pointer bg-in pb-1 pl-6 pr-6 rounded-3xl border border-blue-500 text-white font-poppins z-10' style={{ backgroundColor: "#5769e7" }}>SignUp</NavLink>
+                <NavLink to="/Login" className='pt-1 font-semibold text-sm cursor-pointer bg-in pb-1 pl-6 pr-6 rounded-3xl font-poppins z-10'>Login</NavLink>
+                <NavLink to="/SignUp" className='pt-1 text-sm cursor-pointer bg-in pb-1 pl-6 pr-6 rounded-3xl border border-blue-500 text-white font-poppins z-10' style={{ backgroundColor: "#5769e7" }}>SignUp</NavLink>
               </div>
             )
           }

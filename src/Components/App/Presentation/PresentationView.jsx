@@ -82,7 +82,7 @@ const findDetails = async (presentationID, questionID) => {
             case "poll":
                 return <PollType  questionId={questionId} presentation={presentation} allQuestion={allQuestion} currentQuestion={currentQuestion}/>;
             case "openEnded":
-                return <OpenEndedType questionId={questionId} presentationName={PresentationName} question={question} designTemplate={designTemplate} presentationId={presentationId} />;
+                return <OpenEndedType questionId={questionId} presentation={presentation} allQuestion={allQuestion} currentQuestion={currentQuestion} />;
             case "ranking":
                 return <RankingType questionId={questionId} presentation={presentation} allQuestion={allQuestion} currentQuestion={currentQuestion} />;
         }
@@ -96,7 +96,7 @@ const findDetails = async (presentationID, questionID) => {
         <main className='w-screen h-screen overflow-hidden bg-gray-200'>
             <div className='w-full h-full flex flex-col  items-center'>
 
-                <nav className='w-full flex justify-center bg-white items-center h-14'>
+                <nav className='w-full flex justify-center bg-white items-center h-16'>
                     <div className='w-[97%] h-full flex justify-between'>
 
                         <div className='flex justify-center gap-2 items-center'>
@@ -105,9 +105,9 @@ const findDetails = async (presentationID, questionID) => {
                                 <IoMdArrowRoundBack />
                             </NavLink>
 
-                            <div className='font-Outfit relative text-[13px]'>
+                            <div className='font-Outfit relative text-[14px]'>
                                 <p>Vibrant Color Mixture</p>
-                                <p className='text-[10px] text-stone-600 flex  justify-start items-center    '><User size={13} />{presentation.title}
+                                <p className='text-[10px] text-stone-600 flex  justify-start items-center    '><User size={16} />{presentation.title}
                                  </p>
                                  
                             </div>
@@ -115,16 +115,16 @@ const findDetails = async (presentationID, questionID) => {
                             <div className='h-5 w-1 border-r border-r-stone-200'></div>
 
                             <div className='h-7 w-7 flex bg-stone-200 justify-center items-center rounded-full'>
-                                <Cog size={19}/>
+                                <Cog size={20}/>
                             </div>
                         </div>
 
-                        <div className=' font-Outfit hidden md:flex justify-center items-center gap-5 text-sm'>
+                        <div className=' font-Outfit hidden md:flex justify-center items-center gap-8 text-sm'>
                             <div className='h-full border-b-2 flex justify-center cursor-pointer items-center'>
-                                <h1 className='pt-1'>Create</h1>
+                                <h1 className='pt-1 text-lg'>Create</h1>
                             </div>
                             <div className='h-full border-b-2 border-b-transparent flex justify-center cursor-pointer items-center'>
-                                <h1 className='pt-1'>Result</h1>
+                                <h1 className='pt-1 text-lg'>Result</h1>
                             </div>
                         </div>
 
@@ -144,20 +144,20 @@ const findDetails = async (presentationID, questionID) => {
                             </div>
                             <div className='hidden md:flex'>
                                 <div className='h-7 w-7 cursor-pointer flex bg-indigo-300 justify-center items-center rounded-full'>
-                                    <FiUser />
+                                    <FiUser className='text-lg' />
                                 </div>
                             </div>
 
                             <div className='h-5 w-1 border-r border-r-stone-200'></div>
 
                             <div className='hidden md:flex'>
-                                <button className='text-xs cursor-pointer flex justify-center items-center bg-gray-300 text-black font-Outfit rounded-2xl pt-1 pb-1 pr-4 pl-4 gap-1'>
+                                <button className='text-sm cursor-pointer flex justify-center items-center bg-gray-300 text-black font-Outfit rounded-2xl pt-1 pb-1 pr-4 pl-4 gap-1'>
                                     <Bug size={13} />Report a Bug
                                 </button>
                             </div>
 
                             <div>
-                                <button onClick={()=>setGoLiveOption(!goLiveOption)} className='text-xs cursor-pointer bg-indigo-400 flex justify-center items-center gap-1 text-white font-Outfit rounded-2xl pt-1 pb-1 pr-4 pl-4'>
+                                <button onClick={()=>setGoLiveOption(!goLiveOption)} className='text-sm cursor-pointer bg-indigo-400 flex justify-center items-center gap-1 text-white font-Outfit rounded-2xl pt-1 pb-1 pr-4 pl-4'>
                                     <Radio size={13} color='white'/>
                                     Go Live
                                 </button>

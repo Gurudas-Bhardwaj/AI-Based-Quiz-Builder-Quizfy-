@@ -57,8 +57,8 @@ const Login = () => {
     <main className='w-screen font-poppins bg-stone-100 flex pt-5  justify-center items-center pb-5'>
       <div className='w-[80%] sm:w-[60%] md:w-[40%] lg:w-[29%] shadow-sm bg-white rounded-lg  pt-10 pb-10 flex flex-col justify-center items-center gap-5'>
         <div className=' flex flex-col w-full justify-center items-center gap-1'>
-            <h1 className='font-Outfit text-2xl font-extrabold text-blue-800' style={{"color":"#344564"}}>Login</h1>
-            <span className='text-[11px] font-light text-stone-950'>Logged in to your existing Account !</span>
+            <h1 className='font-Outfit text-3xl font-extrabold text-blue-800' style={{"color":"#344564"}}>Login</h1>
+            <span className='text-[13px] font-light text-stone-950'>Logged in to your existing Account !</span>
         </div>
 
         <div className='w-full flex flex-col justify-center items-center gap-3'>

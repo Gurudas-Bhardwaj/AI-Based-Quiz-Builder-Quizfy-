@@ -46,9 +46,9 @@
     {
       path: "/App/Admin",
       element: <Suspense fallback={<Basic />}>
-        {/* <ForUnLoggedUser> */}
+        <ForUnLoggedUser>
         <App />
-        {/* </ForUnLoggedUser> */}
+        </ForUnLoggedUser>
       </Suspense>
       ,
       children: [
@@ -63,17 +63,17 @@
     {
       path: "App/AdminPanel/Presentation/:presentationId/:questionId?",
       element: <Suspense fallback={<Basic />}>
-        {/* <ForUnLoggedUser> */}
+        <ForUnLoggedUser>
         <PresentationView />
-        {/* </ForUnLoggedUser> */}
+        </ForUnLoggedUser>
       </Suspense>
     },
     {
       path: "App/AdminPanel/Presentation/:presentationId",
       element: <Suspense fallback={<Basic />}>
-        {/* <ForUnLoggedUser> */}
+        <ForUnLoggedUser>
         <PresentationView />
-        {/* </ForUnLoggedUser> */}
+        </ForUnLoggedUser>
       </Suspense>
     },
 

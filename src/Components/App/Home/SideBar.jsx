@@ -21,7 +21,7 @@ const SideBar = () => {
         </div>
 
         <div className=''>
-          <div className='flex gap-3 flex-col text-xs'>
+          <div className='flex gap-3 flex-col text-sm'>
             <NavLink to="/App/Admin/Home" className={ ({isActive}) => `flex cursor-pointer border-l-2 ${isActive?" border-l-purple-900":"border-l-transparent"} gap-2 pl-2  justify-start items-center`}>
               <img src={home} className="w-3" alt="" />
               <p className='font-Outfit'>Home</p>
@@ -41,14 +41,14 @@ const SideBar = () => {
         <div className='mt-5'>
           <div className='flex flex-col gap-4'>
             <div>
-              <p className='text-xs text-gray-500 font-extralight font-Outfit'>Workspace</p>
+              <p className='text-sm text-gray-500 font-extralight font-Outfit'>Workspace</p>
             </div>
             <div className='flex gap-3 flex-col text-xs'>
-              <div className="flex cursor-pointer  gap-2 pl-2 justify-start items-center">
+              <div className="flex cursor-pointer text-sm gap-2 pl-2 justify-start items-center">
                 <img src={users} className="w-4" alt="" />
                 <p className='font-Outfit'>Workspace Presentation</p>
               </div>
-              <div className="flex cursor-pointer gap-2 pl-2 justify-start items-center">
+              <div className="flex cursor-pointer text-sm gap-2 pl-2 justify-start items-center">
                 <img src={airplane} className="w-4" alt="" />
                 <p className='font-Outfit'>Shared Template</p>
               </div>
@@ -57,21 +57,21 @@ const SideBar = () => {
         </div>
 
         <div className='mt-7'>
-          <div className='flex flex-col gap-2 font-extralight'>
+          <div className='flex flex-col gap-2 text-sm font-extralight'>
             <div className='cursor-pointer'>
-              <p className='text-[11px] font-Outfit'>Templates</p>
+              <p className=' font-Outfit'>Templates</p>
             </div>
             <div className='cursor-pointer'>
-              <p className='text-[11px] font-Outfit'>Integrations</p>
+              <p className=' font-Outfit'>Integrations</p>
             </div>
             <div className='cursor-pointer'>
-              <p className='text-[11px] font-Outfit'>Help</p>
+              <p className=' font-Outfit'>Help</p>
             </div>
             <div className='cursor-pointer'>
-              <p className='text-[11px] font-Outfit'>ReadMe</p>
+              <p className=' font-Outfit'>ReadMe</p>
             </div>
             <NavLink to="https://tailwind-portfolio-red.vercel.app/" target='main' className='cursor-pointer'>
-              <p className='text-[11px] font-Outfit'>About Us</p>
+              <p className=' font-Outfit'>About Us</p>
             </NavLink>
           </div>
         </div>

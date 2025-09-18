@@ -26,13 +26,13 @@ const Landing_Page = () => {
             {/* left section */}
             <section className=' w-full md:w-1/2 font-poppins flex flex-col justify-center items-center' >
                 <div className='w-3/4 md:w-3/5'>
-                    <h1 className='flex flex-col  text-center md:text-left text-4xl'>
+                    <h1 className='flex flex-col  text-center md:text-left text-5xl'>
                         <p>Communicate.</p>
                         <p>Collaborate. Create.</p>
                     </h1>
                 </div>
                 <div className='w-3/4 md:w-3/5'>
-                    <p className='pt-5 text-center md:text-left text-xs'>
+                    <p className='pt-5 text-center md:text-left text-base'>
                         Create your custom quiz, ask the friend, family and students and Be a Teacher.
                     </p>
                 </div>
@@ -41,21 +41,21 @@ const Landing_Page = () => {
                     isLogin?(
                         <NavLink to="/Login" className='pl-6 text-sm pr-6 pt-1 pb-1 border rounded-sm bg-black cursor-pointer text-white'>Go To Home</NavLink>    
                     ):(
-                        <NavLink to="/Login" className='pl-6  pr-6 pt-1 pb-1 border rounded-sm bg-black cursor-pointer text-white'>Login</NavLink>
+                        <NavLink to="/Login" className='pl-8  text-lg pr-8 pt-1 pb-1 border rounded-2xl bg-black cursor-pointer text-white'>Login</NavLink>
                     )
                 }
                 </div>
                 <div className='w-3/4 md:w-3/5  pt-10 flex justify-between'>
-                    <div className='flex w-auto justify-center items-center gap-1 text-xs'>
-                        <img src={internet} alt="" className='w-8' />
+                    <div className='flex w-auto justify-center items-center gap-1 text-sm'>
+                        <img src={internet} alt="" className='w-10' />
                         <p>Real <br /> Time</p>
                     </div>
-                    <div className='flex w-auto justify-center items-center gap-1 text-xs'>
-                        <img src={AI} alt="" className='w-8' />
+                    <div className='flex w-auto justify-center items-center gap-1 text-sm'>
+                        <img src={AI} alt="" className='w-10' />
                         <p>AI <br />Powered</p>
                     </div>
-                    <div className='flex w-auto justify-center items-center gap-1 text-xs'>
-                        <img src={quality} alt="" className='w-8' />
+                    <div className='flex w-auto justify-center items-center gap-1 text-sm'>
+                        <img src={quality} alt="" className='w-10' />
                         <p>Best <br />Results</p>
                     </div>
                 </div>
@@ -85,10 +85,10 @@ const Landing_Page = () => {
       {/* Content */}
       <div className="grid grid-rows-2 md:grid-cols-2 p-4 md:p-12 mt-20 mb-20">
             <div className=' flex justify-center items-center'>
-                <h1 className='text-2xl text-center md:text-left w-[90%] md:w-[40%] font-Outfit' >With the Right Software, Great Things Can Happen</h1>
+                <h1 className='text-3xl text-center md:text-left w-[90%] md:w-[40%] font-Outfit' >With the Right Software, Great Things Can Happen</h1>
             </div>
             <div className='flex ml-0  md:ml-10 items-center'>
-                <p className='text-xs font-Outfit w-[100%] mt-5 text-center md:text-left md:mt-0 md:w-[50%]'>Build your own choice of Quiz and ask to participants and check the result in real Time with advancment of AI, A next level innovation that will help you to gain more knowledge</p>
+                <p className='text- font-Outfit w-[100%] mt-5 text-center md:text-left md:mt-0 md:w-[50%]'>Build your own choice of Quiz and ask to participants and check the result in real Time with advancment of AI, A next level innovation that will help you to gain more knowledge</p>
             </div>
       </div>
     </div>
@@ -102,13 +102,13 @@ const Landing_Page = () => {
 
             <div className='w-full flex justify-center items-center pt-16'>
                 <div className='w-auto'>
-                    <p className='text-sm p-3 ' style={{"backgroundColor":"#f7f6f4"}}>How it works</p>
+                    <p className='font-Sora font-extrabold p-3 ' style={{"backgroundColor":"#f7f6f4"}}>How it works</p>
                 </div>
             </div>
 
             <div className='w-full pb-10 font-Outfit pt-2'>
                 <div className='w-full flex justify-center items-center'>
-                    <h1 className='text-2xl md:text-4xl font-space'>Start a Quiz in 3 easy Steps</h1>
+                    <h1 className='text-2xl md:text-4xl font-Sora'>Start a Quiz in 3 easy Steps</h1>
                 </div>
             </div>
 
@@ -117,28 +117,28 @@ const Landing_Page = () => {
 
                     {/* Card 1 */}
                     <div className="w-[70%] md:w-[25%] border border-gray-400 rounded-xl p-4">
-                    <p className="text-2xl mb-4">Create</p>
+                    <p className="text-3xl mb-4">Create</p>
                     <img src={create} className="w-44 pb-4" alt="" />
-                    <p className="text-xs">
-                        Select the type of quiz you want to host. Choose AI-powered or your own quiz. In your own quiz, you add questions and options. In AI-powered, you provide a prompt.
+                    <p className="text-sm">
+                        Select the type of quiz you want to host. Choose AI-powered or your own quiz. In your own quiz, you add questions and options.
                     </p>
                     </div>
 
                     {/* Card 2 */}
                     <div className="w-[70%] md:w-[25%] border border-gray-400 rounded-xl p-4">
-                    <p className="text-2xl mb-4">Manage</p>
+                    <p className="text-3xl mb-4">Manage</p>
                     <img src={Manage} className="w-44 pb-4" alt="" />
-                    <p className="text-xs">
+                    <p className="text-sm">
                         Organize all your quizzes in one place. Edit questions, update options, and customize quiz settings with just a few clicks for a seamless experience. 
                     </p>
                     </div>
 
                     {/* Card 3 */}
                     <div className="w-[70%] md:w-[25%] border border-gray-400 rounded-xl p-4">
-                    <p className="text-2xl mb-4">Analyze</p>
+                    <p className="text-3xl mb-4">Analyze</p>
                     <img src={analyze} className="w-44 pb-4" alt="" />
-                    <p className="text-xs">
-                        Track participant performance effortlessly. View detailed reports, understand answer trends, and gain insights to improve future quizzes and learning outcomes.
+                    <p className="text-sm">
+                        Track participant performance effortlessly. View detailed reports, understand answer trends, and gain insights to improve future quizzes.
                     </p>
                     </div>
 
@@ -149,7 +149,7 @@ const Landing_Page = () => {
             <section className='w-full mt-20'>
                 {/* heading */}
                 <div className='w-full flex justify-center items-center pb-5'>
-                    <h1 className='text-3xl font-space font-bold  p-3' style={{"backgroundColor":"#f7f6f4"}}>A Legacy</h1>
+                    <h1 className='text-4xl font-Sora font-bold  p-3' style={{"backgroundColor":"#f7f6f4"}}>A Legacy</h1>
                 </div>
 
                 {/* images */}
@@ -167,21 +167,21 @@ const Landing_Page = () => {
                                     <h1>By Creative.</h1>
                                 </div>
                                 <div className='w-full md:w-auto flex justify-center items-center md:justify-start md:items-start'>
-                                    <p className='font-poppins text-xs pt-7 text-center md:text-left self-center w-[90%] md:w-[70%]'>Teachers, trainers, and content creators can quickly build engaging quizzes for classrooms, workshops, or online communities. Whether you’re testing knowledge, gathering feedback, or hosting live competitions, this platform empowers your creativity with AI-powered tools with Real Time Collabration.</p>
+                                    <p className='font-poppins text-sm pt-7 text-center md:text-left self-center w-[90%] md:w-[70%]'>Teachers, trainers, and content creators can quickly build engaging quizzes for classrooms, workshops, or online communities. Whether you’re testing knowledge, gathering feedback, or hosting live competitions, this platform empowers your creativity with AI-powered tools with Real Time Collabration.</p>
                                 </div>
                             </div>
                             <div className='grid grid-cols-3 md:grid-cols-4 mt-9 pl-4'>
                                 <div className='flex gap-2 justify-center items-center'>
-                                    <img src={toolkit} className='w-10' alt="" />
-                                    <p className='text-xs font-Outfit'>All in one <br /> toolkit</p>
+                                    <img src={toolkit} className='w-14' alt="" />
+                                    <p className='text-sm font-Outfit'>All in one <br /> toolkit</p>
                                 </div>
                                 <div className='flex gap-2 justify-center items-center'>
-                                    <img src={teaching} className='w-10' alt="" />
-                                    <p className='text-xs font-Outfit'>Best Way to<br /> Teach</p>
+                                    <img src={teaching} className='w-14' alt="" />
+                                    <p className='text-sm font-Outfit'>Best Way to<br /> Teach</p>
                                 </div>
                                 <div className='flex gap-2 justify-center items-center'>
-                                    <img src={open_book} className='w-10' alt="" />
-                                    <p className='text-xs font-Outfit'>Gain <br /> Knowledge</p>
+                                    <img src={open_book} className='w-14' alt="" />
+                                    <p className='text-sm font-Outfit'>Gain <br /> Knowledge</p>
                                 </div>
                             </div>
                         </div>
@@ -192,7 +192,7 @@ const Landing_Page = () => {
             {/* section 4 what user says */}
             <section className='w-screen mt-16'>
                 <div className='w-full flex justify-center items-center'>
-                    <h1 className='font-space text-4xl'>
+                    <h1 className='font-Montserrat font-bold text-4xl'>
                         What our User say
                     </h1>
                 </div>
@@ -240,10 +240,10 @@ const Landing_Page = () => {
             <section className='w-screen'>
                 <div className='w-full flex justify-center items-center flex-col mt-20'>
                     <div className='w-full md:w-1/2 flex justify-center items-center'>
-                        <h1 className='text-center font-space text-3xl font-extralight' >Get Ready to Maximize Your Productivity With Our Workflow Solutions</h1>
+                        <h1 className='text-center font-Sora text-3xl font-extralight' >Get Ready to Maximize Your Productivity With Our Workflow Solutions</h1>
                     </div>
                     <div className='mt-5'>
-                        <button className='pl-4 pr-4 text-xs font-poppins hover:bg-amber-400 hover:border hover:border-black hover:text-black cursor- ` pt-2 pb-2 border rounded-sm bg-black text-white cursor-pointer transition-all font-medium'>Get Started</button>
+                        <button className='pl-4 pr-4 text-sm font-poppins hover:bg-amber-400 hover:border hover:border-black hover:text-black pt-2 pb-2 border rounded-sm bg-black text-white cursor-pointer transition-all font-medium'>Get Started</button>
                     </div>
                 </div>
 

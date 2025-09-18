@@ -1,27 +1,37 @@
-import { BadgePercent, Ban, BinaryIcon, ChartColumn, Cog, ExternalLink, Lightbulb, MessageCircle, MessageCircleMore, PencilLine, Timer, User, Users } from 'lucide-react'
+import { BadgePercent, Ban, BinaryIcon, ChartColumn, Cog, ExternalLink, Lightbulb, MessageCircle, MessageCircleMore, PencilLine, Share, Timer, User, Users } from 'lucide-react'
 import React, { use, useEffect, useRef, useState } from 'react'
 import { IoMdArrowRoundBack, IoMdArrowRoundForward } from 'react-icons/io'
 import { Navigate, NavLink, useNavigate, useParams } from 'react-router'
 import { useAuth } from '../../../../Context/authContext'
 import { BiReset } from 'react-icons/bi'
 import { FaCaretUp } from 'react-icons/fa'
-import PopUp from './PopUp'
-import CommentSection from './CommentSection'
-import ParticipantResponse from './ParticipantResponse'
+import PopUp from './Pop ups/PopUp'
+import CommentSection from './Pop ups/CommentSection'
+import ParticipantResponse from './Pop ups/ParticipantResponse'
 import Poll from './Types/Poll'
 import { io } from "socket.io-client"
 import Ranking from './Types/Ranking'
+import QuizEndedPopUp from './Pop ups/QuizEndedPopUp'
+import ShareLinkPopUp from './Pop ups/ShareLinkPopUp'
+import JoiningPopup from './Pop ups/JoiningPopup'
+import { toast, Bounce, ToastContainer } from 'react-toastify'
+import { Toaster } from 'react-hot-toast'
+import { TbMessage2Bolt } from 'react-icons/tb'
+import StopWatch from './Pop ups/StopWatch'
 
 const AdminLiveSession = () => {
 
   const { presentationId } = useParams();
-  const { userName } = useAuth();
+  const { userName, userId } = useAuth();
 
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [options, setOptions] = useState([]);
   const [allQuestion, setAllQuestion] = useState([]);
   const [designType, setDesignType] = useState("");
-  
+
+  const [showJoiningPopup, setShowJoiningPopup] = useState(false);
+  const [userNameJustJoined, setUserNameJustJoined] = useState("");
+
 
   // UI state
   const [comment, setComment] = useState(false);
@@ -38,12 +48,21 @@ const AdminLiveSession = () => {
   const [showCommentSection, setShowCommentSection] = useState(false);
   const [showParticipant, setShowParticipant] = useState(false);
 
-  const[showPercentage, setShowPercentage]=useState(false);
+  const [showPercentage, setShowPercentage] = useState(false);
 
   const [participantList, setParticipantList] = useState([]);
+  const [participantResponses, setParticipantResponses] = useState([]);
+
 
   const socket = useRef(null);
   // const navigate = useNavigate();
+
+  const [showQuizEnded, setShowQuizEnded] = useState(false);
+  const [shareLinkPopUp, setShareLinkPopUp] = useState(false);
+
+  
+
+  const [commentList, setCommentList] = useState([]);
 
   const addPercentageToQuestion = (question) => {
     if (!question || !question.options) return question;
@@ -61,6 +80,7 @@ const AdminLiveSession = () => {
     };
   };
 
+
   useEffect(() => {
     socket.current = io("http://localhost:9000/adminControlledQuiz", {
       transports: ["websocket", "polling"]
@@ -68,40 +88,105 @@ const AdminLiveSession = () => {
 
     socket.current.emit("joinQuizByAdmin", { presentationId });
 
+    // New question (initial or next/prev)
     socket.current.on("newQuestionForAdmin", ({ question }) => {
       const updatedQuestion = addPercentageToQuestion(question);
       setCurrentQuestion(updatedQuestion);
-      setOptions(updatedQuestion ? updatedQuestion.options : []);
-      setDesignType(updatedQuestion ? updatedQuestion.designType : "");
+      setOptions(updatedQuestion?.options || []);
+      setDesignType(updatedQuestion?.designType || "");
       console.log("Received question:", updatedQuestion);
     });
 
-    socket.current.on("voteUpdateForAdmin", ({ question }) => {
+    // Vote update — backend now sends full question object
+    socket.current.on("voteUpdate", ({ question }) => {
+      // question is entire question object (options have votes)
       const updatedQuestion = addPercentageToQuestion(question);
       setCurrentQuestion(updatedQuestion);
-      setOptions(updatedQuestion ? updatedQuestion.options : []);
-      setDesignType(updatedQuestion ? updatedQuestion.designType : "");
+      setOptions(updatedQuestion?.options || []);
+      setDesignType(updatedQuestion?.designType || "");
+      console.log("voteUpdate -> question:", updatedQuestion);
     });
 
-    socket.current.on("participantsUpdate", ({ participants })=>{
-      console.log("Participants List Updated:", participants);
+    // userResponse — append to live response log and also ensure UI sync
+    // 🔵 Live updates
+    socket.current.on("userResponse", ({ question, user, optionIndex, optionLabel, optionText }) => {
+      const updatedQuestion = addPercentageToQuestion(question);
+      setCurrentQuestion(updatedQuestion);
+      setOptions(updatedQuestion?.options || []);
+      setDesignType(updatedQuestion?.designType || "");
+
+      setParticipantResponses(prev => [
+        {
+          questionIndex: updatedQuestion.index,
+          userId: user.userId,
+          userName: user.userName,
+          optionIndex,
+          optionLabel,
+          optionText,
+          timestamp: Date.now(),
+        },
+        ...prev,
+      ]);
+    });
+
+    // 🟢 Replay old responses after refresh
+    socket.current.on("existingResponses", (responses) => {
+      setParticipantResponses(responses); // restore all old responses in log
+    });
+
+
+    // participants list
+    socket.current.on("participantsUpdate", ({ participants }) => {
       setParticipantList(participants || []);
-    })
+      if (!participants.length) return;
 
+      const latestUser = participants[0];
+      const latestUserName = latestUser?.userName || "";
 
+      setUserNameJustJoined(latestUserName); // for UI state, if needed elsewhere
+
+      // 💡 Use local variable here instead of relying on state
+      toast.success(`🎉${latestUserName} joined the quiz!`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
+    });
+
+    socket.current.emit("getComments", { presentationId });
+
+    socket.current.on("commentUpdate", ({ comments }) => {
+      console.log("Received comments:", comments);
+      setCommentList(comments || []);
+    });
+
+    socket.current.on("newComment", (comment) => {
+      setCommentList(prev => [...prev, comment]);
+      toast.success(`New Message!`, {
+        icon: <TbMessage2Bolt className='text-indigo-500 text-lg' />,
+        position: "top-right",
+        autoClose: 3000,
+      })
+    });
 
     socket.current.on("quizEnded", () => {
-      alert("Quiz has ended!");
+      setShowQuizEnded(true);
       setCurrentQuestion(null);
-      window.location = "/"
+      setOptions([]);
+      setDesignType("");
     });
-
-
 
     return () => {
       socket.current.disconnect();
     };
-  }, [presentationId]);
+  }, [presentationId]); // keep deps minimal so handlers are registered once per presentation
+
 
   const handleNextQuestion = () => {
     socket.current.emit("nextQuestion", {
@@ -121,7 +206,11 @@ const AdminLiveSession = () => {
     })
   };
 
-  
+  const sendComment = (message) => {
+    socket.current.emit("sendComment", { presentationId, userId, userName, message });
+  }
+
+
 
   const chooseDesignType = (type) => {
     switch (type) {
@@ -135,10 +224,40 @@ const AdminLiveSession = () => {
 
   }
 
+  const [startingTimer, setStartingTimer] = useState(false);
+  const setTimerDetails = () => {
+    setStartingTimer(!startingTimer);
+  }
+
 
   return (
-    <div className='relative overflow-hidden w-screen h-screen bg-stone-200 flex flex-col items-center   '>
+    <div className='relative top-0  left-0 z-50 overflow-hidden w-screen h-screen bg-stone-200 flex flex-col items-center   '>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
+      <div>
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+        />
+      </div>
 
+      {startingTimer &&<div><StopWatch timeGiven={60} /></div>}
+
+      {shareLinkPopUp && <ShareLinkPopUp presentationId={presentationId} onClose={() => setShareLinkPopUp(false)} />}
+      {showQuizEnded && <QuizEndedPopUp />}
+
+      {/* Top Navbar */}
       <div className='w-screen h-12 bg-white '>
         <div className='flex h-full justify-between pr-7 pl-7 items-center'>
           <div className='font-Outfit flex gap-3 h-full justify-center items-center'>
@@ -178,9 +297,9 @@ const AdminLiveSession = () => {
             <div className='h-6 w-1 border-l border-l-stone-400'></div>
 
             <div>
-              <button className=' pt-1 pb-1 pr-3 pl-3 flex gap-1 bg-indigo-400 items-center justify-center text-white rounded-4xl text-xs '>
+              <button className=' pt-1 pb-1 pr-3 pl-3 flex gap-1 cursor-pointer bg-indigo-400 items-center justify-center text-white rounded-4xl text-xs '>
                 <ExternalLink size={13} />
-                <p className=''>Share Link</p>
+                <p onClick={() => setShareLinkPopUp(true)} className=''>Share Link</p>
               </button>
             </div>
             <div>
@@ -193,28 +312,16 @@ const AdminLiveSession = () => {
         </div>
       </div>
 
-      <div className='absolute top-20 left-20'>
-        <div className='bg-white cursor-pointer flex justify-center items-center flex-col p-4 text-sm border border-white rounded-full font-Outfit '
-          onMouseEnter={() => setTimerInfo(true)}
-          onMouseLeave={() => setTimerInfo(false)}>
-          <div className='flex absolute top-2 left-[18px]'>
-            <PopUp isVisible={timerInfo} value={"Respond the Question under Given Time!"} />
-          </div>
-          <div>
-            <h1>60</h1>
-          </div>
+      
 
-        </div>
-      </div>
-
-      <div className='w-screen h-[500px] flex justify-center items-center '>
+      <div className='w-screen h-[100%] lg:h-[80%] flex justify-center items-center '>
         {
           chooseDesignType(designType)
         }
       </div>
 
-      <div className='fixed h-10 w-screen top-[86%] flex justify-center items-center'>
-        <div className='h-[100%]  pl-7 pr-7 flex justify-center items-center gap-5 rounded-3xl drop-shadow-2xl bg-white'>
+      <div className='fixed  w-screen top-[86%] flex justify-center items-center'>
+        <div className='h-[100%] pt-2 pb-2 pl-7 pr-7 flex justify-center items-center gap-5 rounded-3xl drop-shadow-2xl bg-white'>
 
           <div
             onMouseEnter={() => setCurrentParticipant(true)}
@@ -222,28 +329,28 @@ const AdminLiveSession = () => {
             className='cursor-pointer relative'
           >
             <PopUp isVisible={currentParticipant} value={"Participant responded"} />
-            <Users onClick={() => { setShowCommentSection(false); setShowParticipant(!showParticipant) }} className='' size={17} />
+            <Users onClick={() => { setShowCommentSection(false); setShowParticipant(!showParticipant) }} className='' size={20} />
           </div>
           {
-          showPercentage ?  
-          <div
-            onMouseEnter={() => setComment(true)}
-            onMouseLeave={() => setComment(false)}
-            onClick={()=>setShowPercentage(!showPercentage)}
-            className='cursor-pointer relative'
-          >
-            <PopUp isVisible={comment} value={"Show Response in Number"} />
-            <BinaryIcon className='transition-all duration-500 ease-in-out' size={17} />
-          </div> : 
-            <div
-            onMouseEnter={() => setComment(true)}
-            onMouseLeave={() => setComment(false)}
-            onClick={()=>setShowPercentage(!showPercentage)}
-            className='cursor-pointer relative'
-          >
-            <PopUp isVisible={comment} value={"Show Response in Percentage"} />
-            <BadgePercent className='transition-all duration-500 ease-in-out' size={17} />
-          </div> 
+            showPercentage ?
+              <div
+                onMouseEnter={() => setComment(true)}
+                onMouseLeave={() => setComment(false)}
+                onClick={() => setShowPercentage(!showPercentage)}
+                className='cursor-pointer relative'
+              >
+                <PopUp isVisible={comment} value={"Show Response in Number"} />
+                <BinaryIcon className='transition-all duration-500 ease-in-out' size={20} />
+              </div> :
+              <div
+                onMouseEnter={() => setComment(true)}
+                onMouseLeave={() => setComment(false)}
+                onClick={() => setShowPercentage(!showPercentage)}
+                className='cursor-pointer relative'
+              >
+                <PopUp isVisible={comment} value={"Show Response in Percentage"} />
+                <BadgePercent className='transition-all duration-500 ease-in-out' size={20} />
+              </div>
           }
 
 
@@ -252,7 +359,7 @@ const AdminLiveSession = () => {
             className='cursor-pointer relative'
           >
             <PopUp isVisible={analytics} value={"View Full Analytics"} />
-            <ChartColumn size={17} />
+            <ChartColumn size={20} />
           </div>
           <div className='flex h-full justify-center items-center gap-2'>
             <div
@@ -270,7 +377,7 @@ const AdminLiveSession = () => {
               <div className='absolute top-1 flex left-2'>
                 <PopUp isVisible={shareLink} value={"Share the Link to all"} />
               </div>
-              <Lightbulb className='text-amber-500 ' size={15} />
+              <Lightbulb className='text-amber-500 ' size={17} />
             </div>
             <div className='cursor-pointer relative '
               onClick={handleNextQuestion}
@@ -282,12 +389,13 @@ const AdminLiveSession = () => {
           </div>
           {/* Timer Icon with Hover Tooltip */}
           <div
-            className='cursor-pointer  relative'
+            className={`cursor-pointer rounded-full  relative`}
             onMouseEnter={() => setStopWatch(true)}
             onMouseLeave={() => setStopWatch(false)}
+            onClick={setTimerDetails}
           >
-            <PopUp isVisible={stopWatch} value={"Start Timer"} />
-            <Timer size={17} className='' />
+            <PopUp isVisible={stopWatch}  value={"Start Timer"} />
+            <Timer size={20} className={``} />
           </div>
 
           {/* Reset Icon with Hover Tooltip */}
@@ -297,7 +405,7 @@ const AdminLiveSession = () => {
             onMouseLeave={() => setResetResult(false)}
           >
             <PopUp isVisible={resetResult} value={"Reset Result"} />
-            <BiReset size={17} />
+            <BiReset size={20} />
           </div>
 
           <div
@@ -307,26 +415,31 @@ const AdminLiveSession = () => {
             onClick={() => { setShowCommentSection(!showCommentSection); setShowParticipant(false) }}
           >
             <PopUp isVisible={openComment} value={"Open Comment Section"} />
-            <MessageCircleMore size={17} />
+            <MessageCircleMore size={20} />
           </div>
 
         </div>
       </div>
 
       {/* comment section :  */}
-      <div className={`absolute top-[22%] left-[73%] transition-all ease-in-out duration-500 ${showCommentSection ? 'opacity-100 ' : 'opacity-0   pointer-events-none'}`}>
+      <div className={`absolute top-[20%] left-[10%] sm:left-[50%] md:left-[60%] lg:left-[73%] transition-all ease-in-out duration-500 ${showCommentSection ? 'opacity-100 ' : 'opacity-0   pointer-events-none'}`}>
         <CommentSection
           onClose={() => setShowCommentSection(!showCommentSection)}
+          sendComment={sendComment}
           isVisible={showCommentSection}
+          commentList={commentList}
         />
       </div>
-      <div className={`absolute top-[16%] left-[73%] transition-all ease-in-out duration-500 ${showParticipant ? 'opacity-100 ' : 'opacity-0   pointer-events-none'}`}>
+      <div className={`absolute top-[23%] left-[10%] sm:left-[50%] md:left-[60%] lg:left-[73%] transition-all ease-in-out duration-500 ${showParticipant ? 'opacity-100 ' : 'opacity-0   pointer-events-none'}`}>
         <ParticipantResponse
-          participantList = {participantList}
-          onClose={() => setShowParticipant(!showParticipant)}
           isVisible={showParticipant}
+          onClose={() => setShowParticipant(false)}
+          participantList={participantList}
+          participantResponses={participantResponses} // pass the live log
         />
+
       </div>
+
     </div>
   )
 }

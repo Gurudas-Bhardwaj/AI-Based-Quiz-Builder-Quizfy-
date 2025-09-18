@@ -1,6 +1,6 @@
 import React from 'react'
 
-const HeroPage = () => {
+const UserLiveSession = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const HeroPage = () => {
   )
 }
 
-export default HeroPage
+export default UserLiveSession

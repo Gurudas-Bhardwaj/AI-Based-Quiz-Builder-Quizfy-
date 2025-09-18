@@ -92,7 +92,7 @@ const MyPresentation = () => {
 
         <div className='w-full flex flex-col js pt-8 pl-8 gap-4 items-start'>
           <div className='flex'>
-            <h1 className='text-2xl font-space font-bold'>
+            <h1 className='text-3xl font-space font-bold'>
               My Presentations
             </h1>
           </div>
@@ -138,11 +138,11 @@ const MyPresentation = () => {
                     {
                       presentations.map((key, index) =>
                         <div key={index} className='flex w-full '>
-                          <div onClick={()=>navigateToPres(key._id)} className='w-[45%] flex gap-3  items-center cursor-pointer'>
+                          <div onClick={()=>navigateToPres(key._id)} className='w-[45%] flex gap-4 items-center cursor-pointer'>
                             <div className='h-5 w-5 bg-stone-200 rounded-full flex justify-center items-center'>
                               <FaPlay className='text-black text-[8px] ' />
                             </div>
-                            <h1>{key.title}</h1>
+                            <h1 className='text-sm'>{key.title}</h1>
                           </div>
                           <div className='w-[15%] text-gray-600 flex items-center'>
                             <h1>Me</h1>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const UserHome = () => {
+const Live = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const UserHome = () => {
   )
 }
 
-export default UserHome
+export default Live

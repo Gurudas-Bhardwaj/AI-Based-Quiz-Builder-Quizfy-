@@ -16,11 +16,11 @@ const appLayout = () => {
         <SideBar/>
       </div>
 
-      <div className='overflow-x-hidden w-[90%] md:w-4/5'>
+      <div className='overflow-x-hidden w-[85%] md:w-4/5'>
         <Outlet/>
       </div>
 
-      <div className='w-[10%] md:w-[0%] overflow-x-hidden' onClick={()=>{setOpen(!open)}}>
+      <div className='w-[15%] md:w-[0%] overflow-x-hidden' onClick={()=>{setOpen(!open)}}>
         <img src={menu} className='w-5 flex md:hidden displayMenu mt-8' alt="" />
         <SlidingSideBar isopen={open} onClose={() => setOpen(false)}/>
       </div>

@@ -20,7 +20,7 @@ const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) =>
 
     const navigate = useNavigate();
 
-    const {role} = useAuth();
+    const { role } = useAuth();
 
     const [showSlide, setShowSlide] = useState(false);
     const [localQuestion, setLocalQuestion] = useState(currentQuestion.question);
@@ -146,32 +146,32 @@ const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) =>
 
     }
 
-    
-        const debounceForPres = useRef(null);
-        const updatePresentationName = (newName) => {
-            setPresentationName(newName);
-    
-            if (debounceForPres.current)
-                clearTimeout(debounceForPres.current);
-    
-            debounceForPres.current = setTimeout(async () => {
-                try {
-                    const response = await fetch("http://localhost:9000/handleQuestions/presentation/editTitle", {
-                        method: "PATCH",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({ presentationId, presentationName: newName, role }),
-                    });
-                    const data = await response.json();
-                    console.log(data)
-                }
-                catch (e) {
-                    console.log("Error : ", e)
-                }
-            }, 2000)
-        }
-    
+
+    const debounceForPres = useRef(null);
+    const updatePresentationName = (newName) => {
+        setPresentationName(newName);
+
+        if (debounceForPres.current)
+            clearTimeout(debounceForPres.current);
+
+        debounceForPres.current = setTimeout(async () => {
+            try {
+                const response = await fetch("http://localhost:9000/handleQuestions/presentation/editTitle", {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ presentationId, presentationName: newName, role }),
+                });
+                const data = await response.json();
+                console.log(data)
+            }
+            catch (e) {
+                console.log("Error : ", e)
+            }
+        }, 2000)
+    }
+
 
     const switchQuestions = async (questionID) => {
         setSelectedQuestion(questionID);
@@ -205,7 +205,7 @@ const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) =>
                             <GoPlus />
                             <p>New Slide</p>
                         </button>
-                        <div className='h-[400px] flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                        <div className='h-[500px] flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                             {allQuestion.map((key, index) => (
                                 <div
                                     onClick={() => switchQuestions(key._id)}
@@ -229,24 +229,23 @@ const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) =>
                 <div className='flex w-full h-full justify-center '>
                     <section className='w-0 lg:w-[10%]  pt-6 hidden lg:flex justify-center'>
                         <div className='flex  flex-col gap-4 items-center w-full'>
-                            <button onClick={() => setNewSlideAppearence(!NewSlideAppreance)} className='flex justify-center text-[13px] gap-1 pt-2 pb-2 pr-6 pl-6 bg-stone-900 text-white items-center font-Outfit rounded-2xl cursor-pointer'>
+                            <button onClick={() => setNewSlideAppearence(!NewSlideAppreance)} className='flex justify-center text-[15px] gap-1 pt-2 pb-2 pr-6 pl-6 bg-stone-900 text-white items-center font-Outfit rounded-2xl cursor-pointer'>
                                 <GoPlus />
                                 New Slide
                             </button>
-                            <div className='h-[400px] flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                            <div className='h-[500px] flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                                 {allQuestion.map((key, index) => (
                                     <div
                                         onClick={() => switchQuestions(key._id)}
                                         key={key._id}
-                                        className='w-full h-16 flex justify-center gap-1 cursor-pointer'
+                                        className='w-full h-24 flex justify-center gap-1 cursor-pointer'
                                     >
                                         <p className='font-Outfit text-xs pt-2'>{index + 1}</p>
-                                        <div
-                                            className={`w-full h-16 border-2 flex justify-center flex-col items-center ${selectedQuestion === key._id ? 'border-indigo-300' : 'border-gray-200'} rounded-xl bg-center ${key.designTemplate} bg-cover gap-1`}>
+                                        <div className={`w-full h-20 border-2 flex justify-center flex-col items-center ${selectedQuestion === key._id ? 'border-indigo-300' : 'border-gray-200'} rounded-xl bg-center ${key.designTemplate} bg-cover gap-1`}>
                                             {
                                                 setIcon(key.designType)
                                             }
-                                            <h1 className='text-[7px] text-center font-Outfit'>{key.question}</h1>
+                                            <h1 className='text-[9px] text-center font-Outfit'>{key.question}</h1>
                                         </div>
                                     </div>
                                 ))}
@@ -255,15 +254,15 @@ const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) =>
                         </div>
                     </section>
 
-                    <section className='w-[100%] md:w-[90%] lg:w-[60%] flex justify-center '>
-                        <div className='w-full h-auto flex flex-col mt-6 items-center '>
+                    <section className='w-[100%] h-[500px] md:w-[90%] lg:w-[60%] flex justify-center '>
+                        <div className='w-full h-full flex flex-col mt-6 items-center '>
 
-                            <div className={`h-[80%] bg-cover bg-center ${designTemplate} w-[95%] text-white`}>
-                                <div className={`w-full text-black font-Outfit text-2xl pt-7 pl-7`}>
+                            <div className={`h-[100%] bg-cover bg-center ${designTemplate} w-[95%] text-white`}>
+                                <div className={`w-full h-[10%] text-black font-Outfit text-2xl pt-7 pl-7`}>
                                     <h1>Q) {localQuestion}</h1>
                                 </div>
-                                <div className='w-full flex justify-center mt-10 items-center h-[70%]'>
-                                    <div className='w-[95%] md:w-[85%] grid grid-cols-4 place-items-center gap-4 h-full'>
+                                <div className='w-full flex justify-center  items-center h-[90%]'>
+                                    <div className='w-[95%] md:w-[85%] grid grid-cols-4 place-items-center gap-4 h-[70%]'>
 
                                         {localOptions.map((key, index) => (
                                             <div key={index} className='w-full h-full font-Outfit flex flex-col justify-end items-center'>
@@ -285,7 +284,7 @@ const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) =>
 
                     <section className='w-[10%] lg:w-[30%] h-full hidden   sm:flex justify-center '>
                         <div className='w-full h-auto flex justify-center gap-2'>
-                            <div className='bg-white h-[400px] overflow-auto mt-6 border border-white rounded-2xl w-[75%] hidden lg:flex flex-col gap-6'>
+                            <div className='bg-white h-[600px] overflow-auto mt-6 border border-white rounded-2xl w-[75%] hidden lg:flex flex-col gap-6'>
                                 <div className='h-auto flex justify-center w-full overflow-auto items-center'>
                                     <div className='flex pt-5 pl-2 pr-4 justify-between w-full items-center '>
                                         <h1 className='flex gap-1 justify-center items-center text-sm font-Outfit'><MdEdit />Editing Section : </h1>

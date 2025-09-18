@@ -13,22 +13,36 @@ const JoinPresentation = ({ isVisible, onClose }) => {
     }
 
     return (
-        <div className={`w-screen h-screen flex font-Outfit justify-center items-center transition-all duration-500 ease-out inset-0 bg-black/70 ${isVisible ? 'opacity-100 ' : 'opacity-0   pointer-events-none'}`}>
-
-            <div className='w-[90%] md:w-[40%] h-auto bg-white rounded-2xl p-6'>
-                <div className='w-full flex justify-end'>
-                    <CirclePlus className='h-6 w-6 rotate-45 text-red-500 hover:text-red-400 cursor-pointer' onClick={onClose} />
+        <div className={`fixed inset-0 z-50 flex font-Outfit justify-center items-center transition-all duration-500 ease-out bg-black/70 backdrop-blur-lg ${isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} >
+            <div className='relative w-[95%] max-w-md max-h-[400px] bg-white/80 bg-clip-padding backdrop-blur-xl border border-white/30 rounded-3xl shadow-2xl flex flex-col p-8 animate-fadeInUp overflow-auto' >
+                {/* Close Button */}
+                <button onClick={onClose} className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/80 hover:bg-red-100 shadow transition-all">
+                    <CirclePlus className='h-6 w-6 rotate-45 text-red-500 hover:text-red-400 transition' />
+                </button>
+                <div className="flex flex-col items-center justify-center gap-2 mt-2 mb-4">
+                    <h2 className='font-extrabold text-2xl text-gray-800 flex items-center gap-2'>
+                        <CirclePlus className="text-indigo-500" size={26} />
+                        Join a Presentation
+                    </h2>
+                    <p className='text-sm text-gray-500 text-center font-Sora'>Enter the presentation link to join an existing session.</p>
                 </div>
-                <h2 className='font-bold text-lg  text-center'>Join a Presentation</h2>
-                <p className='text-sm text-gray-600 mb-4 text-center    '>Enter the presentation code to join an existing presentation.</p>
-                <input value={presentationLink} onChange={(e) => setPresentationLink(e.target.value)} type="text" className='border border-gray-300 rounded-md p-2 w-full mb-4' placeholder='Presentation Link' />
-                <div className='flex justify-between'>
-                    <button onClick={Join} className='bg-blue-500 text-white rounded-md p-2 w-full'>Join</button>
-                    
-                </div>
+                <input 
+                    value={presentationLink} 
+                    onChange={(e) => setPresentationLink(e.target.value)} 
+                    type="text" 
+                    className='border-2 border-indigo-200 focus:border-indigo-400 outline-none rounded-xl px-4 py-2 w-full mb-5 bg-white/80 shadow-inner transition-all' 
+                    placeholder='Paste Presentation Link here...' 
+                />
+                <button 
+                    onClick={Join} 
+                    disabled={!presentationLink}
+                    className={`w-full flex items-center justify-center gap-2 py-2 rounded-xl font-semibold text-base shadow-lg transition-all duration-200
+                        ${presentationLink ? 'bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 text-white hover:scale-105 hover:shadow-xl' : 'bg-gray-300 text-gray-400 cursor-not-allowed'}`}
+                >
+                    <CirclePlus className="text-white/80" size={18} />
+                    Join
+                </button>
             </div>
-
-
         </div>
     )
 }

@@ -56,7 +56,7 @@ const OpenEndedType = ({ questionId, question, designTemplate }) => {
     ];
 
     return (
-        <div className='bg-stone-200 h-[500px] w-screen  overflow-hidden overflow-y-hidden'>
+        <div className='bg-stone-200 h-[600px] w-screen  overflow-hidden overflow-y-hidden'>
             <div className='flex w-full h-full justify-center '>
                 <section className='w-[10%] pt-6 flex justify-center'>
                     <div className='flex  flex-col gap-4 items-center w-full'>
@@ -66,7 +66,7 @@ const OpenEndedType = ({ questionId, question, designTemplate }) => {
                         </button>
                         <div className='w-full h-14 flex justify-center gap-2'>
                             <p className='font-Outfit text-xs pt-2'>1</p>
-                            <div className={`w-[80%] ${designTemplate} border flex justify-center flex-col items-center border-indigo-300 rounded-2xl h-14 gap-1 bg-cover bg-center`}>
+                            <div className={`w-[80%] ${designTemplate} border flex justify-center flex-col items-center border-indigo-300 rounded-2xl h-20 gap-1 bg-cover bg-center`}>
                                 <PiRankingDuotone className='text-sm' />
                                 <h1 className={`text-[7px] text-center font-Outfit`}>{localQuestion}</h1>
                             </div>

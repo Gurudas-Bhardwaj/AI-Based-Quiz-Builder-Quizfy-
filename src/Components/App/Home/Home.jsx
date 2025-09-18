@@ -53,18 +53,18 @@ const Home = () => {
 
             <div className='pl-10  pt-10'>
               <div className='w-full '>
-                <h1 className='font-Montserrat font-bold inline text-2xl'>Welcome {userName.split(" ")[0]}!</h1>
+                <h1 className='font-Montserrat font-bold inline text-3xl'>Welcome {userName.split(" ")[0]}!</h1>
               </div>
 
               <div className='mt-8'>
                 <div className='flex flex-col sm:flex-row justify-center items-center sm:justify-start gap-4'>
                   <div >
-                    <button className='pt-1 flex justify-between items-center gap-4 pb-1 pl-4 pr-4 text-xs rounded-2xl text-white bg-gray-950 font-Outfit'>New Task ! <span className='border-l pl-2 border-l-gray-400'>
+                    <button className='pt-1 flex justify-between items-center gap-4 pb-1 pl-4 pr-4 text-sm rounded-2xl text-white bg-gray-950 font-Outfit'>New Task ! <span className='border-l pl-2 border-l-gray-400'>
                         <img src={down} className='w-5 rotate-90 bg-white rounded-full' alt="" />
                       </span></button>
                   </div>
                   <div>
-                    <button className='pt-1 cursor-pointer flex justify-between items-center gap-1 pb-1 pl-4 pr-5 text-[13px] rounded-2xl border-2 border-black font-Outfit'> <span className=''>
+                    <button className='pt-1 cursor-pointer flex justify-between items-center gap-1 pb-1 pl-4 pr-5 text-[14px] rounded-2xl border-2 border-black font-Outfit'> <span className=''>
                         <img src={AI} className='w-4' alt="" />
                       </span>Start with AI</button>
                   </div>
@@ -72,7 +72,7 @@ const Home = () => {
 
                 <div className='w-full flex mt-6'>
                     <div className='w-[80%] flex flex-col pl-8 pt-6 rounded-2xl pr-8' style={{"backgroundColor":"#f8f8fe"}}>
-                        <div className='font-space text-[13px] font-bold'>
+                        <div className='font-space text-[16px] font-bold'>
                           <p>Create Presentations</p>
                         </div>
 
@@ -91,7 +91,7 @@ const Home = () => {
 
                 <div className='w-full flex mt-8 mb-8'>
                     <div className='w-[80%] flex flex-col pl-8 pt-6 rounded-2xl pr-8' style={{"backgroundColor":"#f8f8fe"}}>
-                        <div className='font-space text-[13px] font-bold'>
+                        <div className='font-space text-[16px] font-bold'>
                           <p>Join Quizies</p>
                         </div>
 

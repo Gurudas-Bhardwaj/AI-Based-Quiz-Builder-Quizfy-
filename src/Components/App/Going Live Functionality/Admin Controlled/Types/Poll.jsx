@@ -29,8 +29,8 @@ const Poll = ({ currentQuestion, showRespInPercen }) => {
   return (
     <section className="h-full w-full flex justify-center">
       <div className="w-full h-auto flex flex-col mt-6 items-center">
-        <div className={`h-[96%] bg-cover bg-center ${designTemplate} w-[72%] text-white`}>
-          <div className="w-full text-black font-Outfit text-2xl pt-7 pl-7">
+        <div className={`h-[96%] bg-cover bg-center ${designTemplate} w-[97%] sm:w-[88%] md:w-[80%] lg:w-[72%] text-white`}>
+          <div className="w-full h-[20%] text-black font-Outfit text-2xl pt-7 pl-7">
             <h1>Q) {localQuestion}</h1>
           </div>
           <div className="w-full flex justify-center items-center h-[70%]">
