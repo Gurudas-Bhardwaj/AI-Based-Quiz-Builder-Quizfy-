@@ -6,8 +6,12 @@ import { useNavigate } from 'react-router';
 
 const ChoiceBTW_ADM_USER = ({ onClose, isVisible, presentationId }) => {
     const navigate = useNavigate();
-    const goToLivePage = ()=>{
-        navigate(`/Admin/Quiz/Live/${presentationId}`);
+    const goToAdminLivePage = ()=>{
+        navigate(`/AdminControlled/Quiz/Live/${presentationId}`);
+    }
+
+    const goToUserLivePage = ()=>{
+        navigate(`/UserControlled/Quiz/Live/${presentationId}`);
     }
 
 
@@ -31,7 +35,7 @@ const ChoiceBTW_ADM_USER = ({ onClose, isVisible, presentationId }) => {
 
                 {/* Options */}
                 <div className="space-y-7 font-Outfit">
-                    <div onClick={goToLivePage} className="group p-6 border-2 border-indigo-200 flex justify-center items-center flex-col rounded-2xl cursor-pointer hover:shadow-2xl hover:scale-[1.03] transition bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 relative overflow-hidden">
+                    <div onClick={goToAdminLivePage} className="group p-6 border-2 border-indigo-200 flex justify-center items-center flex-col rounded-2xl cursor-pointer hover:shadow-2xl hover:scale-[1.03] transition bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 relative overflow-hidden">
                         <span className="absolute -top-6 -right-6 opacity-20 text-indigo-300 text-8xl pointer-events-none select-none"><Crown size={80} /></span>
                         <h3 className="font-bold text-lg flex items-center gap-2 text-indigo-700 mb-1">
                             <Crown className="text-yellow-400" size={24} /> Admin Controlled Quiz
@@ -48,7 +52,7 @@ const ChoiceBTW_ADM_USER = ({ onClose, isVisible, presentationId }) => {
                         <span className="text-gray-500 text-sm px-2 py-1 bg-gray-100 rounded-full shadow-sm font-Outfit">or</span>
                         <div className="flex-grow h-[1px] bg-gradient-to-r from-indigo-200 via-pink-200 to-purple-200"></div>
                     </div>
-                    <div className="group p-6 flex flex-col justify-center items-center border-2 border-green-200 rounded-2xl cursor-pointer opacity-70 bg-gradient-to-r from-blue-100 via-green-100 to-teal-100 relative overflow-hidden  hover:shadow-2xl hover:scale-[1.03] transition-all ease-in-out duration-75">
+                    <div onClick={goToUserLivePage} className="group p-6 flex flex-col justify-center items-center border-2 border-green-200 rounded-2xl cursor-pointer opacity-70 bg-gradient-to-r from-blue-100 via-green-100 to-teal-100 relative overflow-hidden  hover:shadow-2xl hover:scale-[1.03] transition-all ease-in-out duration-75">
                         <span className="absolute -top-6 -left-6 opacity-20 text-green-300 text-8xl pointer-events-none select-none"><Users size={80} /></span>
                         <h3 className="font-bold text-lg w-full justify-center flex items-center gap-2 text-green-700 mb-1">
                             <FaUserFriends className="text-green-400" size={22} /> User Controlled Quiz

@@ -18,8 +18,11 @@
   const Home = lazy(() => import("./Components/App/Home/Home.jsx"));
   const PresentationView = lazy(() => import("./Components/App/Presentation/PresentationView.jsx"));
 
-  const LazyLive = lazy(() => import("./Components/User/Going Live/Live.jsx"));
+  const LazyAdminControlledLive = lazy(() => import("./Components/User/Going Live/Live.jsx"));
 
+  const LazyUserControlledLive = lazy(()=> import("./Components/User/User Live Session/Live.jsx"));
+
+  const UserLiveSession = lazy(()=> import("./Components/App/Going Live Functionality/User Controlled/AdminUserControlledLanding.jsx"))
 
   const route = createBrowserRouter([
     {
@@ -78,17 +81,29 @@
     },
 
     {
-      path: "/Admin/Quiz/Live/:presentationId",
-      element: <AdminLiveSession />
+      path: "/AdminControlled/Quiz/Live/:presentationId",
+      element: <Suspense fallback={<Basic />}>
+        <ForUnLoggedUser>
+        <AdminLiveSession />
+        </ForUnLoggedUser>
+      </Suspense>
     },
     {
       path: "/Join/Quiz/Live/:presentationId",
       element: <Suspense fallback={<Basic />}>
         <ForUnLoggedUser>
-        <LazyLive />
+        <LazyAdminControlledLive />
         </ForUnLoggedUser>
       </Suspense>
     },
+    {
+      path : "/UserControlled/Quiz/Live/:presentationId",
+      element : <Suspense fallback={<Basic/>}>
+        <ForUnLoggedUser>
+          <UserLiveSession/>
+        </ForUnLoggedUser>
+      </Suspense>
+    }
 
   ])
 
