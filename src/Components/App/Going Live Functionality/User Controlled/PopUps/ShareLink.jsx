@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react'
 import logo from '../../../../../assests/Images/Logo/LOGO.png'
 import Slogan from '../../../../Messages/Slogan.jsx'
 
-const ShareLinkPopUp = ({presentationId, onClose}) => {
-    const [link, setLink] = useState(`http://localhost:5173/Join/AdminControlledQuiz/Live/${presentationId}`);
+const ShareLink = ({presentationId, onClose}) => {
+    const [link, setLink] = useState(`http://localhost:5173/Join/UserControlledQuiz/Live/${presentationId}`);
     const[show,setShow] = useState(false);
 
     useEffect(() => {
-        setLink(`http://localhost:5173/Join/AdminControlledQuiz/Live/${presentationId}`);
+        setLink(`http://localhost:5173/Join/UserControlledQuiz/Live/${presentationId}`);
     }, [presentationId]);
 
     const copyLink = () => {
@@ -56,4 +56,4 @@ const ShareLinkPopUp = ({presentationId, onClose}) => {
   )
 }
 
-export default ShareLinkPopUp
+export default ShareLink

@@ -13,6 +13,7 @@ import { PiNotePencilBold, PiPencilSimpleLight } from 'react-icons/pi';
 import { TbTrash } from 'react-icons/tb';
 import { FaPencil } from 'react-icons/fa6';
 import { ChartBarBig, Pencil, Radio, SquarePen } from 'lucide-react';
+import { MdDeleteSweep } from 'react-icons/md';
 
 const MyPresentation = () => {
 
@@ -132,7 +133,7 @@ const MyPresentation = () => {
                     </div>
                   </div>
 
-                  <div className='w-full font-Sora text-xs  flex flex-col gap-3  h-[200px] overflow-auto'>
+                  <div className='w-full font-Sora text-xs  flex flex-col gap-3  h-[300px] overflow-auto'>
 
 
                     {
@@ -147,21 +148,17 @@ const MyPresentation = () => {
                           <div className='w-[15%] text-gray-600 flex items-center'>
                             <h1>Me</h1>
                           </div>
-                          <div className='w-[25%] flex text-gray-600 items-center'>
+                          <div className='w-[20%] flex text-gray-600 items-center'>
                             <h1>{new Date(key.createdAt).toLocaleDateString("en-US", {
                               year: "numeric",
                               month: "long",
                               day: "numeric"
                             })}</h1>
 
-                            <div className=' relative -top-10 left-[70%] text-black bg-white border border-white shadow-sm p-2 rounded-xl'>
-                              <div>
-                                
-                              </div>
-                            </div>
+                            
                           </div>
-                          <div className='w-[15%] flex items-center'>
-                            <BsThreeDots className='text-xl cursor-pointer' />
+                          <div className=' flex items-center'>
+                            <MdDeleteSweep className='text-xl text-red-500 cursor-pointer' />
                           </div>
                         </div>
                       )
