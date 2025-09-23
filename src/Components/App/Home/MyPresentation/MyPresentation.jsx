@@ -66,6 +66,30 @@ const MyPresentation = () => {
     navigate(`/App/AdminPanel/Presentation/${presentationId}`)
   }
 
+  const deletePresentation = async (presentationId) => {
+    try {
+      const response = await fetch("http://localhost:9000/handleQuestions/DeletePresenation", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ presentationId })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.log(data);
+        return;
+      }
+
+      setPresentations((prevPresentations) =>
+        prevPresentations.filter((presentation) => presentation._id !== presentationId)
+      );
+    }
+    catch (e) {
+      console.error("Error deleting presentation:", e);
+    }
+  }
+
   return (
     <main className='w-full overflow-hidden'>
       <div className='w-full flex flex-col pl-4'>
@@ -139,7 +163,7 @@ const MyPresentation = () => {
                     {
                       presentations.map((key, index) =>
                         <div key={index} className='flex w-full '>
-                          <div onClick={()=>navigateToPres(key._id)} className='w-[45%] flex gap-4 items-center cursor-pointer'>
+                          <div onClick={() => navigateToPres(key._id)} className='w-[45%] flex gap-4 items-center cursor-pointer'>
                             <div className='h-5 w-5 bg-stone-200 rounded-full flex justify-center items-center'>
                               <FaPlay className='text-black text-[8px] ' />
                             </div>
@@ -155,10 +179,10 @@ const MyPresentation = () => {
                               day: "numeric"
                             })}</h1>
 
-                            
+
                           </div>
                           <div className=' flex items-center'>
-                            <MdDeleteSweep className='text-xl text-red-500 cursor-pointer' />
+                            <MdDeleteSweep className='text-xl text-red-500 cursor-pointer' onClick={() => deletePresentation(key._id)} />
                           </div>
                         </div>
                       )

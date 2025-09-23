@@ -3,9 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { NavLink, useParams } from 'react-router';
 import { useAuth } from '../../../../Context/authContext';
-import CommentSection from '../Admin Controlled/Pop ups/CommentSection';
 import BasicPopUp from './PopUps/BasicPopUp';
-import ParticipantInRoom from './PopUps/ParticipantInRoom';
 import { MdOutlinePoll } from 'react-icons/md';
 import { FaComment } from 'react-icons/fa';
 import { io } from 'socket.io-client';
@@ -18,6 +16,9 @@ import QuizEndedPopUp from '../Admin Controlled/Pop ups/QuizEndedPopUp';
 import CommentPage from './Main Files/CommentPage';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 import { TbMessage2Bolt } from 'react-icons/tb';
+import ParticipantsPage from './Main Files/ParticipantsPage';
+import { TiUserAdd } from 'react-icons/ti';
+import { AiFillBug } from 'react-icons/ai';
 
 const AdminUserControlledLanding = () => {
   const { userName, userId } = useAuth();
@@ -40,6 +41,8 @@ const AdminUserControlledLanding = () => {
   const [quizEnded, setQuizEnded] = useState(false);
 
   const [commentList, setCommentList] = useState([]);
+  const [participantList, setParticipantList] = useState([]);
+  const [recentlyJoined, setRecentlyJoined] = useState("");
 
   const containerRef = useRef(null);
 
@@ -91,7 +94,7 @@ const AdminUserControlledLanding = () => {
     });
 
     socket.current.on("newComment", (comment) => {
-      console.log("New Comment recieved " , comment)
+      console.log("New Comment recieved ", comment)
       setCommentList(prev => [...prev, comment]);
       toast.success(`New Message!`, {
         icon: <TbMessage2Bolt className='text-indigo-500 text-lg' />,
@@ -99,6 +102,26 @@ const AdminUserControlledLanding = () => {
         autoClose: 3000,
       })
     });
+
+    socket.current.on("participantsList", ({ participants }) => {
+      console.log(participants);
+      setParticipantList(participants || []);
+    });
+    
+    socket.current.on("participantsUpdate", ({ participants }) => {
+      console.log(participants);
+      setParticipantList(participants || []);
+      if (participants.length > 0){
+        toast(`😉 Someone Just Joined!`, {
+          position: "top-right",
+          autoClose: 3000,
+        })
+      }
+    })
+    socket.current.on("participantsUpdateLeft", ({ participants }) => {
+      console.log(participants);
+      setParticipantList(participants || []);
+    })
 
     socket.current.on("quizEnded", ({ message }) => {
       console.log(message)
@@ -214,9 +237,9 @@ const AdminUserControlledLanding = () => {
             </div>
           </div>
           <div className="flex items-center gap-3 font-Outfit text-sm">
-            <button className="pt-1 pb-1 pr-3 pl-3 flex gap-1 bg-gray-300 items-center justify-center text-black rounded-4xl text-xs">
-              <PencilLine size={13} />
-              <p>Edit Slide</p>
+            <button className="pt-1 pb-1 pr-3 pl-3 flex gap-1 bg-gray-300 items-center justify-center text-black rounded-4xl text-xs cursor-pointer">
+              <AiFillBug size={18} />
+              <p>Report a Bug</p>
             </button>
             <div className="h-6 w-1 border-l border-l-stone-400"></div>
             <button
@@ -363,8 +386,8 @@ const AdminUserControlledLanding = () => {
           />
         )}
         {showParticipantCompo && (
-          <ParticipantInRoom
-            participantList={[]}
+          <ParticipantsPage
+            participantList={participantList}
             onClose={() => setShowParticipantCompo(false)}
             isVisible={showParticipantCompo}
           />

@@ -172,6 +172,11 @@ const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) =>
         }, 2000)
     }
 
+    const maxLength = 70;
+    const truncateText = (text) => {
+        return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+    };
+
 
     const switchQuestions = async (questionID) => {
         setSelectedQuestion(questionID);
@@ -205,7 +210,7 @@ const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) =>
                             <GoPlus />
                             <p>New Slide</p>
                         </button>
-                        <div className='h-[500px] flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                        <div className='h-[550px] flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                             {allQuestion.map((key, index) => (
                                 <div
                                     onClick={() => switchQuestions(key._id)}
@@ -218,7 +223,7 @@ const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) =>
                                         {
                                             setIcon(key.designType)
                                         }
-                                        <h1 className='text-[7px] text-center font-Outfit'>{key.question}</h1>
+                                        <h1 className='text-[7px] text-center font-Outfit'>{truncateText(key.question)}</h1>
                                     </div>
                                 </div>
                             ))}
@@ -229,23 +234,23 @@ const PollType = ({ questionId, presentation, allQuestion, currentQuestion }) =>
                 <div className='flex w-full h-full justify-center '>
                     <section className='w-0 lg:w-[10%]  pt-6 hidden lg:flex justify-center'>
                         <div className='flex  flex-col gap-4 items-center w-full'>
-                            <button onClick={() => setNewSlideAppearence(!NewSlideAppreance)} className='flex justify-center text-[15px] gap-1 pt-2 pb-2 pr-6 pl-6 bg-stone-900 text-white items-center font-Outfit rounded-2xl cursor-pointer'>
+                            <button onClick={() => setNewSlideAppearence(!NewSlideAppreance)} className='flex justify-center text-[13px] gap-1 pt-2 pb-2 pr-6 pl-6 bg-stone-900 text-white items-center font-Outfit rounded-2xl cursor-pointer'>
                                 <GoPlus />
                                 New Slide
                             </button>
-                            <div className='h-[500px] flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                            <div className='h-[550px] flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                                 {allQuestion.map((key, index) => (
                                     <div
                                         onClick={() => switchQuestions(key._id)}
                                         key={key._id}
-                                        className='w-full h-24 flex justify-center gap-1 cursor-pointer'
+                                        className='w-full h-16 flex justify-center gap-1 cursor-pointer'
                                     >
                                         <p className='font-Outfit text-xs pt-2'>{index + 1}</p>
-                                        <div className={`w-full h-20 border-2 flex justify-center flex-col items-center ${selectedQuestion === key._id ? 'border-indigo-300' : 'border-gray-200'} rounded-xl bg-center ${key.designTemplate} bg-cover gap-1`}>
+                                        <div className={`w-full h-16 border-2 flex justify-center flex-col items-center ${selectedQuestion === key._id ? 'border-indigo-300' : 'border-gray-200'} rounded-xl bg-center ${key.designTemplate} bg-cover gap-1`}>
                                             {
                                                 setIcon(key.designType)
                                             }
-                                            <h1 className='text-[9px] text-center font-Outfit'>{key.question}</h1>
+                                            <h1 className='text-[8px] text-center font-Outfit'>{truncateText(key.question)}</h1>
                                         </div>
                                     </div>
                                 ))}

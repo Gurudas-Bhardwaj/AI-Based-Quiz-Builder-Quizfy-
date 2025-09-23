@@ -21,7 +21,7 @@ const RankingType = ({ questionId, presentation, allQuestion, currentQuestion })
 
 
     const navigate = useNavigate();
-    const{role} = useAuth();
+    const { role } = useAuth();
 
     const [showSlide, setShowSlide] = useState(false);
     const [localQuestion, setLocalQuestion] = useState(currentQuestion.question);
@@ -41,7 +41,7 @@ const RankingType = ({ questionId, presentation, allQuestion, currentQuestion })
         setPresentationId(presentation._id);
         setSelectedQuestion(currentQuestion._id);
         setDesignTemplate(currentQuestion.designTemplate);
-    }, [currentQuestion, selectedQuestion, presentation ])
+    }, [currentQuestion, selectedQuestion, presentation])
 
 
 
@@ -179,16 +179,22 @@ const RankingType = ({ questionId, presentation, allQuestion, currentQuestion })
     }
 
 
-    const setIcon = (designType)=>{
-            switch(designType){
-                case "poll":
-                    return <MdOutlinePoll className='text-blue-400' size={16} /> 
-                case "ranking":
-                    return <ChartBarDecreasing color='indigo' size={14} />
-                case "openEnded":
-                    return <FaComment   className='text-orange-400'/>
-            }
+    const setIcon = (designType) => {
+        switch (designType) {
+            case "poll":
+                return <MdOutlinePoll className='text-blue-400' size={16} />
+            case "ranking":
+                return <ChartBarDecreasing color='indigo' size={14} />
+            case "openEnded":
+                return <FaComment className='text-orange-400' />
         }
+    }
+
+
+    const maxLength = 70;
+    const truncateText = (text) => {
+        return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+    };
 
 
     return (
@@ -207,14 +213,23 @@ const RankingType = ({ questionId, presentation, allQuestion, currentQuestion })
                             <GoPlus />
                             <p>New Slide</p>
                         </button>
-                        <div className='w-full h-14 flex justify-center gap-2'>
-                            <p className='font-Outfit text-xs pt-2'>1</p>
-                            <div className='w-[80%] bg-poll1 border flex justify-center flex-col items-center border-indigo-300 rounded-2xl h-14 gap-1' style={{
-                                backgroundSize: 'cover', backgroundPosition: 'center',
-                            }}>
-                                <PiRankingDuotone className='text-sm' />
-                                <h1 className={`text-[7px] pl-1 text font-Outfit `}>{localQuestion}</h1>
-                            </div>
+                        <div className='w-full h-screen flex flex-col pr-2 pl-1 gap-1'>
+                            {allQuestion.map((key, index) => (
+                                <div
+                                    onClick={() => switchQuestions(key._id)}
+                                    key={key._id}
+                                    className='w-44 h-20 flex justify-center gap-1 cursor-pointer'
+                                >
+                                    <p className='font-Outfit text-xs pt-2'>{index + 1}</p>
+                                    <div
+                                        className={`w-full h-20 border-2 flex justify-center flex-col items-center ${selectedQuestion === key._id ? 'border-indigo-300' : 'border-gray-200'} rounded-xl bg-center ${key.designTemplate} bg-cover gap-1`}>
+                                        {
+                                            setIcon(key.designType)
+                                        }
+                                        <h1 className='text-[7px] text-center font-Outfit'>{key.question}</h1>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -225,23 +240,23 @@ const RankingType = ({ questionId, presentation, allQuestion, currentQuestion })
                                 <GoPlus />
                                 New Slide
                             </button>
-                            <div className='h-[400px] flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                            <div className='h-[550px] flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                                 {allQuestion.map((key, index) => (
-                                <div
-                                    onClick={() => switchQuestions(key._id)}
-                                    key={key._id}
-                                    className='w-full h-16 flex justify-center gap-1 cursor-pointer'
-                                >
-                                    <p className='font-Outfit text-xs pt-2'>{index + 1}</p>
                                     <div
-                                        className={`w-full h-16 border-2 flex justify-center flex-col items-center ${selectedQuestion === key._id ? 'border-indigo-300' : 'border-gray-200'} rounded-xl bg-center ${key.designTemplate} bg-cover gap-1`}>
-                                        {
-                                            setIcon(key.designType)
-                                        }
-                                        <h1 className='text-[7px] text-center font-Outfit'>{key.question}</h1>
+                                        onClick={() => switchQuestions(key._id)}
+                                        key={key._id}
+                                        className='w-full h-16 flex justify-center gap-1 cursor-pointer'
+                                    >
+                                        <p className='font-Outfit text-xs text-center flex justify-center  pt-2 w-[8%]'>{index + 1}</p>
+                                        <div
+                                            className={`w-[92%] h-16 border-2 flex justify-center flex-col items-center ${selectedQuestion === key._id ? 'border-indigo-300' : 'border-gray-200'} rounded-xl bg-center ${key.designTemplate} bg-cover gap-1`}>
+                                            {
+                                                setIcon(key.designType)
+                                            }
+                                            <h1 className='text-[8px] text-center font-Outfit'>{truncateText(key.question)}</h1>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
                             </div>
 
                         </div>
@@ -250,12 +265,12 @@ const RankingType = ({ questionId, presentation, allQuestion, currentQuestion })
                     <section className='w-[100%] md:w-[90%] lg:w-[60%] flex justify-center '>
                         <div className='w-full h-full flex flex-col mt-6 items-center '>
 
-                            <div className={`h-[75%]  w-[95%] bg-cover bg-center ${designTemplate}`}>
-                                <div className='w-full font-Outfit text-2xl pt-7 pl-12'>
+                            <div className={`h-[93%]  w-[95%] bg-cover bg-center ${designTemplate}`}>
+                                <div className='w-full min-h-[30%] font-Outfit text-2xl pt-7 pl-12'>
                                     <h1>Q) {localQuestion}</h1>
                                 </div>
                                 <div className='w-full pb-28 flex mt hidden-lg:5 justify-center'>
-                                    <div className='w-[90%] font-Outfit flex flex-col justify-start pt-5 gap-4 '>
+                                    <div className='w-[90%]  font-Outfit flex flex-col justify-start gap-4 '>
 
                                         {localOptions.map((key, index) => (
 
@@ -279,7 +294,7 @@ const RankingType = ({ questionId, presentation, allQuestion, currentQuestion })
 
                     <section className='w-[10%] lg:w-[30%] h-full hidden   sm:flex justify-center '>
                         <div className='w-full h-auto flex justify-center gap-2'>
-                            <div className='bg-white h-[400px] overflow-auto mt-6 border border-white rounded-2xl w-[75%] hidden lg:flex flex-col gap-6'>
+                            <div className='bg-white h-[500px] overflow-auto mt-6 border border-white rounded-2xl w-[75%] hidden lg:flex flex-col gap-6'>
                                 <div className='h-auto flex justify-center w-full overflow-auto items-center'>
                                     <div className='flex pt-5 pl-2 pr-4 justify-between w-full items-center '>
                                         <h1 className='flex gap-1 justify-center items-center text-sm font-Outfit'><MdEdit />Editing Section : </h1>
@@ -383,7 +398,7 @@ const RankingType = ({ questionId, presentation, allQuestion, currentQuestion })
             </div>
 
             <div
-                className={`absolute top-[70px] left-3 justify-center items-center transition-all duration-500 ease-out
+                className={`absolute top-[70px] z-[9999] left-3 justify-center items-center transition-all duration-500 ease-out
                     ${NewSlideAppreance ? 'pointer-events-auto' : 'pointer-events-none'}
   `}
             >

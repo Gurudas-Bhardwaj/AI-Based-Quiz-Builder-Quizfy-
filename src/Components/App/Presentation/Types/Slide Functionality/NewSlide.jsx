@@ -87,7 +87,7 @@ const NewSlide = ({ onClose, isVisible, presentationId }) => {
           </div>
         </div>
 
-        <div className='h-80 overflow-auto'>
+        <div className='h-[450px] overflow-auto'>
           {/* Interactive Question */}
           <div className='flex gap-2 items-center'>
             <p className='font-Outfit text-xs text-gray-600'>Interactive questions</p>

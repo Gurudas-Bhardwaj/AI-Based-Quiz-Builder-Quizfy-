@@ -17,7 +17,7 @@ const ChoiceBTW_ADM_USER = ({ onClose, isVisible, presentationId }) => {
 
     return (
         <div className={`fixed inset-0 flex items-center justify-center transition-all duration-500 ease-out ${isVisible ? 'opacity-100 ' : 'opacity-0 pointer-events-none'} bg-black/60`}> 
-            <div className="relative bg-white/90 rounded-3xl pt-4 pr-8 pl-8 pb-8 w-[95vw] max-w-xl shadow-2xl border-2 border-indigo-200 backdrop-blur-md animate-fadeIn max-h-[550px] overflow-auto " style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            <div className="relative bg-white/90 rounded-3xl pt-4 pr-8 pl-8 pb-8 w-[95vw] max-w-xl shadow-2xl border-2 border-indigo-200 backdrop-blur-md animate-fadeIn max-h-[630px] overflow-auto " style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 <div className='flex w-full justify-end'>
                     <CirclePlus onClick={onClose} className='rotate-45 cursor-pointer text-red-500 hover:bg-red-100 rounded-full transition p-1' size={32} />
                 </div>

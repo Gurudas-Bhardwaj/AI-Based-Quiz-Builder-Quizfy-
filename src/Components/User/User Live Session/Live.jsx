@@ -42,7 +42,7 @@ const Live = () => {
       transports: ["websocket", "polling"]
     })
 
-    socket.current.emit("quizJoinedByUser", { presentationId, userId });
+    socket.current.emit("quizJoinedByUser", { presentationId, userId, userName });
 
     socket.current.on("questionForUser", ({ questions }) => {
       setQuestions(questions);
