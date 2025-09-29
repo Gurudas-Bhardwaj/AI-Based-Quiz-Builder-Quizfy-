@@ -1,0 +1,18 @@
+export const templateOptions = [
+    { id: 'BG-1', className: 'bg-BG-1' },
+    { id: 'BG-2', className: 'bg-BG-2' },
+    { id: 'BG-3', className: 'bg-BG-3' },
+    { id: 'BG-4', className: 'bg-BG-4' },
+    { id: 'BG-5', className: 'bg-BG-5' },
+    { id: 'BG-6', className: 'bg-BG-6' },
+    { id: 'BG-7', className: 'bg-BG-7' },
+    { id: 'BG-8', className: 'bg-BG-8' },
+    { id: 'BG-9', className: 'bg-BG-9' },
+    { id: 'BG-10', className: 'bg-BG-10' },
+    { id: 'BG-11', className: 'bg-BG-11' },
+    { id: 'BG-12', className: 'bg-BG-12' },
+    { id: 'BG-13', className: 'bg-BG-13' },
+    { id: 'BG-14', className: 'bg-BG-14' },
+    { id: 'BG-15', className: 'bg-BG-15' },
+    { id: 'BG-16', className: 'bg-BG-16' },
+  ];

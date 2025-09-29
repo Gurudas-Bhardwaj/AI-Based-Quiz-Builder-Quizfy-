@@ -33,7 +33,7 @@ const AccountSettingPOPUP = ({ onClose }) => {
             // Call backend to clear refresh token
             await fetch('http://localhost:9000/user/Logout', {
                 method: 'POST',
-                credentials: 'include', // important: sends the cookie
+                credentials: 'include', //  sending the cookie
             });
 
             // Remove access token from localStorage

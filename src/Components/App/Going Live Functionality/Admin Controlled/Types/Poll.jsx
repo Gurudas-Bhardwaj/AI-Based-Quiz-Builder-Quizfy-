@@ -34,7 +34,7 @@ const Poll = ({ currentQuestion, showRespInPercen }) => {
             <h1>Q) {localQuestion}</h1>
           </div>
           <div className="w-full flex justify-center items-center h-[70%]">
-            <div className="w-[95%] md:w-[85%] grid grid-cols-4 place-items-center gap-4 h-full">
+            <div className="w-[95%] md:w-[85%] flex gap-4 h-full">
               {localOptions.map((key, index) => (
                 <div key={index} className="w-full h-full font-Outfit flex flex-col justify-end items-center">
                   <div>

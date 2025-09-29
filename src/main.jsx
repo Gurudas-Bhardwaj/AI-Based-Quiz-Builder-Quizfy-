@@ -7,6 +7,7 @@ import AuthProvider from './Context/authContext.jsx';
 import LoggedInRoute from './Components/Protected_Route/LoggedInRoute.jsx';
 import ForUnLoggedUser from './Components/Protected_Route/accessOnlyRoute.jsx';
 import AdminLiveSession from './Components/App/Going Live Functionality/Admin Controlled/AdminLiveSession.jsx';
+import Example from './Example.jsx';
 
 const MyPresentation = lazy(() => import("./Components/App/Home/MyPresentation/MyPresentation.jsx"))
 
@@ -109,7 +110,10 @@ const route = createBrowserRouter([
         <LazyUserControlledLive />
       </ForUnLoggedUser>
     </Suspense>
-  },
+  },{
+    path : "/sample",
+    element : <Example/>,
+  }
 
 ])
 

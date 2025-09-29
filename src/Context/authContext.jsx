@@ -5,9 +5,9 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLogin, setIsLogin] = useState(false);
   const [userName, setUserName] = useState(null);
-  const[role, setRole] = useState(null);
+  const [role, setRole] = useState(null);
   const [email, setEmail] = useState(null);
-  const [userId, setUserId] = useState(null); 
+  const [userId, setUserId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const parseJWT = (token) => {
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
         setUserName(decoded?.name || null);
         setRole(decoded?.role || null);
         setEmail(decoded?.email || null);
-        setUserId(decoded?.id || null); 
+        setUserId(decoded?.id || null);
       } else {
         throw new Error('Access token not returned');
       }
@@ -72,7 +72,7 @@ export const AuthProvider = ({ children }) => {
         setUserName(decoded?.name || null);
         setRole(decoded?.role || null);
         setEmail(decoded?.email || null);
-        setUserId(decoded?.id || null); 
+        setUserId(decoded?.id || null);
       }
 
       setIsLoading(false);
@@ -80,6 +80,39 @@ export const AuthProvider = ({ children }) => {
 
     checkAuth();
   }, []);
+
+
+  const login = async (email, password) => {
+    try {
+      const response = await fetch("http://localhost:9000/user/Login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        return { success: false, message: data.Message };
+      }
+
+      // Store access token
+      localStorage.setItem("accessToken", data.accessToken);
+
+      // Decode and update context immediately (no wait)
+      const decoded = parseJWT(data.accessToken);
+      setIsLogin(true);
+      setUserName(decoded?.name || null);
+      setRole(decoded?.role || null);
+      setEmail(decoded?.email || null);
+      setUserId(decoded?.id || null);
+
+      return { success: true, message: data.Message };
+    } catch (err) {
+      return { success: false, message: err.message };
+    }
+  };
+
 
   return (
     <AuthContext.Provider
@@ -91,6 +124,7 @@ export const AuthProvider = ({ children }) => {
         isLoading,
         role,
         refreshToken,
+        login,
       }}
     >
       {children}

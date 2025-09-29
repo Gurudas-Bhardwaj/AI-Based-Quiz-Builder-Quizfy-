@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { FaCaretUp, FaComment } from 'react-icons/fa';
 import { MdOutlinePoll } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router';
-import { useAuth } from '../../../../../Context/authContext';
+import { useAuth } from '../../../../Context/authContext';
+import { SiQuizlet } from 'react-icons/si';
 
 const NewSlide = ({ onClose, isVisible, presentationId }) => {
   const [messageBox1, setMessageBox1] = useState(false);
@@ -13,9 +14,7 @@ const NewSlide = ({ onClose, isVisible, presentationId }) => {
   const [selectedTemplate, setSelectedTemplate] = useState(null);
 
   const navigate = useNavigate();
-  
-  const {role} = useAuth();
-  console.log(role)
+
 
   const handleCreate = async () => {
     if (selectedDesignType && selectedTemplate) {
@@ -51,9 +50,9 @@ const NewSlide = ({ onClose, isVisible, presentationId }) => {
   };
 
   const interactiveOptions = [
+    { id: 'quiz', icon: <SiQuizlet className='text-orange-400' />, label: 'Quiz' },
     { id: 'poll', icon:  <MdOutlinePoll className='text-blue-400' size={16} />, label: 'Poll' },
     { id: 'ranking', icon:<ChartBarDecreasing color='indigo' size={14} />, label: 'Ranking' },
-    { id: 'openEnded', icon: <FaComment className='text-orange-400' />, label: 'Open Ended' },
   ];
 
   const templateOptions = [

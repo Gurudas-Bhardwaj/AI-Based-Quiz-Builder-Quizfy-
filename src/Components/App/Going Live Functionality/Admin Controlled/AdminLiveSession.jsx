@@ -60,7 +60,7 @@ const AdminLiveSession = () => {
   const [showQuizEnded, setShowQuizEnded] = useState(false);
   const [shareLinkPopUp, setShareLinkPopUp] = useState(false);
 
-  
+
 
   const [commentList, setCommentList] = useState([]);
 
@@ -252,7 +252,7 @@ const AdminLiveSession = () => {
         />
       </div>
 
-      {startingTimer &&<div><StopWatch timeGiven={60} /></div>}
+      {startingTimer && <div><StopWatch timeGiven={60} /></div>}
 
       {shareLinkPopUp && <ShareLinkPopUp presentationId={presentationId} onClose={() => setShareLinkPopUp(false)} />}
       {showQuizEnded && <QuizEndedPopUp />}
@@ -312,7 +312,7 @@ const AdminLiveSession = () => {
         </div>
       </div>
 
-      
+
 
       <div className='w-screen h-[100%] lg:h-[80%] flex justify-center items-center '>
         {
@@ -321,15 +321,17 @@ const AdminLiveSession = () => {
       </div>
 
       <div className='fixed  w-screen top-[86%] flex justify-center items-center'>
-        <div className='h-[100%] pt-2 pb-2 pl-7 pr-7 flex justify-center items-center gap-5 rounded-3xl drop-shadow-2xl bg-white'>
+        <div className='h-[100%] b pt-2 pb-2 pl-7 pr-7 flex justify-center items-center gap-5 rounded-3xl drop-shadow-2xl '>
 
           <div
             onMouseEnter={() => setCurrentParticipant(true)}
             onMouseLeave={() => setCurrentParticipant(false)}
-            className='cursor-pointer relative'
+            className='cursor-pointer relative bg-white p-3 rounded-full'
           >
+            <div className='absolute top-0 left-[30%]'>
             <PopUp isVisible={currentParticipant} value={"Participant responded"} />
-            <Users onClick={() => { setShowCommentSection(false); setShowParticipant(!showParticipant) }} className='' size={20} />
+            </div>
+              <Users onClick={() => { setShowCommentSection(false); setShowParticipant(!showParticipant) }} className='' size={24} />
           </div>
           {
             showPercentage ?
@@ -337,85 +339,101 @@ const AdminLiveSession = () => {
                 onMouseEnter={() => setComment(true)}
                 onMouseLeave={() => setComment(false)}
                 onClick={() => setShowPercentage(!showPercentage)}
-                className='cursor-pointer relative'
+                className='cursor-pointer relative  bg-white p-3 rounded-full'
               >
-                <PopUp isVisible={comment} value={"Show Response in Number"} />
-                <BinaryIcon className='transition-all duration-500 ease-in-out' size={20} />
+                <div className='absolute top-0 left-[30%]'>
+                  <PopUp isVisible={comment} value={"Show Response in Number"} />
+                </div>
+                <BinaryIcon className='transition-all duration-500 ease-in-out' size={24} />
               </div> :
               <div
                 onMouseEnter={() => setComment(true)}
                 onMouseLeave={() => setComment(false)}
                 onClick={() => setShowPercentage(!showPercentage)}
-                className='cursor-pointer relative'
+                className='cursor-pointer relative  bg-white p-3 rounded-full'
               >
-                <PopUp isVisible={comment} value={"Show Response in Percentage"} />
-                <BadgePercent className='transition-all duration-500 ease-in-out' size={20} />
+                <div className='absolute top-0 left-[30%]'>
+                  <PopUp isVisible={comment} value={"Show Response in Percentage"} />
+                </div>
+                <BadgePercent className='transition-all duration-500 ease-in-out' size={24} />
               </div>
           }
 
 
           <div onMouseEnter={() => setAnalytics(true)}
             onMouseLeave={() => setAnalytics(false)}
-            className='cursor-pointer relative'
+            className='cursor-pointer relative  bg-white p-3 rounded-full'
           >
-            <PopUp isVisible={analytics} value={"View Full Analytics"} />
-            <ChartColumn size={20} />
+            <div className='absolute top-0 left-[30%]'>
+              <PopUp isVisible={analytics} value={"View Full Analytics"} />
+            </div>
+            <ChartColumn size={24} />
           </div>
           <div className='flex h-full justify-center items-center gap-2'>
             <div
               onClick={handlePrevQuestion}
               onMouseEnter={() => setGoLeft(true)}
               onMouseLeave={() => setGoLeft(false)}
-              className='cursor-pointer relative'>
-              <PopUp isVisible={goLeft} value={"Go To Previous Question"} />
+              className='cursor-pointer relative  bg-white p-3 rounded-full'>
+              <div className='absolute top-0 left-[30%]'>
+                <PopUp isVisible={goLeft} value={"Go To Previous Question"} />
+              </div>
               <IoMdArrowRoundBack className='text-lg' />
             </div>
             <div
               onMouseEnter={() => setShareLink(true)}
               onMouseLeave={() => setShareLink(false)}
-              className='p-2 relative bg-amber-100 border flex justify-center items-center  cursor-pointer border-amber-400 rounded-full'>
+              className=' relative bg-amber-100 border flex justify-center items-center  cursor-pointer border-amber-400    p-3 rounded-full'>
               <div className='absolute top-1 flex left-2'>
                 <PopUp isVisible={shareLink} value={"Share the Link to all"} />
               </div>
-              <Lightbulb className='text-amber-500 ' size={17} />
+              <Lightbulb className='text-amber-500 ' size={20} />
             </div>
-            <div className='cursor-pointer relative '
+            <div className='cursor-pointer relative  bg-white p-3 rounded-full'
               onClick={handleNextQuestion}
               onMouseEnter={() => setGoRight(true)}
               onMouseLeave={() => setGoRight(false)}>
-              <PopUp isVisible={goRight} value={"Go to next Question"} />
+              <div className='absolute top-0 left-[30%]'>
+                <PopUp isVisible={goRight} value={"Go to next Question"} />
+              </div>
               <IoMdArrowRoundForward className='text-lg  cursor-pointer' />
             </div>
           </div>
           {/* Timer Icon with Hover Tooltip */}
           <div
-            className={`cursor-pointer rounded-full  relative`}
+            className={`cursor-pointer   relative  bg-white p-3 rounded-full`}
             onMouseEnter={() => setStopWatch(true)}
             onMouseLeave={() => setStopWatch(false)}
             onClick={setTimerDetails}
           >
-            <PopUp isVisible={stopWatch}  value={"Start Timer"} />
-            <Timer size={20} className={``} />
+            <div className='absolute top-0 left-[30%]'>
+              <PopUp isVisible={stopWatch} value={"Start Timer"} />
+            </div>
+            <Timer size={24} className={``} />
           </div>
 
           {/* Reset Icon with Hover Tooltip */}
           <div
-            className='cursor-pointer relative'
+            className='cursor-pointer relative  bg-white p-3 rounded-full'
             onMouseEnter={() => setResetResult(true)}
             onMouseLeave={() => setResetResult(false)}
           >
-            <PopUp isVisible={resetResult} value={"Reset Result"} />
-            <BiReset size={20} />
+            <div className='absolute top-0 left-[30%]'>
+              <PopUp isVisible={resetResult} value={"Reset Result"} />
+            </div>
+            <BiReset size={24} />
           </div>
 
           <div
-            className='cursor-pointer relative'
+            className='cursor-pointer relative  bg-white p-3 rounded-full'
             onMouseEnter={() => setOpenComment(true)}
             onMouseLeave={() => setOpenComment(false)}
             onClick={() => { setShowCommentSection(!showCommentSection); setShowParticipant(false) }}
           >
-            <PopUp isVisible={openComment} value={"Open Comment Section"} />
-            <MessageCircleMore size={20} />
+            <div className='absolute top-0 left-[30%]'>
+              <PopUp isVisible={openComment} value={"Open Comment Section"} />
+            </div>
+            <MessageCircleMore size={24} />
           </div>
 
         </div>
@@ -430,7 +448,7 @@ const AdminLiveSession = () => {
           commentList={commentList}
         />
       </div>
-      <div className={`absolute top-[23%] left-[10%] sm:left-[50%] md:left-[60%] lg:left-[73%] transition-all ease-in-out duration-500 ${showParticipant ? 'opacity-100 ' : 'opacity-0   pointer-events-none'}`}>
+      <div className={`absolute top-[23%] left-[10%] sm:left-[50%] md:left-[60%] lg:left-[73%] transition-all ease-in-out duration-500  ${showParticipant ? 'opacity-100 ' : 'opacity-0   pointer-events-none'}`}>
         <ParticipantResponse
           isVisible={showParticipant}
           onClose={() => setShowParticipant(false)}

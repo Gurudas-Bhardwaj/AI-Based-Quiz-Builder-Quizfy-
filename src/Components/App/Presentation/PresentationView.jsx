@@ -11,16 +11,14 @@ import { NavLink, useNavigate, useParams } from 'react-router'
 import { useLocation } from 'react-router'
 import { LuFileStack } from 'react-icons/lu'
 import { BsThreeDots } from 'react-icons/bs'
-import PollType from './Types/PollType'
-import OpenEndedType from './Types/OpenEndedType'
-import RankingType from './Types/RankingType'
 import { Bug, Cog, NavigationOff, Radio, Rocket, User, UserCog } from 'lucide-react';
 import ChoiceBTW_ADM_USER from '../Going Live Functionality/ChoiceBTW_ADM_USER'
+import Layout from './Layout'
 
 const PresentationView = () => {
 
     const { presentationId, questionId } = useParams();
-    console.log(presentationId)
+
 
     const [allQuestion, setAllQuestion] = useState([]);
     const [currentQuestion, setCurrentQuestion] = useState([]);
@@ -57,8 +55,7 @@ const findDetails = async (presentationID, questionID) => {
       const found = result.question.find((q) => q._id === questionID);
       setCurrentQuestion(found || null);
     } else {
-      setCurrentQuestion(result.question[0] || null); // fallback to first question
-      console.log("HELLO",result.question[0])
+      setCurrentQuestion(result.question[0] || null); 
       navigate(`/App/AdminPanel/Presentation/${presentationID}/${result.question[0]._id}`)
     }
 
@@ -72,21 +69,7 @@ const findDetails = async (presentationID, questionID) => {
         findDetails(presentationId, questionId);
     }, [presentationId, questionId]);
 
-    useEffect(() => {
-        console.log("question updated:", allQuestion);
-        console.log("Presentation updated:", currentQuestion);
-    }, [presentation, allQuestion]);
 
-    const renderQuestionSection = (designType) => {
-        switch (designType) {
-            case "poll":
-                return <PollType  questionId={questionId} presentation={presentation} allQuestion={allQuestion} currentQuestion={currentQuestion}/>;
-            case "openEnded":
-                return <OpenEndedType questionId={questionId} presentation={presentation} allQuestion={allQuestion} currentQuestion={currentQuestion} />;
-            case "ranking":
-                return <RankingType questionId={questionId} presentation={presentation} allQuestion={allQuestion} currentQuestion={currentQuestion} />;
-        }
-    }
 
 
 
@@ -170,7 +153,8 @@ const findDetails = async (presentationID, questionID) => {
 
                 {/* <PollType/> */}
                 
-                {renderQuestionSection(currentQuestion.designType)}
+                {/* {renderQuestionSection(currentQuestion.designType)} */}
+                <Layout questionId={questionId} presentation={presentation} allQuestion={allQuestion} currentQuestion={currentQuestion}/>
 
                  <div
                 className={`absolute top-[70px] left-3 justify-center items-center transition-all duration-500 ease-out
