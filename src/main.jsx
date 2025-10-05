@@ -21,6 +21,7 @@ const PresentationView = lazy(() => import("./Components/App/Presentation/Presen
 
 const LazyAdminControlledLive = lazy(() => import("./Components/User/Going Live/Live.jsx"));
 const LazyUserControlledLive = lazy(() => import("./Components/User/User Live Session/Live.jsx"));
+const LazySharedWithMe = lazy(() => import("./Components/App/Shared Presentation/SharedWithMe.jsx"));
 
 const UserLiveSession = lazy(() => import("./Components/App/Going Live Functionality/User Controlled/UserControlledQuiz.jsx"))
 
@@ -59,6 +60,11 @@ const route = createBrowserRouter([
       {
         path: "MyPresentation", element: <Suspense fallback={<Basic />}>
           <MyPresentation />
+        </Suspense>
+      },
+      {
+        path : "SharedWithMe", element: <Suspense fallback={<Basic />}>
+          <LazySharedWithMe />
         </Suspense>
       }
     ]

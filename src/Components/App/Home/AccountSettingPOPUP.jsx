@@ -27,6 +27,8 @@ const AccountSettingPOPUP = ({ onClose }) => {
     const [updateNameDisplay, setUpdateNameDisplay] = useState(false);
     const [updatePasswordDisplay, setUpdatePasswordDisplay] = useState(false);
 
+    const [email, setEmail] = useState("");
+
     const handleLogout = async () => {
 
         try {
@@ -129,8 +131,8 @@ const AccountSettingPOPUP = ({ onClose }) => {
     }
 
     return (
-        <div className='fixed inset-0 z-[100] flex items-center justify-center bg-black/40'>
-            <div className='bg-white w-[95%] md:w-3/4 lg:w-2/3 rounded-2xl shadow-xl overflow-hidden font-Outfit'>
+        <div className='fixed inset-0 h-screen z-[100] flex items-center justify-center'>
+            <div className='bg-white w-[95%] h-[600px] md:w-3/4 lg:w-2/3 rounded-2xl shadow-xl overflow-hidden font-Outfit'>
                 {/* Header */}
                 <div className='flex items-center justify-between px-6 py-4 border-b border-stone-100'>
                     <div className='flex items-center gap-3'>
@@ -182,7 +184,7 @@ const AccountSettingPOPUP = ({ onClose }) => {
                     </div>
 
                     {/* Middle: editable fields */}
-                    <div className='col-span-2 flex h-[500px] overflow-auto flex-col gap-4'>
+                    <div className='col-span-2 flex h-[500px] pb-8 overflow-auto flex-col gap-4'>
                         {/* Name */}
                         <div className='bg-white border border-stone-100 rounded-lg p-4 shadow-sm'>
                             <div className='flex items-center justify-between'>
@@ -240,18 +242,15 @@ const AccountSettingPOPUP = ({ onClose }) => {
                                     <div className='text-xs text-stone-400'>By Verifying, you can later recover your account.</div>
                                 </div>
                             </div>
-                            <div className='mt-3 grid grid-cols-1 md:grid-cols-3 gap-3'>
-                                <input value={CurrentPassword} onChange={(e) => setCurrentPassword(e.target.value)} placeholder='Current password' className='px-3 py-2 border border-stone-200 rounded-md bg-stone-100 text-sm focus:bg-white focus:border-indigo-400 transition-colors duration-150' aria-label='Current password' />
-                                <input value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder='New password' className='px-3 py-2 border border-stone-200 rounded-md bg-stone-100 text-sm focus:bg-white focus:border-indigo-400 transition-colors duration-150' aria-label='New password' />
-                                <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder='Confirm password' className='px-3 py-2 border border-stone-200 rounded-md bg-stone-100 text-sm focus:bg-white focus:border-indigo-400 transition-colors duration-150' aria-label='Confirm password' />
+                            <div className='mt-3 grid grid-cols-1 pr-10'>
+                                <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Enter you Email' className='px-3 py-2 border border-stone-200 rounded-md bg-stone-100 text-sm focus:bg-white focus:border-indigo-400 transition-colors duration-150' aria-label='Email' />
                             </div>
                             <div className='mt-3'>
                                 <button
-                                    onClick={updatePassword}
-                                    className={`cursor-pointer px-4 py-2 rounded-md text-sm transition-colors duration-150 ${newPassword && confirmPassword && CurrentPassword ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-stone-200 text-stone-600 cursor-not-allowed'}`}
-                                    aria-disabled={!(newPassword && confirmPassword && CurrentPassword)}
+                                    className={`cursor-pointer px-4 py-2 rounded-md text-sm transition-colors duration-150 ${email.includes('@gmail.com' || '@email.com') ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-stone-200 text-stone-600 cursor-not-allowed'}`}
+                                    aria-disabled={!(email)}
                                 >
-                                    Update password
+                                    Send verification email
                                 </button>
                             </div>
                         </div>

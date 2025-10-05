@@ -22,18 +22,18 @@ const SideBar = () => {
 
         <div className=''>
           <div className='flex gap-3 flex-col text-sm'>
-            <NavLink to="/App/Admin/Home" className={ ({isActive}) => `flex cursor-pointer border-l-2 ${isActive?" border-l-purple-900":"border-l-transparent"} gap-2 pl-2  justify-start items-center`}>
+            <NavLink to="/App/Admin/Home" className={ ({isActive}) => `flex cursor-pointer border-l-2 ${isActive?" border-l-indigo-500":"border-l-transparent"} gap-2 pl-2  justify-start items-center`}>
               <img src={home} className="w-3" alt="" />
               <p className='font-Outfit'>Home</p>
             </NavLink>
-            <NavLink to="/App/Admin/MyPresentation" className={ ({isActive}) => `flex cursor-pointer border-l-2 ${isActive?" border-l-purple-900":"border-l-transparent"} gap-2 pl-2  justify-start items-center`}>
+            <NavLink to="/App/Admin/MyPresentation" className={ ({isActive}) => `flex cursor-pointer border-l-2 ${isActive?" border-l-indigo-500":"border-l-transparent"} gap-2 pl-2  justify-start items-center`}>
               <img src={user} className="w-4" alt="" />
               <p className='font-Outfit'>My Presentation</p>
             </NavLink>
-            <div className="flex  gap-2 pl-2 cursor-pointer justify-start items-center">
+            <NavLink to="/App/Admin/SharedWithMe" className={({ isActive }) => `flex  gap-2 pl-2 cursor-pointer justify-start items-center ${isActive ? "border-l-2 border-l-indigo-500" : "border-l-transparent"}`}>
               <img src={share} className="w-4" alt="" />
               <p className='font-Outfit '>Shared with me</p>
-            </div>
+            </NavLink>
           </div>
         </div>
 
