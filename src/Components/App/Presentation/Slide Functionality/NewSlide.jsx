@@ -1,10 +1,11 @@
-import { ChartBarDecreasing, ChartBarIncreasing, CircleQuestionMark, X } from 'lucide-react';
+import { ChartBarDecreasing, ChartBarIncreasing, CircleQuestionMark, PieChart, X } from 'lucide-react';
 import React, { useState } from 'react';
 import { FaCaretUp, FaComment } from 'react-icons/fa';
 import { MdOutlinePoll } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router';
 import { useAuth } from '../../../../Context/authContext';
 import { SiQuizlet } from 'react-icons/si';
+import { TbChartDonut } from 'react-icons/tb';
 
 const NewSlide = ({ onClose, isVisible, presentationId }) => {
   const [messageBox1, setMessageBox1] = useState(false);
@@ -21,9 +22,9 @@ const NewSlide = ({ onClose, isVisible, presentationId }) => {
       const question = "Question will be displayed here!";
       const options = [
         { text: "Option A", color: "#FF0000" },
-        { text: "Option B", color: "#00FF00" },
+        { text: "Option B", color: "#00FF00", answer : true },
         { text: "Option C", color: "#0000FF" },
-        { text: "Option D", color: "#FFA500" }
+        { text: "Option D", color: "#FFA500"}
       ];
 
       try {
@@ -32,7 +33,7 @@ const NewSlide = ({ onClose, isVisible, presentationId }) => {
             headers: {
               "Content-Type": "application/json",
             },
-            body : JSON.stringify({question, options, designTemplate : selectedTemplate, presentationId, designType : selectedDesignType, role})
+            body : JSON.stringify({question, options, designTemplate : selectedTemplate, presentationId, designType : selectedDesignType})
         });
         const data = await response.json();
 
@@ -53,6 +54,8 @@ const NewSlide = ({ onClose, isVisible, presentationId }) => {
     { id: 'quiz', icon: <SiQuizlet className='text-orange-400' />, label: 'Quiz' },
     { id: 'poll', icon:  <MdOutlinePoll className='text-blue-400' size={16} />, label: 'Poll' },
     { id: 'ranking', icon:<ChartBarDecreasing color='indigo' size={14} />, label: 'Ranking' },
+    { id : 'pie', icon :<PieChart color='blue' size={14} />, label : 'Pie'},
+    { id : 'donut', icon :<TbChartDonut className='text-emerald-400' size={16} />, label : 'Donut'}
   ];
 
   const templateOptions = [

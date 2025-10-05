@@ -2,8 +2,8 @@ import React from 'react'
 
 const Poll = ({designTemplate, localOptions, localQuestion}) => {
     return (
-            <section className=' h-[500px] flex-1 justify-center transition-all ease-in-out duration-300'>
-                <div className='w-full h-full flex flex-col mt-6 items-center '>
+            <section className=' h-[550px] flex-1 justify-center transition-all ease-in-out duration-300'>
+                <div className='w-full h-full pl-2 pr-2 flex flex-col mt-6 items-center '>
 
                     <div className={`h-[100%] bg-cover bg-center ${designTemplate} w-[95%] text-white`}>
                         <div className={`w-full h-[10%] text-black font-Outfit text-2xl pt-7 pl-7`}>

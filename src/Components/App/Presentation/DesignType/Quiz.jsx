@@ -1,11 +1,15 @@
 import React from 'react'
 
 const Quiz = ({ designTemplate, localOptions, localQuestion }) => {
+    const maxLength = 15;
+    const truncateText = (text)=>{
+        return text.length <= maxLength ? text : text.slice(0, maxLength) + "..."
+    }
     return (
-        <section className='h-[500px] flex-1 justify-center transition-all ease-in-out duration-300'>
-            <div className='w-full h-full flex flex-col mt-6 items-center '>
+        <section className='h-[550px] flex-1 justify-center transition-all ease-in-out duration-300'>
+            <div className='w-full h-full pl-2 pr-2  flex flex-col mt-6 items-center '>
 
-                <div className={`h-[100%] bg-cover bg-center ${designTemplate} w-[95%] text-white`}>
+                <div className={`h-[100%] bg-cover bg-center ${designTemplate} w-[100%] text-white`}>
                     <div className={`w-full h-[10%] text-black font-Outfit text-2xl pt-7 pl-7`}>
                         <h1>Q) {localQuestion}</h1>
                     </div>
@@ -18,8 +22,8 @@ const Quiz = ({ designTemplate, localOptions, localQuestion }) => {
                                         <p className='text-black'>{key.votes}</p>
                                     </div>
                                     <div className='bg-indigo-400 h-[2%] w-[80%]' style={{ backgroundColor: key.color }}></div>
-                                    <div className=' w-[80%] mt-1 text-center text-white text-sm bg-black flex justify-center items-center'>
-                                        <p className=' inline font-Outfit'>{key.text}</p>
+                                    <div className=' w-[80%] min-h-6 mt-1 text-center text-white text-sm bg-black flex justify-center items-center'>
+                                        <p className=' inline  font-Outfit'>{truncateText(key.text)}</p>
                                     </div>
                                 </div>
                             ))}

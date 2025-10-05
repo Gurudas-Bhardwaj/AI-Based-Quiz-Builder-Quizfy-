@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { BiSolidMessageSquareEdit } from 'react-icons/bi'
 import { HiPresentationChartBar } from 'react-icons/hi'
 import { MdAdminPanelSettings, MdOutlineDoNotDisturb } from 'react-icons/md'
-import Popup from "./Popup/Popup.jsx"
+import Popup from "../Popup/Popup.jsx"
 
 const FloatingSwitch = ({ editingSection, setEditingSection }) => {
   const [editVisible, setEditVisible] = useState(false);

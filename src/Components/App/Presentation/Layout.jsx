@@ -5,7 +5,7 @@ import { RxCross1, RxCross2 } from 'react-icons/rx'
 import { useNavigate } from 'react-router'
 import { LuFileStack } from 'react-icons/lu'
 
-import { ChartBarDecreasing, ChartBarIncreasing, ChartColumn } from 'lucide-react'
+import { ChartBarDecreasing, ChartBarIncreasing, ChartColumn, DonutIcon, PieChart } from 'lucide-react'
 import { MdEdit, MdOutlinePoll } from 'react-icons/md'
 
 import EditingQuestion from './SideBar/EditingQuestion.jsx'
@@ -14,12 +14,17 @@ import AddAdmin from './SideBar/AddAdmin.jsx'
 import NewSlide from './Slide Functionality/NewSlide.jsx'
 import { useAuth } from '../../../Context/authContext.jsx'
 import Slogan from '../../Messages/Slogan.jsx'
-import FloatingSwitch from './FloatingSwitch.jsx'
+import FloatingSwitch from './others/FloatingSwitch.jsx'
 import Poll from './DesignType/Poll.jsx'
 import Ranking from './DesignType/Ranking.jsx'
 import Quiz from './DesignType/Quiz.jsx'
+import DeleteConfirmPopup from './Popup/DeleteConfirmPopup.jsx'
+import { SiQuizlet } from 'react-icons/si'
+import Pie from './DesignType/Pie.jsx'
+import Donut from './DesignType/Donut.jsx'
+import { TbChartDonutFilled } from 'react-icons/tb'
 
-const Layout = ({currentQuestion, allQuestion, presentation, questionId}) => {
+const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQuestion}) => {
     const navigate = useNavigate();
 
     const { role } = useAuth();
@@ -47,6 +52,12 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId}) => {
     const [status, setStatus] = useState(false);
     const [listOfAdmin, setListOfAdmin] = useState(presentation.addedAdmin || []);
 
+    const [deletePopupDisplay, setDeletePopDisp] = useState(false);
+
+    const [previewUrl, setPreviewUrl] = useState(currentQuestion.Image || "");
+    const [description, setDescription] = useState(currentQuestion.description || "");
+
+
     let timeOutId = useRef(null);
 
     useEffect(() => {
@@ -57,6 +68,8 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId}) => {
         setDesignTemplate(currentQuestion.designTemplate || "");
         setDesignType(currentQuestion.designType || "");
         setListOfAdmin(presentation.addedAdmin || []);
+        setPreviewUrl(currentQuestion.Image || "");
+        setDescription(currentQuestion.description || "");
     }, [currentQuestion, selectedQuestion, presentation]);
 
     const mainSectionSelection = ()=>{
@@ -67,6 +80,10 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId}) => {
                 return <Ranking localOptions={localOptions} localQuestion={localQuestion} designTemplate={designTemplate}/>
             case "quiz" : 
                 return <Quiz localOptions={localOptions} localQuestion={localQuestion} designTemplate={designTemplate}/>
+            case "pie" : 
+                return <Pie localOptions={localOptions} localQuestion={localQuestion} designTemplate={designTemplate}/>
+            case "donut" : 
+                return <Donut localOptions={localOptions} localQuestion={localQuestion} designTemplate={designTemplate}/>
         }
     }
 
@@ -215,8 +232,12 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId}) => {
                 return <MdOutlinePoll className='text-blue-400' size={16} />
             case "ranking":
                 return <ChartBarDecreasing color='indigo' size={14} />
-            case "openEnded":
-                return <FaComment className='text-orange-400' />
+            case "quiz":
+                return <SiQuizlet className='text-red-400' size={16} />
+            case "pie":
+                return <PieChart className='text-orange-400' size={16} />
+            case "donut":
+                return <TbChartDonutFilled className='text-orange-400 text-lg' />
         }
     }
 
@@ -395,9 +416,9 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId}) => {
     const sideBarChoice = ()=>{
         switch(selectedEditingSection){
             case "editQuestions" : 
-                return <EditingQuestion setSelectedCorrect={setSelectedCorrect} selectedCorrect={selectedCorrect} localQuestion={localQuestion} localOptions={localOptions} handleColorChange={handleColorChange} handleOptionChange={handleOptionChange} updateQuestion={updateQuestion} deleteOption={deleteOption} addOption={addOption} designType={designType} />
+                return <EditingQuestion setSelectedCorrect={setSelectedCorrect} selectedCorrect={selectedCorrect} localQuestion={localQuestion} localOptions={localOptions} handleColorChange={handleColorChange} handleOptionChange={handleOptionChange} updateQuestion={updateQuestion} deleteOption={deleteOption} addOption={addOption} designType={designType} questionId={questionId} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} setStatus={setStatus} setDetails={setDetails} setShowPopUp={setShowPopUp} Description={description} setDescription={setDescription} setLocalOptions={setLocalOptions}/>
             case "slideEditing" : 
-                return <SlideEditing designTemplate={designTemplate} changeDesignTemplate={changeDesignTemplate}/>
+                return <SlideEditing deletePopUp={()=>setDeletePopDisp(true)} designTemplate={designTemplate} changeDesignTemplate={changeDesignTemplate}/>
             case "addAdmin" : 
                 return <AddAdmin AddAdminFun={addAdminFun} listOfAdmin={listOfAdmin} deleteAddedAdmin={deleteAddedAdmin}/>
             case "none" : 
@@ -502,8 +523,12 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId}) => {
                 <Slogan status={status} details={details} />
             </div>
 
-            <div className='absolute w-screen left-0 b-[10%]'>
+            <div className='absolute w-screen left-0 bottom-[5%]'>
                     <FloatingSwitch editingSection={selectedEditingSection} setEditingSection={setSelectedEditingSection}/>
+            </div>
+
+            <div className={`absolute transition-all duration-300 ease-in-out ${deletePopupDisplay ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}  w-screen h-screen top-0 left-0`}>
+                    <DeleteConfirmPopup presenetationId={presentationId} setDetails={setDetails} setStatus={setStatus} setDisplay={setShowPopUp} setQuestion={setAllQuestion} questionId={questionId} onClose={()=>setDeletePopDisp(false)}/>
             </div>
         </div>
     )

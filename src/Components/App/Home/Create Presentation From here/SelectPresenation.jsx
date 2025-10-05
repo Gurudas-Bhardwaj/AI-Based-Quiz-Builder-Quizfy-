@@ -1,9 +1,11 @@
 import { ChartBarDecreasing, ChartBarIncreasing, Circle, CircleQuestionMark, X } from 'lucide-react';
 import React, { useState } from 'react';
 import { FaCaretUp, FaComment } from 'react-icons/fa';
-import { MdOutlinePoll } from 'react-icons/md';
+import { MdOutlinePoll, MdQuiz } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router';
 import { useAuth } from '../../../../Context/authContext';
+import { templateOptions } from '../../Templates/Templates';
+import { SiQuizlet } from 'react-icons/si';
 
 const SelectPresenation = ({ onClose, isVisible, presentationId }) => {
   const [messageBox1, setMessageBox1] = useState(false);
@@ -18,35 +20,18 @@ const SelectPresenation = ({ onClose, isVisible, presentationId }) => {
   const navigate = useNavigate();
 
   const interactiveOptions = [
+    { id: 'quiz', icon: <SiQuizlet className='text-orange-400' />, label: 'Quiz' },
     { id: 'poll', icon: <MdOutlinePoll className='text-blue-400' size={16} />, label: 'Poll' },
     { id: 'ranking', icon: <ChartBarDecreasing color='indigo' size={14} />, label: 'Ranking' },
-    { id: 'openEnded', icon: <FaComment className='text-orange-400' />, label: 'Open Ended' },
   ];
 
-  const templateOptions = [
-    { id: 'BG-none', className: 'NONE' },
-    { id: 'BG-1', className: 'bg-BG-1' },
-    { id: 'BG-2', className: 'bg-BG-2' },
-    { id: 'BG-3', className: 'bg-BG-3' },
-    { id: 'BG-4', className: 'bg-BG-4' },
-    { id: 'BG-5', className: 'bg-BG-5' },
-    { id: 'BG-6', className: 'bg-BG-6' },
-    { id: 'BG-7', className: 'bg-BG-7' },
-    { id: 'BG-8', className: 'bg-BG-8' },
-    { id: 'BG-9', className: 'bg-BG-9' },
-    { id: 'BG-10', className: 'bg-BG-10' },
-    { id: 'BG-11', className: 'bg-BG-11' },
-    { id: 'BG-12', className: 'bg-BG-12' },
-    { id: 'BG-14', className: 'bg-BG-14' },
-    { id: 'BG-15', className: 'bg-BG-15' },
-    { id: 'BG-16', className: 'bg-BG-16' },
-  ];
+  
 
   const options = [
-    { text: "Option A", color: "#FF0000" },
-    { text: "Option B", color: "#00FF00" },
-    { text: "Option C", color: "#0000FF" },
-    { text: "Option D", color: "#FFA500" }
+    { text: "Option A", color: "#FF0000", answer : false },
+    { text: "Option B", color: "#00FF00", answer : true},
+    { text: "Option C", color: "#0000FF", answer : false},
+    { text: "Option D", color: "#FFA500", answer : false}
   ];
 
   const createPresentationAndQuestion = async () => {
@@ -71,7 +56,6 @@ const SelectPresenation = ({ onClose, isVisible, presentationId }) => {
           designTemplate : selectedTemplate,
           question: "Question will be displayed here!",
           options,
-          role
         })
       });
 

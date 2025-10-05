@@ -77,7 +77,7 @@ const AccountSettingPOPUP = ({ onClose }) => {
                 setDisplay(false);
             }, 2000)
 
-            console.log(response);
+            console.log(data);
             return;
         }
 
@@ -113,7 +113,7 @@ const AccountSettingPOPUP = ({ onClose }) => {
                 setDisplay(false);
             }, 2000)
 
-            console.log(response);
+            console.log(data);
             return;
         }
         setMessage(data.Message);
@@ -129,97 +129,151 @@ const AccountSettingPOPUP = ({ onClose }) => {
     }
 
     return (
-        <div className='absolute  w-screen flex flex-col justify-center items-center z-[100] inset-0 bg-black/70   transition-transform duration-500 ease-in-out top-0 left-0 '>
-            <div className='bg-white transition-opacity  shadow-xl rounded-2xl pb-8 w-[90%] lg:w-2/3   flex flex-col pl-10 '>
-                <div className='w-full flex justify-end pr-6 pt-4 '>
-                    <div className='cursor-pointer' onClick={onClose}>
-                        <ImCross className='text-xl cursor-pointer text-black' />
+        <div className='fixed inset-0 z-[100] flex items-center justify-center bg-black/40'>
+            <div className='bg-white w-[95%] md:w-3/4 lg:w-2/3 rounded-2xl shadow-xl overflow-hidden font-Outfit'>
+                {/* Header */}
+                <div className='flex items-center justify-between px-6 py-4 border-b border-stone-100'>
+                    <div className='flex items-center gap-3'>
+                        <div className='w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center border border-stone-200'>
+                            <img src={user} alt='avatar' className='w-6 h-6' />
+                        </div>
+                        <div>
+                            <h2 className='text-lg font-semibold text-stone-800'>Account settings</h2>
+                            <p className='text-xs text-stone-400'>Manage your profile, password and security</p>
+                        </div>
+                    </div>
+                    <div className='flex items-center gap-3'>
+                        
+                        <button onClick={onClose} aria-label='Close settings' className='p-2 rounded-md hover:bg-stone-200 cursor-pointer'>
+                            <ImCross className='text-stone-700' />
+                        </button>
                     </div>
                 </div>
-                <div className='h-[400px] flex flex-col gap-2 w-[99%] overflow-auto'>
-                    <div className='mt-5'>
-                        <h1 className='font-Sora text-2xl'>Account Settings</h1>
-                    </div>
-                    <div className='mt-8 flex flex-col justify-start items-start'>
-                        <h3 onClick={() => setUpdateNameDisplay(!updateNameDisplay)} className='text-lg cursor-pointer font-Sora flex gap-1 justify-center items-center'>Name & Image<IoIosArrowDown className={`mt-1 transition-all ${updateNameDisplay ? "rotate-180" : "rotate-0"}`} /></h3>
-                        <div className='flex gap-4 w-auto items-center'>
-                            <p className='text-sm pt-1 text-gray-500 font-Outfit'>Logged in as {userName.split(" ")[0]}!</p>
-                            <div className='p-2 bg-indigo-300 border border-transparent rounded-full'>
-                                <img src={user} className='w-4' alt="" />
+
+                {/* Content */}
+                <div className='p-6 grid grid-cols-1 md:grid-cols-3 gap-6'>
+                    {/* Left: profile summary */}
+                    <div className='col-span-1 flex flex-col gap-4'>
+                        <div className='bg-white border border-stone-100 rounded-lg p-4 shadow-sm'>
+                            <div className='flex items-center gap-3'>
+                                <div className='w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center border border-indigo-100'>
+                                    <img src={user} alt='avatar' className='w-8 h-8' />
+                                </div>
+                                <div className='cursor-pointer'>
+                                    <div className='text-sm font-medium text-stone-800'>{userName}</div>
+                                    <div className='text-xs text-stone-400'>@{userName.split(' ')[0]?.toLowerCase()}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className='bg-white border border-stone-100 rounded-lg p-4 shadow-sm text-sm text-stone-600'>
+                            <div className='mb-2 font-medium text-stone-800'>Account</div>
+                            <div className='flex flex-col gap-2'>
+                                <div className='flex items-center justify-between'>
+                                    <span>Email</span>
+                                    <span className='text-xs bg-stone-100 px-2 py-1 rounded-full text-stone-500'>Unverified</span>
+                                </div>
+                                <div className='flex items-center justify-between'>
+                                    <span>Member since</span>
+                                    <span className='text-xs text-stone-500'>—</span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className={`w-full ${updateNameDisplay ? "max-h-40 scale-y-100 mt-8 mb-5 opacity-100" : "max-h-0 scale-y-0 mt-0 mb-0 opacity-0"} transition-all  `}>
-                        <div className={`w-full flex flex-col `}>
-                            <div>
-                                <h1 className='text-sm font-Outfit font-2xl'>Name</h1>
+                    {/* Middle: editable fields */}
+                    <div className='col-span-2 flex h-[500px] overflow-auto flex-col gap-4'>
+                        {/* Name */}
+                        <div className='bg-white border border-stone-100 rounded-lg p-4 shadow-sm'>
+                            <div className='flex items-center justify-between'>
+                                <div>
+                                    <div className='text-sm font-medium text-stone-800'>Display name</div>
+                                    <div className='text-xs text-stone-400'>Your public display name</div>
+                                </div>
+                                <div className='text-xs text-stone-400'>Chars left: {noOfCharacter}</div>
                             </div>
-                            <form action="" className='flex flex-col md:flex-row relative  gap-3'>
-                                <input value={name} type="text" onChange={checkingLen} name='newName' className='h-7 w-[90%] md:w-[60%] font-Outfit border-2 border-transparent hover:border-indigo-400 focus:border-indigo-400 pl-2 text-xs bg-stone-300 rounded-lg' />
-                                <label htmlFor="newName" className='text-xs font-Outfit absolute top-[10%] left-[81%] md:top-[24%] md:left-[57%]'>{noOfCharacter}</label>
-                                <button onClick={updateName} type='button' className='w-[100px] md:w-auto text-xs font-Outfit pt-2 pb-2 pl-4 pr-4 border border-black rounded-2xl bg-black text-white'>Save Name</button>
-                            </form>
+                            <div className='mt-3 flex gap-3 items-center'>
+                                <input
+                                    value={name}
+                                    onChange={checkingLen}
+                                    placeholder='Enter display name'
+                                    className='flex-1 px-3 py-2 border border-stone-200 rounded-md focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100 text-sm bg-stone-100 focus:bg-white transition-colors duration-150 cursor-text'
+                                    aria-label='Display name'
+                                />
+                                <button
+                                    onClick={updateName}
+                                    className={`cursor-pointer px-4 py-2 rounded-md text-sm transition-colors duration-150 ${name.trim().length ? 'bg-indigo-500 text-white hover:bg-indigo-600' : 'bg-stone-200 text-stone-600 cursor-not-allowed'}`}
+                                    aria-disabled={!name.trim().length}
+                                >
+                                    Save
+                                </button>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className='mt-8 flex flex-col transition justify-start items-start'>
-                        <h3 className='text-lg  font-Sora flex gap-2 justify-center items-center'>Email <p className='font-Montserrat mt-1 text-[11px] font-semibold pl-2 pr-2 pt-1 pb-1 bg-gray-300 rounded-2xl'>UnVerified</p></h3>
-                        <div className='flex gap-4  items-center'>
-                            <p className='text-sm pt-1 text-gray-500 font-Outfit '>Your Email is unverified</p>
-                            <p className='font-Montserrat mt-0 text-[11px] font-semibold pl-2 pr-2 pt-1 pb-1 bg-indigo-300 rounded-2xl'>Verify now</p>
+                        {/* Password */}
+                        <div className='bg-white border border-stone-100 rounded-lg p-4 shadow-sm'>
+                            <div className='flex items-center justify-between'>
+                                <div>
+                                    <div className='text-sm font-medium text-stone-800'>Change password</div>
+                                    <div className='text-xs text-stone-400'>Keep your account secure</div>
+                                </div>
+                            </div>
+                            <div className='mt-3 grid grid-cols-1 md:grid-cols-2 gap-3'>
+                                <input value={CurrentPassword} onChange={(e) => setCurrentPassword(e.target.value)} placeholder='Current password' className='px-3 py-2 border border-stone-200 rounded-md bg-stone-100 text-sm focus:bg-white focus:border-indigo-400 transition-colors duration-150' aria-label='Current password' />
+                                <input value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder='New password' className='px-3 py-2 border border-stone-200 rounded-md bg-stone-100 text-sm focus:bg-white focus:border-indigo-400 transition-colors duration-150' aria-label='New password' />
+                                <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder='Confirm password' className='px-3 py-2 border border-stone-200 rounded-md bg-stone-100 text-sm focus:bg-white focus:border-indigo-400 transition-colors duration-150' aria-label='Confirm password' />
+                            </div>
+                            <div className='mt-3'>
+                                <button
+                                    onClick={updatePassword}
+                                    className={`cursor-pointer px-4 py-2 rounded-md text-sm transition-colors duration-150 ${newPassword && confirmPassword && CurrentPassword ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-stone-200 text-stone-600 cursor-not-allowed'}`}
+                                    aria-disabled={!(newPassword && confirmPassword && CurrentPassword)}
+                                >
+                                    Update password
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div onClick={() => setUpdatePasswordDisplay(!updatePasswordDisplay)} className='mt-8 flex flex-col justify-start items-start'>
-                        <h3 className='text-lg cursor-pointer font-Sora flex gap-2 justify-center items-center'>Password <p className={`font-Montserrat cursor-pointer mt-1 text-[11px] font-semibold pl-2 pr-2 pt-1 pb-1 ${updatePasswordDisplay ? "bg-indigo-300" : "bg-gray-300"} rounded-2xl`}>Change Now</p></h3>
-                    </div>
+                        <div className='bg-white border border-stone-100 rounded-lg p-4 shadow-sm'>
+                            <div className='flex items-center justify-between'>
+                                <div>
+                                    <div className='text-sm font-medium text-stone-800'>Verify Your Account</div>
+                                    <div className='text-xs text-stone-400'>By Verifying, you can later recover your account.</div>
+                                </div>
+                            </div>
+                            <div className='mt-3 grid grid-cols-1 md:grid-cols-3 gap-3'>
+                                <input value={CurrentPassword} onChange={(e) => setCurrentPassword(e.target.value)} placeholder='Current password' className='px-3 py-2 border border-stone-200 rounded-md bg-stone-100 text-sm focus:bg-white focus:border-indigo-400 transition-colors duration-150' aria-label='Current password' />
+                                <input value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder='New password' className='px-3 py-2 border border-stone-200 rounded-md bg-stone-100 text-sm focus:bg-white focus:border-indigo-400 transition-colors duration-150' aria-label='New password' />
+                                <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder='Confirm password' className='px-3 py-2 border border-stone-200 rounded-md bg-stone-100 text-sm focus:bg-white focus:border-indigo-400 transition-colors duration-150' aria-label='Confirm password' />
+                            </div>
+                            <div className='mt-3'>
+                                <button
+                                    onClick={updatePassword}
+                                    className={`cursor-pointer px-4 py-2 rounded-md text-sm transition-colors duration-150 ${newPassword && confirmPassword && CurrentPassword ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-stone-200 text-stone-600 cursor-not-allowed'}`}
+                                    aria-disabled={!(newPassword && confirmPassword && CurrentPassword)}
+                                >
+                                    Update password
+                                </button>
+                            </div>
+                        </div>
 
-                    <form className={`w-full ${updatePasswordDisplay ? "max-h-40 scale-y-100 mt-8 mb-8 opacity-100" : "max-h-0 scale-y-0 mt-0 mb-0 opacity-0"} transition-all flex flex-col gap-2 `}>
-                        <div className={`w-full flex flex-col `}>
-                            <div>
-                                <h1 className='text-sm font-Outfit font-2xl'>Current Password</h1>
-                            </div>
-                            <div className='flex relative items-center gap-3'>
-                                <input onChange={(e) => setCurrentPassword(e.target.value)} value={CurrentPassword} type="text" name='currentPassword' className='h-7 w-[90%] md:w-[60%] font-Outfit border-2 border-transparent hover:border-indigo-400 focus:border-indigo-400 pl-2 text-xs bg-stone-300 rounded-lg' />
-                            </div>
+                        {/* Danger / actions */}
+                        <div className='flex gap-3 items-center'>
+                            <button onClick={() => setDisplayDeleteDailog(true)} className='px-4 py-2 bg-red-600 text-white rounded-md text-sm cursor-pointer'>Delete account</button>
+                            <button onClick={handleLogout} className='px-4 py-2 bg-stone-100 text-stone-700 rounded-md text-sm cursor-pointer'>Log out</button>
                         </div>
-                        <div className={`w-full flex flex-col `}>
-                            <div>
-                                <h1 className='text-sm font-Outfit font-2xl'>New Password</h1>
-                            </div>
-                            <div className='flex relative items-center gap-3'>
-                                <input value={newPassword} type="text" onChange={(e) => setNewPassword(e.target.value)} name='newPassword' className='h-7 w-[90%] md:w-[60%] font-Outfit border-2 border-transparent hover:border-indigo-400 focus:border-indigo-400 pl-2 text-xs bg-stone-300 rounded-lg' />
-                            </div>
-                        </div>
-                        <div className={`w-full flex flex-col `}>
-                            <div>
-                                <h1 className='text-sm font-Outfit font-2xl'>Confirm Password</h1>
-                            </div>
-                            <div className='flex relative items-center gap-3'>
-                                <input value={confirmPassword} type="text" onChange={(e) => setConfirmPassword(e.target.value)} name='confirmPassword' className='h-7 w-[90%] md:w-[60%] font-Outfit border-2 border-transparent hover:border-indigo-400 focus:border-indigo-400 pl-2 text-xs bg-stone-300 rounded-lg' />
-                            </div>
-                        </div>
-                        <div className='w-full '>
-                            <button type='button' onClick={updatePassword} className='font-Outfit pt-2 pb-2 pl-4 pr-4 border text-xs border-black rounded-2xl bg-black text-white'>Change Password</button>
-                        </div>
-                    </form>
-
-
-                    <div className='mt-8 flex flex-col gap-1 justify-start items-start'>
-                        <h3 className='text-lg  font-Sora flex gap-2 justify-center items-center'>Logout you Account :</h3>
-                        <button className='font-Montserrat mt-1 text-[11px] font-semibold pl-4 pr-4 pt-2 pb-2 text-white bg-red-400 cursor-pointer rounded-2xl' onClick={handleLogout}>Logout!</button>
-                    </div>
-                    <div className='mt-8 flex flex-col gap-1 justify-start items-start'>
-                        <h3 className='text-lg  font-Sora flex gap-2 justify-center items-center'>Delete Your Account! </h3>
-                        <button onClick={() => setDisplayDeleteDailog(!displayDeleteDailog)} className='font-Montserrat mt-1 text-[11px] font-semibold pl-4 pr-4 pt-2 pb-2 text-white bg-red-600 cursor-pointer rounded-2xl'>Delete Now!</button>
                     </div>
                 </div>
-            </div>
-            <div className='fixed top-0 left-0'>
+
+                {/* Footer small message area for toasts */}
+                <div className='p-4 border-t border-stone-100 text-sm text-stone-500'>
+                    Manage your personal information and security settings here.
+                </div>
+
+                {/* Confirm delete overlay & toast */}
                 <ConfirmDeletePopUp display={displayDeleteDailog} onClose={() => { setDisplayDeleteDailog(false) }} />
-            </div>
-            <div className={`fixed ${display ? "flex" : "hidden"} w-screen z-[10000] top-[80%] left-[40%]`}>
-                <Slogan status={Status} details={message} />
+                <div className={`fixed ${display ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-3 pointer-events-none"} transition-all duration-300 ease-in-out w-screen z-[10000] top-[80%] left-[40%]`}>
+                    <Slogan status={Status} details={message} />
+                </div>
             </div>
         </div>
     )

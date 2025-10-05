@@ -13,27 +13,34 @@ import CommentPage from '../../App/Going Live Functionality/User Controlled/Main
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 import { TbMessage2Bolt } from 'react-icons/tb';
 import QuizEndedPopUp from '../../App/Going Live Functionality/Admin Controlled/Pop ups/QuizEndedPopUp';
+import CorrectOptionPopup from "./Popup/CorrectOptionPopup.jsx"
+import IncorrectOptionPopup from "./Popup/IncorrectOptionPopup.jsx"
 
 const Live = () => {
   const { presentationId } = useParams();
   const { userId, userName } = useAuth();
-  
+
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [showCommentSection, setShowCommentSection] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
-  
+
   const [infoForPopUp, setInfoForPopUp] = useState("");
   const [visible, setVisible] = useState(false);
   const [status, setStatus] = useState(true);
-  
+
   const [quizEnded, setQuizEnded] = useState(false);
   const [commentList, setCommentList] = useState([]);
-  
+
   const [isLive, setIsLive] = useState(false);
-  
-  
+
+  const [correctAnsPopup, setCorrectAnsPopup] = useState(false);
+  const [incorrectAnsPopup, setIncorrectAnsPopup] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [correctOption, setCorrectOption] = useState("");
+  const [detail, setDetails] = useState("")
+
   const socket = useRef(null);
   const containerRef = useRef(null);
 
@@ -91,7 +98,7 @@ const Live = () => {
       })
     });
 
-    socket.current.on("quizEnded", ({ message })=>{
+    socket.current.on("quizEnded", ({ message }) => {
       console.log(message);
       setQuizEnded(true);
       setCurrentQuestion([]);
@@ -110,8 +117,28 @@ const Live = () => {
     socket.current.emit("sendComment", { presentationId, userId, userName, message });
   }
 
-  const submitVote = async (questionId, optionId) => {
+  const submitVote = async (question, option) => {
+    const questionId = question._id;
+    const optionId = option._id;
+    console.log("Option Id : ", optionId)
+
     socket.current.emit("handleVotes", { presentationId, userId, questionId, optionId, userName });
+
+    if(question.designType === 'quiz'){
+      const correctOptionInside = question.options.filter((s)=> s.answer !== false);
+      const correctOptionId = correctOptionInside[0]._id;
+      console.log("Correct option inside : ",correctOptionInside);
+      console.log("Correct option inside Id : ",correctOptionId);
+      setCorrectOption(correctOptionInside[0].text);
+      setSelectedOption(option.text);
+      setDetails(question.description); 
+
+      if(correctOptionId == optionId){
+        setCorrectAnsPopup(true);
+      }else{
+        setIncorrectAnsPopup(true);
+      }
+    }
   }
 
 
@@ -181,7 +208,6 @@ const Live = () => {
 
   const checkQuestion = () => {
     if (!questions.length) return;
-    console.log("checkQuestion")
 
 
     // if current question is attempted, auto-advance
@@ -216,9 +242,9 @@ const Live = () => {
 
   return (
     <div ref={containerRef} className='w-screen overflow-hidden h-screen relative flex'>
-      <div className={`w-full h-full  flex justify-center ${currentQuestion ? currentQuestion.designTemplate : ""} items-center bg-cover bg-center bg-no-repeat`}>
+      <div className={`w-full h-full  flex flex-col gap-5 justify-center ${currentQuestion ? currentQuestion.designTemplate : ""} items-center bg-cover bg-center bg-no-repeat`}>
 
-        {quizEnded && <QuizEndedPopUp/>}
+        {quizEnded && <QuizEndedPopUp />}
 
         <ToastContainer
           position="top-right"
@@ -233,7 +259,7 @@ const Live = () => {
           theme="light"
           transition={Bounce}
         />
-        <div className='absolute top-10 left-1/2 -translate-x-1/2'>
+        <div className=''>
           <img src={logo} className='w-48' alt="" />
         </div>
 
@@ -285,12 +311,22 @@ const Live = () => {
                   <div className='font-Outfit text-2xl'>
                     Q) {currentQuestion.question}
                   </div>
-                  <div className="w-full max-w-2xl flex flex-col justify-center items-center gap-4 px-4 sm:px-8">
+
+                  {
+                    currentQuestion.Image != null ? 
+                    <div className='w-full h-[300px] flex justify-center items-center'>
+                      <img className='h-full' src={currentQuestion.Image} alt="" />
+                    </div>
+                    :
+                    null
+                  }
+
+                  <div className={` ${currentQuestion.Image == null ? "flex w-[40%] flex-col justify-center items-center" : "grid grid-cols-2 w-[60%]" } gap-4 px-4 sm:px-8`}>
                     {(currentQuestion.options || []).map((option, index) => (
                       <div
                         key={option._id || index}
-                        className="h-16 w-[80%] cursor-pointer text-white font-Outfit flex items-center px-4 rounded-xl transition-all duration-300 hover:scale-[1.01] bg-stone-900"
-                        onClick={() => submitVote(currentQuestion._id, option._id)}
+                        className={`h-16 ${currentQuestion.Image == null ? "w-[80%]": "w-[100%]"} cursor-pointer text-white font-Outfit flex items-center px-4 rounded-xl transition-all duration-300 hover:scale-[1.01] bg-stone-900`}
+                        onClick={() => submitVote(currentQuestion, option)}
                       >
                         <span className="w-full text-sm sm:text-base md:text-lg">
                           {option.text}
@@ -298,7 +334,7 @@ const Live = () => {
                       </div>
                     ))}
                   </div>
-                  <div className='w-full mt-4 flex flex-col  justify-center items-center gap-4'>
+                  <div className='w-full mt- flex flex-col  justify-center items-center gap-4'>
                     <div className='w-full flex gap-4 justify-center items-center'>
                       <div>
                         <button
@@ -358,6 +394,24 @@ const Live = () => {
           <Slogan status={status} details={infoForPopUp} />
         </div>
       </div>
+
+      {
+        correctAnsPopup
+        &&
+        <div className='absolute top-0 left-0 '>
+          <CorrectOptionPopup onClose={setCorrectAnsPopup} CorrectOption={correctOption} selectedOption={selectedOption} detail={detail}/>
+        </div>
+      }
+
+      {
+        incorrectAnsPopup
+        &&
+        <div className='absolute top-0 left-0 '>
+          <IncorrectOptionPopup onClose={setIncorrectAnsPopup} CorrectOption={correctOption} selectedOption={selectedOption} detail={detail}/>
+        </div>
+      }
+
+
     </div>
   )
 }

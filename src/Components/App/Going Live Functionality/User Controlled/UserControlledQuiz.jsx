@@ -1,4 +1,4 @@
-import { BadgePercent, Ban, Binary, ChartBarDecreasing, Cog, Expand, ExternalLink, MessageCircleMore, PencilLine, User, Users } from 'lucide-react';
+import { BadgePercent, Ban, Binary, ChartBarDecreasing, Cog, Expand, ExternalLink, Image, MessageCircleMore, PencilLine, PieChart, User, Users } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { NavLink, useParams } from 'react-router';
@@ -15,10 +15,15 @@ import ShareLink from './PopUps/ShareLink';
 import QuizEndedPopUp from '../Admin Controlled/Pop ups/QuizEndedPopUp';
 import CommentPage from './Main Files/CommentPage';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
-import { TbMessage2Bolt } from 'react-icons/tb';
+import { TbChartDonutFilled, TbMessage2Bolt } from 'react-icons/tb';
 import ParticipantsPage from './Main Files/ParticipantsPage';
 import { TiUserAdd } from 'react-icons/ti';
 import { AiFillBug } from 'react-icons/ai';
+import { SiQuizlet } from 'react-icons/si';
+import Quiz from './Types/Quiz';
+import DonutType from './Types/Donut';
+import Pie from './Types/Pie';
+import ImagePreviewer from '../Admin Controlled/Pop ups/ImagePreviewer';
 
 const AdminUserControlledLanding = () => {
   const { userName, userId } = useAuth();
@@ -42,7 +47,9 @@ const AdminUserControlledLanding = () => {
 
   const [commentList, setCommentList] = useState([]);
   const [participantList, setParticipantList] = useState([]);
-  const [recentlyJoined, setRecentlyJoined] = useState("");
+  const [imagePopup, setImagePopUp] = useState("");
+
+  const [image, setImage] = useState("");
 
   const containerRef = useRef(null);
 
@@ -79,6 +86,7 @@ const AdminUserControlledLanding = () => {
     socket.current.on('questionsForAdmin', ({ questions }) => {
       const updated = addPercentageToQuestion(questions);
       setAllQuestion(updated || []);
+      console.log(question);  
     });
 
     socket.current.on('votesUpdates', ({ questions }) => {
@@ -168,8 +176,12 @@ const AdminUserControlledLanding = () => {
         return <MdOutlinePoll className="text-blue-400" size={16} />;
       case 'ranking':
         return <ChartBarDecreasing color="indigo" size={14} />;
-      case 'openEnded':
-        return <FaComment className="text-orange-400" />;
+      case 'quiz':
+        return <SiQuizlet className="text-red-400" />;
+      case 'pie':
+        return <PieChart className="text-orange-400" />;
+      case 'donut':
+        return <TbChartDonutFilled className="text-emerald-400" />;
       default:
         return null;
     }
@@ -181,6 +193,12 @@ const AdminUserControlledLanding = () => {
         return <Ranking allQuestion={allQuestion} currentQuestion={currentQuestion} />;
       case 'poll':
         return <Poll showRespInPercen={inPercent} allQuestion={allQuestion} currentQuestion={currentQuestion} />;
+      case "quiz" : 
+        return <Quiz showRespInPercen={inPercent} allQuestion={allQuestion} currentQuestion={currentQuestion} />
+      case "donut" : 
+        return <DonutType showRespInPercen={inPercent} allQuestion={allQuestion} currentQuestion={currentQuestion} />
+      case "pie" : 
+        return <Pie showRespInPercen={inPercent} allQuestion={allQuestion} currentQuestion={currentQuestion} />
       default:
         return null;
     }
@@ -359,6 +377,18 @@ const AdminUserControlledLanding = () => {
         }
       </div>
 
+      <div
+        className="fixed bottom-6 right-[280px] md:bottom-8 md:right-[276px] cursor-pointer p-3 border border-stone-300 rounded-full bg-stone-900 z-10 shadow-md"
+        onClick={() => setImage(!showParticipantCompo)}
+        onMouseEnter={() => setImagePopUp(true)}
+        onMouseLeave={() => setImagePopUp(false)}
+      >
+        <div className="absolute -top-2">
+          <BasicPopUp isVisible={imagePopup} value={'Image Section for Image Question'} />
+        </div>
+        <Image color="white" />
+      </div>
+
       {/* Comment Section Button */}
       <div
         className="fixed bottom-6 right-10 md:bottom-8 md:right-10 cursor-pointer p-3 border border-stone-300 rounded-full bg-stone-900 z-10 shadow-md"
@@ -393,7 +423,13 @@ const AdminUserControlledLanding = () => {
           />
         )}
       </div>
+
+      <div className={`absolute top-[35%] z-[20000] left-[20%] sm:left-[50%] md:left-[60%] lg:left-[70%] transition-all ease-in-out duration-500 ${image ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} `}>
+        <ImagePreviewer image={currentQuestion?.Image} onClose={() => setImage(false)} />
+      </div>
+      
     </div>
+    
   );
 };
 

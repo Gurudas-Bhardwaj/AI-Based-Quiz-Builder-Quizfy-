@@ -6,6 +6,7 @@ import Slogan from '../../../../Messages/Slogan.jsx'
 const ShareLinkPopUp = ({presentationId, onClose}) => {
     const [link, setLink] = useState(`http://localhost:5173/Join/AdminControlledQuiz/Live/${presentationId}`);
     const[show,setShow] = useState(false);
+    const[statusPopup, setStatusPopup] = useState(false);
 
     useEffect(() => {
         setLink(`http://localhost:5173/Join/AdminControlledQuiz/Live/${presentationId}`);
@@ -14,6 +15,7 @@ const ShareLinkPopUp = ({presentationId, onClose}) => {
     const copyLink = () => {
         navigator.clipboard.writeText(link).then(() => {
             
+            setStatusPopup(true)
             setShow(true);
             setTimeout(() => {
                 setShow(false);
@@ -48,8 +50,8 @@ const ShareLinkPopUp = ({presentationId, onClose}) => {
             </div>
         </div>
         <div>
-            <div className={`absolute top-[80%] left-[50%] flex justify-center items-center gap-2 ${show?"flex":"hidden"}`}>
-                <Slogan  status={true}   details='Copied!'   />
+            <div className={`absolute top-[80%] left-[50%] transition-all ease-in-out duration-300  flex justify-center items-center gap-2 ${show?"opacity-100 -translate-y-3 pointer-events-auto":"opacity-0 pointer-events-none translate-y-0"}`}>
+                <Slogan  status={statusPopup}   details='Copied!'   />
             </div>
         </div>
     </div>

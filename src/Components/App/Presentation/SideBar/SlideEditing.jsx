@@ -3,7 +3,7 @@ import { MdEdit } from 'react-icons/md'
 import { RxCross1 } from 'react-icons/rx'
 import { templateOptions } from '../../Templates/Templates'
 
-const SlideEditing = ({designTemplate, changeDesignTemplate}) => {
+const SlideEditing = ({designTemplate, changeDesignTemplate, deletePopUp}) => {
 
  
   return (
@@ -31,7 +31,7 @@ const SlideEditing = ({designTemplate, changeDesignTemplate}) => {
             </div>
           </div>
           <div className='w-full flex justify-center items-center pt-3'>
-                <button className='font-Outfit p-3 bg-red-500 rounded-2xl cursor-pointer text-white'>Delete this Slide!</button>
+                <button onClick={deletePopUp} className='font-Outfit p-3 bg-red-500 rounded-2xl cursor-pointer text-white'>Delete this Slide!</button>
           </div>    
         </div>
       </div>

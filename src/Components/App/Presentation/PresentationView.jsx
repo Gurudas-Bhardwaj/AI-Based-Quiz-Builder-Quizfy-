@@ -1,19 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { BiBug } from 'react-icons/bi'
-import { FaPlus, FaRegComment, FaRegUser, FaSearch } from 'react-icons/fa'
-import { FiUser } from 'react-icons/fi'
-import { GoPlus } from 'react-icons/go'
 import { IoMdArrowRoundBack } from 'react-icons/io'
-import { PiCursorClickDuotone, PiRankingDuotone } from 'react-icons/pi'
-import { RiEdit2Fill, RiSettings4Line } from 'react-icons/ri'
-import { RxCross1, RxCross2 } from 'react-icons/rx'
 import { NavLink, useNavigate, useParams } from 'react-router'
-import { useLocation } from 'react-router'
-import { LuFileStack } from 'react-icons/lu'
 import { BsThreeDots } from 'react-icons/bs'
-import { Bug, Cog, NavigationOff, Radio, Rocket, User, UserCog } from 'lucide-react';
+import { Bug, Cog, Eye, Radio, User} from 'lucide-react';
 import ChoiceBTW_ADM_USER from '../Going Live Functionality/ChoiceBTW_ADM_USER'
 import Layout from './Layout'
+import Preview from './others/Preview'
 
 const PresentationView = () => {
 
@@ -23,6 +15,8 @@ const PresentationView = () => {
     const [allQuestion, setAllQuestion] = useState([]);
     const [currentQuestion, setCurrentQuestion] = useState([]);
     const [presentation, setPresentation] = useState([]);
+    
+    const [preview, setPreview] = useState(false);
 
     const navigate = useNavigate();
 
@@ -49,6 +43,7 @@ const findDetails = async (presentationID, questionID) => {
     // ✅ update states
     setPresentation(result.presentation);
     setAllQuestion(result.question);
+    console.log(result.question);
 
     // ✅ pick question based on questionID (if provided)
     if (questionID) {
@@ -76,7 +71,7 @@ const findDetails = async (presentationID, questionID) => {
 
 
     return (
-        <main className='w-screen h-screen overflow-hidden bg-gray-200'>
+        <main className='w-screen relative h-screen overflow-hidden bg-gray-200'>
             <div className='w-full h-full flex flex-col  items-center'>
 
                 <nav className='w-full flex justify-center bg-white items-center h-16'>
@@ -106,9 +101,6 @@ const findDetails = async (presentationID, questionID) => {
                             <div className='h-full border-b-2 flex justify-center cursor-pointer items-center'>
                                 <h1 className='pt-1 text-lg'>Create</h1>
                             </div>
-                            <div className='h-full border-b-2 border-b-transparent flex justify-center cursor-pointer items-center'>
-                                <h1 className='pt-1 text-lg'>Result</h1>
-                            </div>
                         </div>
 
                         <div className='flex relative justify-center items-center gap-2'>
@@ -126,8 +118,8 @@ const findDetails = async (presentationID, questionID) => {
                                 </div>
                             </div>
                             <div className='hidden md:flex'>
-                                <div className='h-7 w-7 cursor-pointer flex bg-indigo-300 justify-center items-center rounded-full'>
-                                    <FiUser className='text-lg' />
+                                <div className='pt-1 pb-1 pl-4 pr-4 text-white text-sm font-Outfit cursor-pointer flex bg-indigo-400 justify-center items-center rounded-full' onClick={()=>setPreview(true)}>
+                                    <p className='flex justify-center items-center gap-1'><Eye size={13}/> Preview</p>
                                 </div>
                             </div>
 
@@ -154,7 +146,7 @@ const findDetails = async (presentationID, questionID) => {
                 {/* <PollType/> */}
                 
                 {/* {renderQuestionSection(currentQuestion.designType)} */}
-                <Layout questionId={questionId} presentation={presentation} allQuestion={allQuestion} currentQuestion={currentQuestion}/>
+                <Layout setAllQuestion={setAllQuestion} questionId={questionId} presentation={presentation} allQuestion={allQuestion} currentQuestion={currentQuestion}/>
 
                  <div
                 className={`absolute top-[70px] left-3 justify-center items-center transition-all duration-500 ease-out
@@ -168,6 +160,10 @@ const findDetails = async (presentationID, questionID) => {
                 />
             </div>
 
+            </div>
+
+            <div className={`absolute transition-all ease-in-out duration-500 top-0 ${ preview ? "opacity-100 pointer-events-auto" :"opacity-0 pointer-events-none "} bg-black/60 left-0 w-screen h-screen flex justify-center items-center `}>
+                <Preview question={currentQuestion} onClose={()=>setPreview(false)}/>
             </div>
         </main>
     )

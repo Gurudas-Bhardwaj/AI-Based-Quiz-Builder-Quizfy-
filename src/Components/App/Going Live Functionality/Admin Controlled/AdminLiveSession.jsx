@@ -1,4 +1,4 @@
-import { BadgePercent, Ban, BinaryIcon, ChartColumn, Cog, ExternalLink, Lightbulb, MessageCircle, MessageCircleMore, PencilLine, Share, Timer, User, Users } from 'lucide-react'
+import { BadgePercent, Ban, BinaryIcon, ChartColumn, Cog, Donut, ExternalLink, Image, Lightbulb, MessageCircle, MessageCircleMore, PencilLine, Share, Timer, User, Users } from 'lucide-react'
 import React, { use, useEffect, useRef, useState } from 'react'
 import { IoMdArrowRoundBack, IoMdArrowRoundForward } from 'react-icons/io'
 import { Navigate, NavLink, useNavigate, useParams } from 'react-router'
@@ -18,7 +18,10 @@ import { toast, Bounce, ToastContainer } from 'react-toastify'
 import { Toaster } from 'react-hot-toast'
 import { TbMessage2Bolt } from 'react-icons/tb'
 import StopWatch from './Pop ups/StopWatch'
-
+import ImagePreviewer from './Pop ups/ImagePreviewer'
+import Quiz from './Types/Quiz'
+import Pie from './Types/Pie'
+import DonutType from './Types/Donut';
 const AdminLiveSession = () => {
 
   const { presentationId } = useParams();
@@ -53,6 +56,7 @@ const AdminLiveSession = () => {
   const [participantList, setParticipantList] = useState([]);
   const [participantResponses, setParticipantResponses] = useState([]);
 
+  const [imageDispay, setImageDisplay] = useState(false);
 
   const socket = useRef(null);
   // const navigate = useNavigate();
@@ -66,6 +70,7 @@ const AdminLiveSession = () => {
 
   const addPercentageToQuestion = (question) => {
     if (!question || !question.options) return question;
+    console.log(question)
 
     const totalVotes = question.options.reduce((sum, option) => sum + (option.votes || 0), 0);
 
@@ -94,6 +99,8 @@ const AdminLiveSession = () => {
       setCurrentQuestion(updatedQuestion);
       setOptions(updatedQuestion?.options || []);
       setDesignType(updatedQuestion?.designType || "");
+      console.log(question)
+      console.log(question.Image)
       console.log("Received question:", updatedQuestion);
     });
 
@@ -104,7 +111,6 @@ const AdminLiveSession = () => {
       setCurrentQuestion(updatedQuestion);
       setOptions(updatedQuestion?.options || []);
       setDesignType(updatedQuestion?.designType || "");
-      console.log("voteUpdate -> question:", updatedQuestion);
     });
 
     // userResponse — append to live response log and also ensure UI sync
@@ -162,7 +168,6 @@ const AdminLiveSession = () => {
     socket.current.emit("getComments", { presentationId });
 
     socket.current.on("commentUpdate", ({ comments }) => {
-      console.log("Received comments:", comments);
       setCommentList(comments || []);
     });
 
@@ -218,8 +223,15 @@ const AdminLiveSession = () => {
         return <Poll currentQuestion={currentQuestion} showRespInPercen={showPercentage} />;
       case "ranking":
         return <Ranking currentQuestion={currentQuestion} showRespInPercen={showPercentage} />;
-      case "openEnded":
-        return <OpenEnded currentQuestion={currentQuestion} showRespInPercen={showPercentage} />;
+      case "quiz":
+        return <Quiz currentQuestion={currentQuestion} showRespInPercen={showPercentage} />;
+      case "pie":
+        return <Pie currentQuestion={currentQuestion} showRespInPercen={showPercentage} />;
+      case "donut" : 
+        return <DonutType currentQuestion={currentQuestion} showRespInPercen={showPercentage} />;
+      default:
+        return <div className='text-center flex justify-center items-center font-Outfit text-stone-400'>No question active</div>;
+      
     }
 
   }
@@ -254,7 +266,7 @@ const AdminLiveSession = () => {
 
       {startingTimer && <div><StopWatch timeGiven={60} /></div>}
 
-      {shareLinkPopUp && <ShareLinkPopUp presentationId={presentationId} onClose={() => setShareLinkPopUp(false)} />}
+      
       {showQuizEnded && <QuizEndedPopUp />}
 
       {/* Top Navbar */}
@@ -417,11 +429,12 @@ const AdminLiveSession = () => {
             className='cursor-pointer relative  bg-white p-3 rounded-full'
             onMouseEnter={() => setResetResult(true)}
             onMouseLeave={() => setResetResult(false)}
+            onClick={()=>setImageDisplay(!imageDispay)}
           >
             <div className='absolute top-0 left-[30%]'>
-              <PopUp isVisible={resetResult} value={"Reset Result"} />
+              <PopUp isVisible={resetResult} value={"Show the image (if Provided any)"} />
             </div>
-            <BiReset size={24} />
+            <Image size={24} />
           </div>
 
           <div
@@ -448,7 +461,7 @@ const AdminLiveSession = () => {
           commentList={commentList}
         />
       </div>
-      <div className={`absolute top-[23%] left-[10%] sm:left-[50%] md:left-[60%] lg:left-[73%] transition-all ease-in-out duration-500  ${showParticipant ? 'opacity-100 ' : 'opacity-0   pointer-events-none'}`}>
+      <div className={`absolute top-[23%] left-[10%] sm:left-[50%] md:left-[60%] lg:left-[73%] transition-all ease-in-out duration-500  ${showParticipant ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3  pointer-events-none'}`}>
         <ParticipantResponse
           isVisible={showParticipant}
           onClose={() => setShowParticipant(false)}
@@ -457,7 +470,15 @@ const AdminLiveSession = () => {
         />
 
       </div>
+      <div className={`absolute top-[37%] left-[14%] sm:left-[50%] md:left-[60%] lg:left-[70%] transition-all ease-in-out duration-500 ${imageDispay ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3  pointer-events-none'}`}>
+        <ImagePreviewer image={currentQuestion?.Image} onClose={()=>setImageDisplay(false)} // pass the live log
+        />
 
+      </div>
+
+      <div className={`w-screen h-screen transition-all duration-300 ease-in-out absolute top-0 left-0 ${shareLinkPopUp ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
+         <ShareLinkPopUp presentationId={presentationId} onClose={() => setShareLinkPopUp(false)} />
+      </div>
     </div>
   )
 }
