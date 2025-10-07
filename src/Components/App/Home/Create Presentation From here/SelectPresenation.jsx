@@ -1,4 +1,4 @@
-import { ChartBarDecreasing, ChartBarIncreasing, Circle, CircleQuestionMark, X } from 'lucide-react';
+import { ChartBarDecreasing, ChartBarIncreasing, Circle, CircleQuestionMark, DonutIcon, PieChart, X } from 'lucide-react';
 import React, { useState } from 'react';
 import { FaCaretUp, FaComment } from 'react-icons/fa';
 import { MdOutlinePoll, MdQuiz } from 'react-icons/md';
@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router';
 import { useAuth } from '../../../../Context/authContext';
 import { templateOptions } from '../../Templates/Templates';
 import { SiQuizlet } from 'react-icons/si';
+import { TbChartDonutFilled } from 'react-icons/tb';
 
 const SelectPresenation = ({ onClose, isVisible, presentationId }) => {
   const [messageBox1, setMessageBox1] = useState(false);
@@ -14,8 +15,7 @@ const SelectPresenation = ({ onClose, isVisible, presentationId }) => {
   const [selectedDesignType, setSelectedDesignType] = useState(null);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
 
-  const { userId, role } = useAuth();
-  console.log(role)
+  const { userId} = useAuth();
 
   const navigate = useNavigate();
 
@@ -23,6 +23,8 @@ const SelectPresenation = ({ onClose, isVisible, presentationId }) => {
     { id: 'quiz', icon: <SiQuizlet className='text-orange-400' />, label: 'Quiz' },
     { id: 'poll', icon: <MdOutlinePoll className='text-blue-400' size={16} />, label: 'Poll' },
     { id: 'ranking', icon: <ChartBarDecreasing color='indigo' size={14} />, label: 'Ranking' },
+    { id: 'donut', icon: <TbChartDonutFilled className='text-emerald-400' size={14} />, label: 'Donut' },
+    { id: 'pie', icon: <PieChart color='red' size={14} />, label: 'Pie' },
   ];
 
   
@@ -40,7 +42,7 @@ const SelectPresenation = ({ onClose, isVisible, presentationId }) => {
       const presRes = await fetch("http://localhost:9000/handleQuestions/createPresentation", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user: userId, title: "Untitled Presentation", role : role })
+        body: JSON.stringify({ user: userId, title: "Untitled Presentation" })
       });
 
       const { presentationId } = await presRes.json();
@@ -70,11 +72,11 @@ const SelectPresenation = ({ onClose, isVisible, presentationId }) => {
   };
 
   return (
-    <div className={`fixed inset-0 z-50 flex justify-center items-center transition-all duration-500 ease-out bg-black/70  ${isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-      <section className="relative w-full max-w-2xl max-h-[500px] rounded-3xl shadow-2xl bg-white/80 bg-clip-padding backdrop-blur-xl border border-white/30 flex flex-col overflow-auto animate-fadeInUp" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+    <div className={`fixed inset-0 z-50 flex justify-center items-center transition-all duration-300 ease-out bg-stone-950/70  ${isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+      <section className="relative w-full max-w-2xl max-h-[90%] rounded-3xl shadow-2xl bg-white/80 bg-clip-padding backdrop-blur-xl border border-white/30 flex flex-col overflow-auto animate-fadeInUp" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
         {/* Close Button */}
-        <button onClick={onClose} className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/80 hover:bg-red-100 shadow transition-all">
-          <X size={20} className="text-gray-500 hover:text-red-500 transition" />
+        <button onClick={onClose} className="absolute  text-gray-500 hover:text-red-500  cursor-pointer top-4 right-4 z-10 p-2 rounded-full bg-white/80 hover:bg-red-100 shadow transition-all">
+          <X size={20} className="  transition" />
         </button>
         {/* Header */}
         <div className="flex flex-col items-center justify-center py-6 px-8 bg-gradient-to-r bg-stone-200 rounded-t-3xl">
@@ -103,7 +105,7 @@ const SelectPresenation = ({ onClose, isVisible, presentationId }) => {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-4 mt-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
               {interactiveOptions.map((option) => (
                 <div
                   key={option.id}
@@ -136,7 +138,7 @@ const SelectPresenation = ({ onClose, isVisible, presentationId }) => {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-4 gap-3 mt-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
               {templateOptions.map((template) => (
                 template.className === "NONE" ? (
                   <div

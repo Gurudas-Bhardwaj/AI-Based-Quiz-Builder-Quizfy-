@@ -17,7 +17,7 @@ const Preview = ({ question, onClose }) => {
                 <img src={logo} className='w-48' alt="" />
             </div>
             <div className='w-full flex flex-col gap-10 justify-center items-center'>
-                <div className='w-[80%] font-Outfit text-2xl'>
+                <div className='w-[80%] flex justify-center font-Outfit text-2xl'>
                     Q){question.question}
                 </div>
                 <div className='w-[40%] flex flex-col gap-3 justify-center items-center'>

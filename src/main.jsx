@@ -24,6 +24,8 @@ const LazyUserControlledLive = lazy(() => import("./Components/User/User Live Se
 const LazySharedWithMe = lazy(() => import("./Components/App/Shared Presentation/SharedWithMe.jsx"));
 
 const UserLiveSession = lazy(() => import("./Components/App/Going Live Functionality/User Controlled/UserControlledQuiz.jsx"))
+const LazyBilling = lazy(()=> import("./Components/Landing/Billing.jsx"));
+const LazyAboutUs = lazy(()=> import("./Components/Landing/AboutUs.jsx"));
 
 const route = createBrowserRouter([
   {
@@ -31,6 +33,8 @@ const route = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "/", element: <Suspense fallback={<Basic />}><LazyLandingPage /></Suspense> },
+      { path : "/Billing", element : <Suspense fallback={<Basic />}><LazyBilling/></Suspense>},
+      { path : "/AboutUs", element : <Suspense fallback={<Basic />}><LazyAboutUs/></Suspense>},
       {
         path: "/Login", element: <Suspense fallback={<Basic />}>
           <LoggedInRoute>
@@ -47,6 +51,7 @@ const route = createBrowserRouter([
       },
     ]
   },
+
   {
     path: "/App/Admin",
     element: <Suspense fallback={<Basic />}>

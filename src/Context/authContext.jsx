@@ -5,7 +5,6 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLogin, setIsLogin] = useState(false);
   const [userName, setUserName] = useState(null);
-  const [role, setRole] = useState(null);
   const [email, setEmail] = useState(null);
   const [userId, setUserId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -34,9 +33,8 @@ export const AuthProvider = ({ children }) => {
       if (accessToken) {
         localStorage.setItem('accessToken', accessToken);
         const decoded = parseJWT(accessToken);
-        setIsLogin(true);
+        setIsLogin(true); 
         setUserName(decoded?.name || null);
-        setRole(decoded?.role || null);
         setEmail(decoded?.email || null);
         setUserId(decoded?.id || null);
       } else {
@@ -46,7 +44,6 @@ export const AuthProvider = ({ children }) => {
       console.error('Refresh failed:', error);
       setIsLogin(false);
       setUserName(null);
-      setRole(null);
       setEmail(null);
       setUserId(null);
       localStorage.removeItem('accessToken');
@@ -70,7 +67,6 @@ export const AuthProvider = ({ children }) => {
       } else {
         setIsLogin(true);
         setUserName(decoded?.name || null);
-        setRole(decoded?.role || null);
         setEmail(decoded?.email || null);
         setUserId(decoded?.id || null);
       }
@@ -103,7 +99,6 @@ export const AuthProvider = ({ children }) => {
       const decoded = parseJWT(data.accessToken);
       setIsLogin(true);
       setUserName(decoded?.name || null);
-      setRole(decoded?.role || null);
       setEmail(decoded?.email || null);
       setUserId(decoded?.id || null);
 
@@ -122,7 +117,6 @@ export const AuthProvider = ({ children }) => {
         email,
         userId,
         isLoading,
-        role,
         refreshToken,
         login,
       }}

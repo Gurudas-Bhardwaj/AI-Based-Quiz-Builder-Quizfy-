@@ -7,7 +7,6 @@ const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState("user"); // ✅ default role = user
 
   //toaster data
   const [message, setMessage] = useState("");
@@ -20,7 +19,7 @@ const SignUp = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name, email, password, role }), // ✅ added role
+      body: JSON.stringify({ name, email, password}), 
     });
 
     const message = await response.json();
@@ -114,33 +113,7 @@ const SignUp = () => {
                 Password
               </label>
             </div>
-
-            {/* Role Selection */}
-            <div className="w-64 flex flex-col mt-3 text-xs gap-2">
-              <p className="font-semibold    text-gray-700">Select Role:</p>
-              <div className="flex justify-start gap-4">
-                <label className="flex items-center gap-1 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="user"
-                    checked={role === "user"}
-                    onChange={(e) => setRole(e.target.value)}
-                  />
-                  User
-                </label>
-                <label className="flex items-center gap-1 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="admin"
-                    checked={role === "admin"}
-                    onChange={(e) => setRole(e.target.value)}
-                  />
-                  Admin
-                </label>
-              </div>
-            </div>
+           
           </div>
 
           {/* Submit */}

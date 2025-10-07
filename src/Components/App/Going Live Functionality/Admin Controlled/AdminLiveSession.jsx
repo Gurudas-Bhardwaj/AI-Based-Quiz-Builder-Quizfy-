@@ -4,7 +4,7 @@ import { IoMdArrowRoundBack, IoMdArrowRoundForward } from 'react-icons/io'
 import { Navigate, NavLink, useNavigate, useParams } from 'react-router'
 import { useAuth } from '../../../../Context/authContext'
 import { BiReset } from 'react-icons/bi'
-import { FaCaretUp } from 'react-icons/fa'
+import { FaCaretUp, FaExclamationTriangle } from 'react-icons/fa'
 import PopUp from './Pop ups/PopUp'
 import CommentSection from './Pop ups/CommentSection'
 import ParticipantResponse from './Pop ups/ParticipantResponse'
@@ -22,10 +22,12 @@ import ImagePreviewer from './Pop ups/ImagePreviewer'
 import Quiz from './Types/Quiz'
 import Pie from './Types/Pie'
 import DonutType from './Types/Donut';
+import { BsThreeDots } from 'react-icons/bs'
 const AdminLiveSession = () => {
 
   const { presentationId } = useParams();
   const { userName, userId } = useAuth();
+  const accessToken = localStorage.getItem("accessToken");
 
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [options, setOptions] = useState([]);
@@ -34,7 +36,8 @@ const AdminLiveSession = () => {
 
   const [showJoiningPopup, setShowJoiningPopup] = useState(false);
   const [userNameJustJoined, setUserNameJustJoined] = useState("");
-
+  const [isUnauthorized, setIsUnauthorized] = useState(false);
+  const navigate = useNavigate();
 
   // UI state
   const [comment, setComment] = useState(false);
@@ -87,11 +90,13 @@ const AdminLiveSession = () => {
 
 
   useEffect(() => {
+
+
     socket.current = io("http://localhost:9000/adminControlledQuiz", {
       transports: ["websocket", "polling"]
     });
 
-    socket.current.emit("joinQuizByAdmin", { presentationId });
+    socket.current.emit("joinQuizByAdmin", { presentationId, accessToken });
 
     // New question (initial or next/prev)
     socket.current.on("newQuestionForAdmin", ({ question }) => {
@@ -103,6 +108,11 @@ const AdminLiveSession = () => {
       console.log(question.Image)
       console.log("Received question:", updatedQuestion);
     });
+
+    socket.current.on("unauthorized", () => {
+      setIsUnauthorized(true);
+    });
+
 
     // Vote update — backend now sends full question object
     socket.current.on("voteUpdate", ({ question }) => {
@@ -195,19 +205,19 @@ const AdminLiveSession = () => {
 
   const handleNextQuestion = () => {
     socket.current.emit("nextQuestion", {
-      presentationId
+      presentationId, accessToken
     })
   }
 
   const handleEndQuiz = () => {
     socket.current.emit("endQuizByAdmin", {
-      presentationId
+      presentationId, accessToken
     })
   }
 
   const handlePrevQuestion = () => {
     socket.current.emit("previousQuestion", {
-      presentationId
+      presentationId, accessToken
     })
   };
 
@@ -227,11 +237,11 @@ const AdminLiveSession = () => {
         return <Quiz currentQuestion={currentQuestion} showRespInPercen={showPercentage} />;
       case "pie":
         return <Pie currentQuestion={currentQuestion} showRespInPercen={showPercentage} />;
-      case "donut" : 
+      case "donut":
         return <DonutType currentQuestion={currentQuestion} showRespInPercen={showPercentage} />;
       default:
         return <div className='text-center flex justify-center items-center font-Outfit text-stone-400'>No question active</div>;
-      
+
     }
 
   }
@@ -266,7 +276,7 @@ const AdminLiveSession = () => {
 
       {startingTimer && <div><StopWatch timeGiven={60} /></div>}
 
-      
+
       {showQuizEnded && <QuizEndedPopUp />}
 
       {/* Top Navbar */}
@@ -300,16 +310,20 @@ const AdminLiveSession = () => {
 
           <div className='flex items-center gap-3 font-Outfit text-sm'>
             <div>
-              <button className=' pt-1 pb-1 pr-3 pl-3 flex gap-1 bg-gray-300 items-center justify-center text-black rounded-4xl text-xs '>
+              <button className=' pt-1 pb-1 pr-3 pl-3 hidden sm:flex gap-1 bg-gray-300 items-center justify-center text-black rounded-4xl text-xs '>
                 <PencilLine size={13} />
                 <p className=''>Edit Slide</p>
               </button>
             </div>
 
-            <div className='h-6 w-1 border-l border-l-stone-400'></div>
+            <div className='p-1 flex sm:hidden  border border-stone-200 rounded-full bg-gray-200'>
+              <BsThreeDots className='cursor-pointer' onClick={() => setShowOptions(!showOptions)} />
+            </div>
+
+            <div className='h-6 w-1 border-l  border-l-stone-400'></div>
 
             <div>
-              <button className=' pt-1 pb-1 pr-3 pl-3 flex gap-1 cursor-pointer bg-indigo-400 items-center justify-center text-white rounded-4xl text-xs '>
+              <button className=' pt-1 pb-1 pr-3 pl-3 hidden sm:flex gap-1 cursor-pointer bg-indigo-400 items-center justify-center text-white rounded-4xl text-xs '>
                 <ExternalLink size={13} />
                 <p onClick={() => setShareLinkPopUp(true)} className=''>Share Link</p>
               </button>
@@ -332,8 +346,8 @@ const AdminLiveSession = () => {
         }
       </div>
 
-      <div className='fixed  w-screen top-[86%] flex justify-center items-center'>
-        <div className='h-[100%] b pt-2 pb-2 pl-7 pr-7 flex justify-center items-center gap-5 rounded-3xl drop-shadow-2xl '>
+      <div className='fixed w-auto md:w-screen right-0 top-[10%] md:top-[86%] flex flex-col md:flex-row justify-center items-center'>
+        <div className='h-[100%] b pt-2 pb-2 pl-7 pr-7 flex flex-col md:flex-row justify-center items-center gap-5 rounded-3xl drop-shadow-2xl '>
 
           <div
             onMouseEnter={() => setCurrentParticipant(true)}
@@ -341,9 +355,9 @@ const AdminLiveSession = () => {
             className='cursor-pointer relative bg-white p-3 rounded-full'
           >
             <div className='absolute top-0 left-[30%]'>
-            <PopUp isVisible={currentParticipant} value={"Participant responded"} />
+              <PopUp isVisible={currentParticipant} value={"Participant responded"} />
             </div>
-              <Users onClick={() => { setShowCommentSection(false); setShowParticipant(!showParticipant) }} className='' size={24} />
+            <Users onClick={() => { setShowCommentSection(false); setShowParticipant(!showParticipant) }} className='' size={24} />
           </div>
           {
             showPercentage ?
@@ -381,7 +395,7 @@ const AdminLiveSession = () => {
             </div>
             <ChartColumn size={24} />
           </div>
-          <div className='flex h-full justify-center items-center gap-2'>
+          <div className='flex flex-col md:flex-row h-full justify-center items-center gap-2'>
             <div
               onClick={handlePrevQuestion}
               onMouseEnter={() => setGoLeft(true)}
@@ -429,7 +443,7 @@ const AdminLiveSession = () => {
             className='cursor-pointer relative  bg-white p-3 rounded-full'
             onMouseEnter={() => setResetResult(true)}
             onMouseLeave={() => setResetResult(false)}
-            onClick={()=>setImageDisplay(!imageDispay)}
+            onClick={() => setImageDisplay(!imageDispay)}
           >
             <div className='absolute top-0 left-[30%]'>
               <PopUp isVisible={resetResult} value={"Show the image (if Provided any)"} />
@@ -453,7 +467,7 @@ const AdminLiveSession = () => {
       </div>
 
       {/* comment section :  */}
-      <div className={`absolute top-[20%] left-[10%] sm:left-[50%] md:left-[60%] lg:left-[73%] transition-all ease-in-out duration-500 ${showCommentSection ? 'opacity-100 ' : 'opacity-0   pointer-events-none'}`}>
+      <div className={`absolute bottom-2 right-4 transition-all ease-in-out duration-500 ${showCommentSection ? 'opacity-100 ' : 'opacity-0   pointer-events-none'}`}>
         <CommentSection
           onClose={() => setShowCommentSection(!showCommentSection)}
           sendComment={sendComment}
@@ -461,7 +475,7 @@ const AdminLiveSession = () => {
           commentList={commentList}
         />
       </div>
-      <div className={`absolute top-[23%] left-[10%] sm:left-[50%] md:left-[60%] lg:left-[73%] transition-all ease-in-out duration-500  ${showParticipant ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3  pointer-events-none'}`}>
+      <div className={`absolute  bottom-2 right-4 transition-all ease-in-out duration-500  ${showParticipant ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3  pointer-events-none'}`}>
         <ParticipantResponse
           isVisible={showParticipant}
           onClose={() => setShowParticipant(false)}
@@ -470,14 +484,35 @@ const AdminLiveSession = () => {
         />
 
       </div>
-      <div className={`absolute top-[37%] left-[14%] sm:left-[50%] md:left-[60%] lg:left-[70%] transition-all ease-in-out duration-500 ${imageDispay ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3  pointer-events-none'}`}>
-        <ImagePreviewer image={currentQuestion?.Image} onClose={()=>setImageDisplay(false)} // pass the live log
+      <div className={`absolute bottom-2 right-4 transition-all ease-in-out duration-500 ${imageDispay ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3  pointer-events-none'}`}>
+        <ImagePreviewer image={currentQuestion?.Image} onClose={() => setImageDisplay(false)} // pass the live log
         />
 
       </div>
 
       <div className={`w-screen h-screen transition-all duration-300 ease-in-out absolute top-0 left-0 ${shareLinkPopUp ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
-         <ShareLinkPopUp presentationId={presentationId} onClose={() => setShareLinkPopUp(false)} />
+        <ShareLinkPopUp presentationId={presentationId} onClose={() => setShareLinkPopUp(false)} />
+      </div>
+
+      <div className={`w-screen h-screen transition-all duration-300 ease-in-out absolute top-0 left-0 ${isUnauthorized ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
+        <section className="w-full h-screen flex flex-col items-center justify-center bg-stone-950/90 font-Outfit px-4">
+          <div className="bg-white rounded-xl shadow-lg p-8 flex flex-col items-center gap-6 text-center max-w-md w-full">
+            <FaExclamationTriangle className="text-yellow-500 text-6xl" />
+            <h1 className="text-2xl font-semibold text-stone-800">
+              Unauthorized Access
+            </h1>
+            <p className="text-stone-500 text-sm">
+              You do not have permission to access this page or perform this action.
+              Please contact your administrator if you think this is an error.
+            </p>
+            <button
+              onClick={() => navigate("/App/Admin/Home")} // navigate to home or safe page
+              className="mt-4 px-6 py-2 cursor-pointer bg-indigo-500 hover:bg-indigo-600 text-white rounded-md transition"
+            >
+              Go Back Home
+            </button>
+          </div>
+        </section>
       </div>
     </div>
   )

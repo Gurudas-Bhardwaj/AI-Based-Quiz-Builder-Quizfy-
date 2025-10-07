@@ -92,8 +92,8 @@ const MyPresentation = () => {
   return (
     <main className="w-full min-h-screen bg-stone-50 text-gray-800 font-[Outfit] overflow-hidden">
       {/* Navbar */}
-      <div className="w-full flex justify-end mt-10 pr-6 items-center">
-        <div className="flex h-full items-center gap-3">
+      <div className="w-full flex justify-end mt-7 pr-7 items-center">
+        <div className="flex h-full mr-5 items-center gap-3">
           <div className="relative">
             <div
               onClick={() => {

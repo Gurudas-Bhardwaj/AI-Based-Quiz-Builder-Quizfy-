@@ -18,9 +18,9 @@ const AddAdmin = ({ AddAdminFun, listOfAdmin, deleteAddedAdmin }) => {
   };
 
   return (
-    <div className="w-full lg:w-[24%] h-full hidden sm:flex justify-center">
-      <div className="w-full flex justify-center rounded-2xl h-full items-center">
-        <div className="bg-white h-[97%] mr-3 pb-10 overflow-auto mt-6 border border-stone-300 rounded-2xl w-full hidden lg:flex flex-col">
+    <div className="w-[100%] lg:w-[24%] h-full absolute md:static flex justify-center items-center">
+      <div className="w-[90%] flex justify-center rounded-2xl h-full items-center">
+        <div className="bg-white h-[97%] mr-3 pb-10 overflow-auto mt-6 border border-stone-300 rounded-2xl w-full flex flex-col">
           
           {/* Admin Panel Header */}
           <div>

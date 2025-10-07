@@ -194,9 +194,9 @@ const EditingQuestion = ({
 
   
   return (
-    <section className="w-full lg:w-[24%] h-full hidden sm:flex justify-center">
-      <div className="w-full h-auto flex justify-center gap-2">
-        <div className="bg-white pb-10 overflow-auto mt-6 border border-stone-300 rounded-2xl w-full hidden lg:flex flex-col gap-6">
+    <section className="w-full md:bg-transparent absolute md:static left-0 top-0 lg:w-[24%] flex justify-center">
+      <div className="w-[90%] md:w-full h-auto flex justify-center gap-2">
+        <div className="bg-white pb-10 overflow-auto mt-6 border border-stone-300 rounded-2xl w-full flex flex-col gap-6">
           {/* Header */}
           <div className="flex pt-5 pl-3 pr-4 justify-between items-center">
             <h1 className="flex gap-2 items-center text-xl font-semibold font-Outfit text-indigo-400">

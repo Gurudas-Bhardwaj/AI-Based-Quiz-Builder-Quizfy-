@@ -20,11 +20,11 @@ const Navbar = () => {
         </div>
         <div className="hidden lg:flex">
           <div className='flex w-auto justify-center text-base items-center gap-7 font-Outfit'>
-            <NavLink to="/">Home</NavLink>
-            <a href="">How To Use</a>
-            <a href="">Pricing</a>
-            <a href="">About Us</a>
-            <a href="">ReadMe</a>
+            <NavLink className={({isActive})=>isActive?"text-indigo-500":"text-black"} to="/">Home</NavLink>
+            <NavLink className={({isActive})=>isActive?"text-indigo-500":"text-black"} to="/HowToUse">How To Use</NavLink>
+            <NavLink className={({isActive})=>isActive?"text-indigo-500":"text-black"} to="/Billing">Pricing</NavLink>
+            <NavLink className={({isActive})=>isActive?"text-indigo-500":"text-black"} to="/AboutUs">About Us</NavLink>
+            <NavLink className={({isActive})=>isActive?"text-indigo-500":"text-black"} to="/ReadMe">ReadMe</NavLink>
           </div>
         </div>
         <div className='flex gap-10'>

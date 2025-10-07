@@ -7,6 +7,7 @@ import share from "../../../assests/Images/HomePageImages/share.png"
 import template from "../../../assests/Images/HomePageImages/template.png"
 import airplane from "../../../assests/Images/HomePageImages/airplane.png"
 import { NavLink } from 'react-router'
+import { CirclePlus } from 'lucide-react'
 
 
 const SideBar = () => {
@@ -30,7 +31,7 @@ const SideBar = () => {
               <img src={user} className="w-4" alt="" />
               <p className='font-Outfit'>My Presentation</p>
             </NavLink>
-            <NavLink to="/App/Admin/SharedWithMe" className={({ isActive }) => `flex  gap-2 pl-2 cursor-pointer justify-start items-center ${isActive ? "border-l-2 border-l-indigo-500" : "border-l-transparent"}`}>
+            <NavLink to="/App/Admin/SharedWithMe" className={({ isActive }) => `flex  gap-2 pl-2 cursor-pointer justify-start items-center border-l-2  ${isActive ? " border-l-indigo-500" : "border-l-transparent"}`}>
               <img src={share} className="w-4" alt="" />
               <p className='font-Outfit '>Shared with me</p>
             </NavLink>
@@ -41,16 +42,16 @@ const SideBar = () => {
         <div className='mt-5'>
           <div className='flex flex-col gap-4'>
             <div>
-              <p className='text-sm text-gray-500 font-extralight font-Outfit'>Workspace</p>
+              <p className='text-sm text-gray-500 font-extralight font-Outfit'>Sessions</p>
             </div>
             <div className='flex gap-3 flex-col text-xs'>
               <div className="flex cursor-pointer text-sm gap-2 pl-2 justify-start items-center">
                 <img src={users} className="w-4" alt="" />
-                <p className='font-Outfit'>Workspace Presentation</p>
+                <p className='font-Outfit'>Conducted By Me</p>
               </div>
               <div className="flex cursor-pointer text-sm gap-2 pl-2 justify-start items-center">
-                <img src={airplane} className="w-4" alt="" />
-                <p className='font-Outfit'>Shared Template</p>
+                <CirclePlus size={18}/>
+                <p className='font-Outfit'>Joined By me</p>
               </div>
             </div>
           </div>

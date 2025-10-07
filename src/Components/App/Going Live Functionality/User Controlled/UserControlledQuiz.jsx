@@ -1,11 +1,11 @@
 import { BadgePercent, Ban, Binary, ChartBarDecreasing, Cog, Expand, ExternalLink, Image, MessageCircleMore, PencilLine, PieChart, User, Users } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { IoMdArrowRoundBack } from 'react-icons/io';
-import { NavLink, useParams } from 'react-router';
+import { NavLink, useNavigate, useParams } from 'react-router';
 import { useAuth } from '../../../../Context/authContext';
 import BasicPopUp from './PopUps/BasicPopUp';
 import { MdOutlinePoll } from 'react-icons/md';
-import { FaComment } from 'react-icons/fa';
+import { FaExclamationTriangle } from 'react-icons/fa';
 import { io } from 'socket.io-client';
 import { CiCirclePlus } from 'react-icons/ci';
 import logo from '../../../../assests/Images/Logo/LOGO.png';
@@ -28,6 +28,8 @@ import ImagePreviewer from '../Admin Controlled/Pop ups/ImagePreviewer';
 const AdminUserControlledLanding = () => {
   const { userName, userId } = useAuth();
   const { presentationId } = useParams();
+  const accessToken = localStorage.getItem('accessToken');
+  const navigate = useNavigate();
 
   const [showCommentSection, setShowCommentSection] = useState(false);
   const [showParticipantCompo, setShowParticipantCompo] = useState(false);
@@ -35,6 +37,7 @@ const AdminUserControlledLanding = () => {
   const [showCommentSecPopUp, setShowCommentSecPopup] = useState(false);
   const [showFullScreenPopup, setShowFullScreenPopUp] = useState(false);
   const [showParticipantPopUp, setShowParticipantPopUp] = useState(false);
+  const [unauthorized, setUnautorized] = useState(false);
 
   const [allQuestion, setAllQuestion] = useState([]);
   const [selectedQuestionId, setSelectedQuestionId] = useState(null);
@@ -81,12 +84,12 @@ const AdminUserControlledLanding = () => {
       transports: ['websocket', 'polling'],
     });
 
-    socket.current.emit('joinQuizByAdmin', { presentationId });
+    socket.current.emit('joinQuizByAdmin', { presentationId, accessToken });
 
     socket.current.on('questionsForAdmin', ({ questions }) => {
       const updated = addPercentageToQuestion(questions);
       setAllQuestion(updated || []);
-      console.log(question);  
+      console.log(questions);
     });
 
     socket.current.on('votesUpdates', ({ questions }) => {
@@ -115,11 +118,11 @@ const AdminUserControlledLanding = () => {
       console.log(participants);
       setParticipantList(participants || []);
     });
-    
+
     socket.current.on("participantsUpdate", ({ participants }) => {
       console.log(participants);
       setParticipantList(participants || []);
-      if (participants.length > 0){
+      if (participants.length > 0) {
         toast(`😉 Someone Just Joined!`, {
           position: "top-right",
           autoClose: 3000,
@@ -136,6 +139,10 @@ const AdminUserControlledLanding = () => {
       setAllQuestion([]);
       setSelectedQuestionId(null);
       setQuizEnded(true);
+    })
+
+    socket.current.on("unauthorized", () => {
+      setUnautorized(true);
     })
   };
 
@@ -193,11 +200,11 @@ const AdminUserControlledLanding = () => {
         return <Ranking allQuestion={allQuestion} currentQuestion={currentQuestion} />;
       case 'poll':
         return <Poll showRespInPercen={inPercent} allQuestion={allQuestion} currentQuestion={currentQuestion} />;
-      case "quiz" : 
+      case "quiz":
         return <Quiz showRespInPercen={inPercent} allQuestion={allQuestion} currentQuestion={currentQuestion} />
-      case "donut" : 
+      case "donut":
         return <DonutType showRespInPercen={inPercent} allQuestion={allQuestion} currentQuestion={currentQuestion} />
-      case "pie" : 
+      case "pie":
         return <Pie showRespInPercen={inPercent} allQuestion={allQuestion} currentQuestion={currentQuestion} />
       default:
         return null;
@@ -210,7 +217,7 @@ const AdminUserControlledLanding = () => {
   };
 
   return (
-    <div ref={containerRef} className="w-screen bg-white relative overflow-hidden">
+    <div ref={containerRef} className="w-screen min-h-screen bg-white relative overflow-hidden">
       {/* Popup :  */}
       {shareLink && <ShareLink presentationId={presentationId} onClose={() => setShareLink(false)} />}
 
@@ -427,9 +434,30 @@ const AdminUserControlledLanding = () => {
       <div className={`absolute top-[35%] z-[20000] left-[20%] sm:left-[50%] md:left-[60%] lg:left-[70%] transition-all ease-in-out duration-500 ${image ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} `}>
         <ImagePreviewer image={currentQuestion?.Image} onClose={() => setImage(false)} />
       </div>
-      
+
+      <div className={`w-screen z-[9999999999999] h-screen transition-all duration-300 ease-in-out absolute top-0 left-0 ${unauthorized ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
+        <section className="w-full h-screen flex flex-col items-center justify-center bg-stone-950/90 font-Outfit px-4">
+          <div className="bg-white rounded-xl shadow-lg p-8 flex flex-col items-center gap-6 text-center max-w-md w-full">
+            <FaExclamationTriangle className="text-yellow-500 text-6xl" />
+            <h1 className="text-2xl font-semibold text-stone-800">
+              Unauthorized Access
+            </h1>
+            <p className="text-stone-500 text-sm">
+              You do not have permission to access this page or perform this action as you are not the admin of this presentation.
+              Please contact your administrator if you think this is an error or report a bug.
+            </p>
+            <button
+              onClick={() => navigate("/App/Admin/Home")} // navigate to home or safe page
+              className="mt-4 px-6 py-2 cursor-pointer bg-indigo-500 hover:bg-indigo-600 text-white rounded-md transition hover:scale-105"
+            >
+              Go Back Home
+            </button>
+          </div>
+        </section>
+      </div>
+
     </div>
-    
+
   );
 };
 

@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 import { NavLink, useParams } from 'react-router';
 import { useAuth } from '../../../Context/authContext';
 import { Expand, Info, Key, MessageCircleMore } from 'lucide-react';
-import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa';
+import { FaChevronCircleLeft, FaChevronCircleRight, FaExclamationTriangle } from 'react-icons/fa';
 import Slogan from '../../Messages/Slogan';
 import thnks from '../../../assests/Images/Going live Images/thankYou.png'
 import { FiArrowRight } from 'react-icons/fi';
@@ -19,6 +19,7 @@ import IncorrectOptionPopup from "./Popup/IncorrectOptionPopup.jsx"
 const Live = () => {
   const { presentationId } = useParams();
   const { userId, userName } = useAuth();
+  const accessToken = localStorage.getItem('accessToken');
 
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -41,6 +42,8 @@ const Live = () => {
   const [correctOption, setCorrectOption] = useState("");
   const [detail, setDetails] = useState("")
 
+  const [unauthorized, setUnauthorized] = useState(false);
+
   const socket = useRef(null);
   const containerRef = useRef(null);
 
@@ -49,7 +52,7 @@ const Live = () => {
       transports: ["websocket", "polling"]
     })
 
-    socket.current.emit("quizJoinedByUser", { presentationId, userId, userName });
+    socket.current.emit("quizJoinedByUser", { presentationId, userId, userName, accessToken });
 
     socket.current.on("questionForUser", ({ questions }) => {
       setQuestions(questions);
@@ -64,6 +67,10 @@ const Live = () => {
         setCurrentIndex(0);
         setCurrentQuestion(questions[0] || null);
       }
+    });
+
+    socket.current.on("unauthorized", () => {
+      setUnauthorized(true);
     });
 
     socket.current.on("updatedQuestion", (question) => {
@@ -410,6 +417,26 @@ const Live = () => {
           <IncorrectOptionPopup onClose={setIncorrectAnsPopup} CorrectOption={correctOption} selectedOption={selectedOption} detail={detail}/>
         </div>
       }
+
+            <div className={`w-screen z-[99999] h-screen transition-all duration-300 ease-in-out absolute top-0 left-0 ${unauthorized ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
+        <section className="w-full h-screen flex flex-col items-center justify-center bg-stone-950/90 font-Outfit px-4">
+          <div className="bg-white rounded-xl shadow-lg p-8 flex flex-col items-center gap-6 text-center max-w-md w-full">
+            <FaExclamationTriangle className="text-yellow-500 text-6xl" />
+            <h1 className="text-2xl font-semibold text-stone-800">
+              Unauthorized Access
+            </h1>
+            <p className="text-stone-500 text-sm">
+             You can't access it as a user because you are the admin of this quiz, if you still want to access it for testing purposes please login with another account who is not the admin of this presentation.
+            </p>
+            <button
+              onClick={() => navigate("/App/Admin/Home")} // navigate to home or safe page
+              className="mt-4 px-6 py-2 cursor-pointer bg-indigo-500 hover:bg-indigo-600 text-white rounded-md transition"
+            >
+              Go Back Home
+            </button>
+          </div>
+        </section>
+      </div>
 
 
     </div>

@@ -27,16 +27,15 @@ import { TbChartDonutFilled } from 'react-icons/tb'
 const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQuestion}) => {
     const navigate = useNavigate();
 
-    const { role } = useAuth();
 
     
 
-    const [selectedEditingSection, setSelectedEditingSection] = useState("editQuestions");
+    const [selectedEditingSection, setSelectedEditingSection] = useState("none");
 
     const [showSlide, setShowSlide] = useState(false);
     const [localQuestion, setLocalQuestion] = useState(currentQuestion.question || []);
     const [localOptions, setLocalOptions] = useState(currentQuestion.options || []);
-    const [presentationName, setPresentationName] = useState(presentation.title || []);
+    const [presentationName, setPresentationName] = useState(presentation.title || "");
 
     const [designTemplate, setDesignTemplate] = useState(currentQuestion.designTemplate);
     const [designType, setDesignType] = useState(currentQuestion.designType || "");
@@ -70,6 +69,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
         setListOfAdmin(presentation.addedAdmin || []);
         setPreviewUrl(currentQuestion.Image || "");
         setDescription(currentQuestion.description || "");
+        setPresentationName(presentation.title || "");
     }, [currentQuestion, selectedQuestion, presentation]);
 
     const mainSectionSelection = ()=>{
@@ -110,7 +110,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
                     {
                         method: "PATCH",
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ color: newColor, role })
+                        body: JSON.stringify({ color: newColor})
                     }
                 );
 
@@ -146,7 +146,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
                 const res = await fetch(`http://localhost:9000/handleQuestions/questions/${questionId}/options`, {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ options: latestOptionsRef.current, role }),
+                    body: JSON.stringify({ options: latestOptionsRef.current }),
                 });
                 if (res.ok)
                     console.log("✅ Saved:", latestOptionsRef.current);
@@ -172,7 +172,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ question: newQuestion, role }),
+                    body: JSON.stringify({ question: newQuestion}),
                 });
 
                 const data = await response.json();
@@ -205,7 +205,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ presentationId, presentationName: newName, role }),
+                    body: JSON.stringify({ presentationId, presentationName: newName}),
                 });
                 const data = await response.json();
             }
@@ -223,6 +223,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
 
     const switchQuestions = async (questionID) => {
         setSelectedQuestion(questionID);
+        setShowSlide(false);
         navigate(`/App/AdminPanel/Presentation/${presentationId}/${questionID}`);
     }
 
@@ -418,10 +419,10 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
             case "editQuestions" : 
                 return <EditingQuestion setSelectedCorrect={setSelectedCorrect} selectedCorrect={selectedCorrect} localQuestion={localQuestion} localOptions={localOptions} handleColorChange={handleColorChange} handleOptionChange={handleOptionChange} updateQuestion={updateQuestion} deleteOption={deleteOption} addOption={addOption} designType={designType} questionId={questionId} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} setStatus={setStatus} setDetails={setDetails} setShowPopUp={setShowPopUp} Description={description} setDescription={setDescription} setLocalOptions={setLocalOptions}/>
             case "slideEditing" : 
-                return <SlideEditing deletePopUp={()=>setDeletePopDisp(true)} designTemplate={designTemplate} changeDesignTemplate={changeDesignTemplate}/>
+                return <SlideEditing updatePresentationName={updatePresentationName} presentationName={presentationName} deletePopUp={()=>setDeletePopDisp(true)} designTemplate={designTemplate} changeDesignTemplate={changeDesignTemplate}/>
             case "addAdmin" : 
                 return <AddAdmin AddAdminFun={addAdminFun} listOfAdmin={listOfAdmin} deleteAddedAdmin={deleteAddedAdmin}/>
-            case "none" : 
+            default: 
                 return <div></div>
         }
     }
@@ -433,18 +434,19 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
                     <LuFileStack className='text-white' />
                     <p className='text-white font-Outfit'>1/1</p>
                 </div>
-                <div className={`fixed top-0 left-0 h-full z-[999] pt-6 bg-white transition-all duration-500 ease-in-out transform ${showSlide ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'} flex justify-center`}>
-                    <div className='fixed z-[99999] left-44 border p-2 bg-black rounded-full ' onClick={() => setShowSlide(!showSlide)}>
+
+                    {/* FLoating  Menu appear in mobile*/}
+                <div className={`fixed top-0 left-0 h-full z-[999] pt-6 bg-white transition-all duration-500 ease-in-out transform ${showSlide ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'} flex justify-center w-[40%]`}>
+                    <div className='fixed z-[99999] left-[105%] border p-2 bg-black rounded-full ' onClick={() => setShowSlide(!showSlide)}>
                         <RxCross2 className='text-white text-sm' />
                     </div>
 
-                    {/* FLoating  Menu appear in mobile*/}
-                    <div className='flex  flex-col gap-4 items-center w-full'>
+                    <div className='flex  pr-5 pl-2 flex-col gap-4 items-center w-full'>
                         <button onClick={() => setNewSlideAppearence(!NewSlideAppreance)} className='flex justify-center text-[13px] gap-1 pt-2 pb-2 pr-6 pl-6 bg-stone-900 text-white items-center font-Outfit rounded-2xl'>
                             <GoPlus />
                             <p>New Slide</p>
                         </button>
-                        <div className='h-[550px] flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                        <div className='h-screen flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                             {allQuestion.map((key, index) => (
                                 <div
                                     onClick={() => switchQuestions(key._id)}
@@ -468,13 +470,13 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
 
                 {/* appear in laptop and big display */}
                 <div className='flex w-full h-full justify-center '>
-                    <section className='w-0 lg:w-[12%]  pt-6 hidden lg:flex justify-center'>
+                    <section className=' w-0 lg:w-[12%]  pt-6 hidden lg:flex justify-center'>
                         <div className='flex  flex-col gap-4 items-center w-full'>
                             <button onClick={() => setNewSlideAppearence(!NewSlideAppreance)} className='flex justify-center text-[13px] gap-1 pt-2 pb-2 pr-6 pl-6 bg-stone-900 text-white items-center font-Outfit rounded-2xl cursor-pointer'>
                                 <GoPlus />
                                 New Slide
                             </button>
-                            <div className='h-[550px] flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                            <div className=' flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                                 {allQuestion.map((key, index) => (
                                     <div
                                         onClick={() => switchQuestions(key._id)}

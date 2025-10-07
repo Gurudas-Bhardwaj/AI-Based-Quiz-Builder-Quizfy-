@@ -23,12 +23,12 @@ const ConfirmDeletePopUp = ({display, onClose}) => {
     }
     
   return (
-    <div style={{"display":display?"block":"none"}}>
+    <div>
                 <button className="rounded-md bg-gray-950/5 px-2.5 py-1.5 text-sm font-semibold text-gray-900 hover:bg-gray-950/10">Open dialog</button>
 
-                <div role="dialog" aria-modal="true" aria-labelledby="dialog-title" className="relative z-10">
+                <div  aria-modal="true" aria-labelledby="dialog-title" className="relative z-10">
 
-                    <div aria-hidden="true" className="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
+                    <div aria-hidden="true" className="fixed inset-0 bg-stone-900/75 transition-opacity"></div>
 
                     <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
                         <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">

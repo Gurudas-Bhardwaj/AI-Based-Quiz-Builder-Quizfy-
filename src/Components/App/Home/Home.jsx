@@ -34,7 +34,7 @@ const Home = () => {
                 <input type="text" className='h-9 w-[90%] sm:w-[70%] md:w-[50%] pl-3 rounded-[7px] font-Outfit bg-stone-200 text-[11px]' placeholder='Search Presentation, Folder and Pages' />
               </div>
 
-              <div className='flex h-full  items-center  gap-2 mr-8'>
+              <div className='flex h-full  items-center  gap-2 mr-14 md:mr-8'>
                 <div className='relative'>
                   <div onClick={()=>{setNotificationState(!NotificationState); setState(false)}} className='h-8 w-8 rounded-full flex justify-center items-center bg-stone-200 hover:bg-stone-300 cursor-pointer'>
                     <img src={Bell} className='w-3' alt="" />
@@ -52,8 +52,8 @@ const Home = () => {
             </div>
 
             <div className='pl-10  pt-10'>
-              <div className='w-full '>
-                <h1 className='font-Montserrat font-bold inline text-3xl'>Welcome {userName.split(" ")[0]}!</h1>
+              <div className='w-full flex flex-col justify-center items-center sm:items-start'>
+                <h1 className='font-Montserrat font-bold inline text-3xl text-center sm:text-left'>Welcome {userName?.split(" ")[0]}!</h1>
               </div>
 
               <div className='mt-8'>
@@ -71,7 +71,7 @@ const Home = () => {
                 </div>
 
                 <div className='w-full flex mt-6'>
-                    <div className='w-[80%] flex flex-col pl-8 pt-6 rounded-2xl pr-8' style={{"backgroundColor":"#f8f8fe"}}>
+                    <div className='w-[90%] md:w-[80%] flex flex-col pl-8 pt-6 rounded-2xl pr-8' style={{"backgroundColor":"#f8f8fe"}}>
                         <div className='font-space text-[16px] font-bold'>
                           <p>Create Presentations</p>
                         </div>
@@ -90,7 +90,7 @@ const Home = () => {
                 </div>
 
                 <div className='w-full flex mt-8 mb-8'>
-                    <div className='w-[80%] flex flex-col pl-8 pt-6 rounded-2xl pr-8' style={{"backgroundColor":"#f8f8fe"}}>
+                    <div className='w-[90%] md:w-[80%] flex flex-col pl-8 pt-6 rounded-2xl pr-8' style={{"backgroundColor":"#f8f8fe"}}>
                         <div className='font-space text-[16px] font-bold'>
                           <p>Join Quizies</p>
                         </div>
@@ -113,7 +113,7 @@ const Home = () => {
               </div>
             </div>
         </div>
-        <div  className={`${settingState ? "flex" : "hidden"} fixed left-0 w-screen h-screen top-0`}>
+        <div  className={`transition-all duration-300 ease-in-out ${settingState ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} fixed left-0 bg-stone-950/80 w-screen h-screen top-0`}>
               <AccountSettingPOPUP onClose={()=>setSettingState(false)}/>
         </div>
         
@@ -124,7 +124,7 @@ const Home = () => {
           <div className={`fixed top-0 left-0 inset-0 ${joinPresentation?'pointer-events-auto' : 'pointer-events-none'} justify-center items-center z-50`}>
             <JoinPresentation isVisible={joinPresentation} onClose={()=>setJoinPresentation(!joinPresentation)} />
           </div>
-        
+              
     </main>
   )
 }

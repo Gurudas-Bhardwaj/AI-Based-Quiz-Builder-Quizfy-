@@ -7,8 +7,10 @@ import ChoiceBTW_ADM_USER from '../Going Live Functionality/ChoiceBTW_ADM_USER'
 import Layout from './Layout'
 import Preview from './others/Preview'
 import { useAuth } from '../../../Context/authContext';
+import ReportBug from '../../Messages/ReportBug';
 
 import { FaExclamationTriangle } from "react-icons/fa";
+import { FiAlertCircle } from 'react-icons/fi';
 const PresentationView = () => {
 
     const { presentationId, questionId } = useParams();
@@ -20,6 +22,7 @@ const PresentationView = () => {
     const [presentation, setPresentation] = useState([]);
 
     const [preview, setPreview] = useState(false);
+    const [reportBugPopUp, setReportBugPopUp] = useState(false);
 
     const navigate = useNavigate();
 
@@ -115,12 +118,12 @@ const PresentationView = () => {
                                 <div className='p-1 border border-stone-200 rounded-full bg-gray-200'>
                                     <BsThreeDots className='cursor-pointer' onClick={() => setShowOptions(!showOptions)} />
                                 </div>
-                                <div className={`absolute transition-all ${showOptions ? "flex" : "hidden"}  bg-white font-Outfit p-5  rounded-xl shadow-sm flex flex-col gap-3 top-12 z-[999999] -left-6 `}>
+                                <div className={`absolute transition-all ${showOptions ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}  bg-white font-Outfit p-5  rounded-xl shadow-sm flex flex-col gap-3 top-12 z-[999999] -left-6 `}>
                                     <div className='flex justify-center cursor-pointer items-center'>
-                                        <h1 className='pt-1'>Create</h1>
+                                        <h1 className='pt-1'>Preview</h1>
                                     </div>
                                     <div className='border-b-transparent flex justify-center cursor-pointer items-center'>
-                                        <h1 className='pt-1'>Result</h1>
+                                        <h1 className='pt-1'>Report</h1>
                                     </div>
                                 </div>
                             </div>
@@ -133,8 +136,8 @@ const PresentationView = () => {
                             <div className='h-5 w-1 border-r border-r-stone-200'></div>
 
                             <div className='hidden md:flex'>
-                                <button className='text-sm cursor-pointer flex justify-center items-center bg-gray-300 text-black font-Outfit rounded-2xl pt-1 pb-1 pr-4 pl-4 gap-1'>
-                                    <Bug size={13} />Report a Bug
+                                <button onClick={()=>setReportBugPopUp(true)} className='text-sm cursor-pointer flex justify-center items-center bg-gray-300 text-black font-Outfit rounded-2xl pt-1 pb-1 pr-4 pl-4 gap-1'>
+                                    <FiAlertCircle size={13} />Report a Bug
                                 </button>
                             </div>
 
@@ -174,7 +177,7 @@ const PresentationView = () => {
             </div>
 
             <div className={`absolute top-0 left-0 w-screen h-screen ${isAuthorized ? "hidden" : "flex"}`}>
-                <main className="w-full h-screen flex flex-col items-center justify-center bg-stone-950/90 font-Outfit px-4">
+                <section className="w-full h-screen flex flex-col items-center justify-center bg-stone-950/90 font-Outfit px-4">
                     <div className="bg-white rounded-xl shadow-lg p-8 flex flex-col items-center gap-6 text-center max-w-md w-full">
                         <FaExclamationTriangle className="text-yellow-500 text-6xl" />
                         <h1 className="text-2xl font-semibold text-stone-800">
@@ -191,8 +194,12 @@ const PresentationView = () => {
                             Go Back Home
                         </button>
                     </div>
-                </main>
+                </section>
 
+            </div>
+
+            <div className={`absolute top-0 left-0 w-screen h-screen transition-all ease-in-out duration-300 ${reportBugPopUp ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
+                <ReportBug onClose={() => setReportBugPopUp(false)} />
             </div>
         </main>
     )

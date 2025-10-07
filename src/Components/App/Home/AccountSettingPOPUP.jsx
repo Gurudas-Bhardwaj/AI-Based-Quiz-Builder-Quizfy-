@@ -258,7 +258,7 @@ const AccountSettingPOPUP = ({ onClose }) => {
                         {/* Danger / actions */}
                         <div className='flex gap-3 items-center'>
                             <button onClick={() => setDisplayDeleteDailog(true)} className='px-4 py-2 bg-red-600 text-white rounded-md text-sm cursor-pointer'>Delete account</button>
-                            <button onClick={handleLogout} className='px-4 py-2 bg-stone-100 text-stone-700 rounded-md text-sm cursor-pointer'>Log out</button>
+                            <button onClick={handleLogout} className='px-4 py-2 bg-indigo-400 text-white rounded-md text-sm cursor-pointer'>Log out</button>
                         </div>
                     </div>
                 </div>
@@ -269,7 +269,9 @@ const AccountSettingPOPUP = ({ onClose }) => {
                 </div>
 
                 {/* Confirm delete overlay & toast */}
+                <div className={`w-screen h-screen  fixed ${displayDeleteDailog ? "opacity-100 pointer-events-auto" : "opacity-0  pointer-events-none"} transition-all duration-300 ease-in-out w-screen z-[10000] top-0 left-0`}>
                 <ConfirmDeletePopUp display={displayDeleteDailog} onClose={() => { setDisplayDeleteDailog(false) }} />
+                    </div>
                 <div className={`fixed ${display ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-3 pointer-events-none"} transition-all duration-300 ease-in-out w-screen z-[10000] top-[80%] left-[40%]`}>
                     <Slogan status={Status} details={message} />
                 </div>
