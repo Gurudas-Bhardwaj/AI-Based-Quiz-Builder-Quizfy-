@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Bell from "../../../../assets/Images/HomePageImages/Bell.png";
+import Bell from "../../../../assets/Images/HomePageImages/bell.png";
 import NotificationCom from "../NotificationCom";
 import ProfileSection from "../ProfileSection";
 import userone from "../../../../assets/Images/HomePageImages/user_one.png";
