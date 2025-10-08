@@ -67,6 +67,8 @@ const AdminLiveSession = () => {
   const [showQuizEnded, setShowQuizEnded] = useState(false);
   const [shareLinkPopUp, setShareLinkPopUp] = useState(false);
 
+  const [loading, setLoading] = useState(true);
+
 
 
   const [commentList, setCommentList] = useState([]);
@@ -92,7 +94,7 @@ const AdminLiveSession = () => {
   useEffect(() => {
 
 
-    socket.current = io("http://localhost:9000/adminControlledQuiz", {
+    socket.current = io("https://ai-based-quiz-builder-quizfy-backend.onrender.com/adminControlledQuiz", {
       transports: ["websocket", "polling"]
     });
 
@@ -100,6 +102,7 @@ const AdminLiveSession = () => {
 
     // New question (initial or next/prev)
     socket.current.on("newQuestionForAdmin", ({ question }) => {
+      setLoading(false);
       const updatedQuestion = addPercentageToQuestion(question);
       setCurrentQuestion(updatedQuestion);
       setOptions(updatedQuestion?.options || []);
@@ -191,6 +194,7 @@ const AdminLiveSession = () => {
     });
 
     socket.current.on("quizEnded", () => {
+      setLoading(false)
       setShowQuizEnded(true);
       setCurrentQuestion(null);
       setOptions([]);
@@ -204,18 +208,21 @@ const AdminLiveSession = () => {
 
 
   const handleNextQuestion = () => {
+    setLoading(true);
     socket.current.emit("nextQuestion", {
       presentationId, accessToken
     })
   }
 
   const handleEndQuiz = () => {
+    setLoading(true);
     socket.current.emit("endQuizByAdmin", {
       presentationId, accessToken
     })
   }
 
   const handlePrevQuestion = () => {
+    setLoading(true);
     socket.current.emit("previousQuestion", {
       presentationId, accessToken
     })
@@ -240,7 +247,10 @@ const AdminLiveSession = () => {
       case "donut":
         return <DonutType currentQuestion={currentQuestion} showRespInPercen={showPercentage} />;
       default:
-        return <div className='text-center flex justify-center items-center font-Outfit text-stone-400'>No question active</div>;
+        return <div className='text-center w-full h-full flex justify-center items-center font-Outfit text-stone-400'>
+          <h1>No selected Question</h1>
+
+        </div>;
 
     }
 
@@ -278,6 +288,12 @@ const AdminLiveSession = () => {
 
 
       {showQuizEnded && <QuizEndedPopUp />}
+
+      {
+        loading && <div className='w-screen h-screen absolute top-0 left-0 bg-stone-800/50 flex justify-center items-center z-50'>
+          <div className='h-14 w-14 border-4 border-gray-300 border-t-indigo-400 animate-spin rounded-full'></div>
+        </div>
+      }
 
       {/* Top Navbar */}
       <div className='w-screen h-12 bg-white '>

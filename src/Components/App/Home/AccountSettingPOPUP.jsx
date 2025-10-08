@@ -33,7 +33,7 @@ const AccountSettingPOPUP = ({ onClose }) => {
 
         try {
             // Call backend to clear refresh token
-            await fetch('http://localhost:9000/user/Logout', {
+            await fetch('https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/Logout', {
                 method: 'POST',
                 credentials: 'include', //  sending the cookie
             });
@@ -61,7 +61,7 @@ const AccountSettingPOPUP = ({ onClose }) => {
 
     const updateName = async () => {
 
-        const response = await fetch("http://localhost:9000/user/UpdateName", {
+        const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/UpdateName", {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -97,7 +97,7 @@ const AccountSettingPOPUP = ({ onClose }) => {
     }
 
     const updatePassword = async () => {
-        const response = await fetch("http://localhost:9000/user/UpdatePassword", {
+        const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/UpdatePassword", {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",

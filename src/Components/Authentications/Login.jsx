@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router';
 import Slogan from '../Messages/Slogan.jsx';
 import { useAuth } from '../../Context/authContext.jsx';
+import { Eye, EyeOff } from 'lucide-react';
 
 const Login = () => {
-  const {login} = useAuth();
+  const { login } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
 
   const navigate = useNavigate();
@@ -21,26 +23,26 @@ const Login = () => {
 
 
   const loginUser = async (email, password) => {
-    const {success, message} = await login(email, password);
+    const { success, message } = await login(email, password);
 
-    if(success){
+    if (success) {
       setMessage("Successfully Logged in! Redirecting you to Application");
       setDisplay(true);
       setStatus(true);
 
-      setTimeout(()=>{
+      setTimeout(() => {
         setDisplay(false);
-        navigate(location?.state?.redirectTo || "/App/Admin/Home", {replace : true});
-      },2000)
+        navigate(location?.state?.redirectTo || "/App/Admin/Home", { replace: true });
+      }, 2000)
     }
-    else{
+    else {
       setMessage(message);
       setDisplay(true);
       setStatus(false);
 
-      setTimeout(()=>{
+      setTimeout(() => {
         setDisplay(false);
-      },2000)
+      }, 2000)
     }
 
   }
@@ -90,13 +92,18 @@ const Login = () => {
 
           <div className="relative w-64">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="peer h-8 w-full rounded-sm text-xs pl-2 border border-stone-400 focus:border-blue-900 focus:border-[1.5px] outline-none"
               autoComplete="off"
             />
+            {
+              <div className='absolute right-3 top-2 cursor-pointer' onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <Eye size={19} /> : <EyeOff size={19} />}
+              </div>
+            }
             <label
               className={`absolute left-1 text-xs bg-white p-1 text-gray-500 transition-all duration-200 pointer-events-none
                   ${password ? 'text-blue-900 text-[8px] -top-2.5' : 'top-1 text-gray-500'}
@@ -109,7 +116,7 @@ const Login = () => {
 
         <div className='w-full font-Outfit'>
           <div className='w-full flex justify-center items-center'>
-            <button onClick={()=>loginUser(email, password)} type='button' className='h-8  text-sm cursor-pointer bg-blue-800 w-64 text-white rounded-lg' style={{ "backgroundColor": "#344564" }}>Login</button>
+            <button onClick={() => loginUser(email, password)} type='button' className='h-8  text-sm cursor-pointer bg-blue-800 w-64 text-white rounded-lg' style={{ "backgroundColor": "#344564" }}>Login</button>
           </div>
         </div>
 

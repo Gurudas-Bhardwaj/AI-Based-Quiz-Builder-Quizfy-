@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
 
   const refreshToken = async () => {
     try {
-      const response = await fetch('http://localhost:9000/user/token/RefreshAccessToken', {
+      const response = await fetch('https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/token/RefreshAccessToken', {
         method: 'GET',
         credentials: 'include',
       });
@@ -61,6 +61,7 @@ export const AuthProvider = ({ children }) => {
 
       const decoded = parseJWT(token);
       const isExpired = decoded?.exp * 1000 < Date.now();
+      // const isExpired = true;
 
       if (isExpired) {
         await refreshToken();
@@ -80,7 +81,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await fetch("http://localhost:9000/user/Login", {
+      const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/Login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

@@ -8,7 +8,7 @@ const ProfileSection = (props) => {
     const Logout = async()=>{
         try {
             // Call backend to clear refresh token
-            await fetch('http://localhost:9000/user/Logout', {
+            await fetch('https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/Logout', {
             method: 'POST',
             credentials: 'include', // important: sends the cookie
             });

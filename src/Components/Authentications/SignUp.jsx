@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router';
 import Slogan from '../Messages/Slogan.jsx';
+import { Eye, EyeOff } from 'lucide-react';
 
 const SignUp = () => {
   //form data
@@ -13,13 +14,15 @@ const SignUp = () => {
   const [Status, setStatus] = useState(false);
   const [display, setDisplay] = useState("none");
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const signupFun = async () => {
-    const response = await fetch("http://localhost:9000/user/SignUp", {
+    const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/SignUp", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name, email, password}), 
+      body: JSON.stringify({ name, email, password }),
     });
 
     const message = await response.json();
@@ -97,7 +100,7 @@ const SignUp = () => {
             {/* Password */}
             <div className="relative w-64">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 value={password}
                 required
@@ -112,8 +115,11 @@ const SignUp = () => {
               >
                 Password
               </label>
+              <div className='absolute right-3 top-2 cursor-pointer' onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <Eye size={19} /> : <EyeOff size={19} />}
+              </div>
             </div>
-           
+
           </div>
 
           {/* Submit */}

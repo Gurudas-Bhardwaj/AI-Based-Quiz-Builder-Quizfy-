@@ -39,7 +39,7 @@ const SelectPresenation = ({ onClose, isVisible, presentationId }) => {
   const createPresentationAndQuestion = async () => {
     try {
       // 1. Create Presentation
-      const presRes = await fetch("http://localhost:9000/handleQuestions/createPresentation", {
+      const presRes = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/createPresentation", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user: userId, title: "Untitled Presentation" })
@@ -49,7 +49,7 @@ const SelectPresenation = ({ onClose, isVisible, presentationId }) => {
       console
 
       // 2. Create Sample First Question
-      const quesRes = await fetch("http://localhost:9000/handleQuestions/addQuestion", {
+      const quesRes = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/addQuestion", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

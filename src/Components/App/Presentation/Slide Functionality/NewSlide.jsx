@@ -28,7 +28,7 @@ const NewSlide = ({ onClose, isVisible, presentationId }) => {
       ];
 
       try {
-        const response = await fetch("http://localhost:9000/handleQuestions/addQuestion", {
+        const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/addQuestion", {
           method: "POST",
             headers: {
               "Content-Type": "application/json",

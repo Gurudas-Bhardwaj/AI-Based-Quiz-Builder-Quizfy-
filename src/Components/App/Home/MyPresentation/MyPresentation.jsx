@@ -27,7 +27,7 @@ const MyPresentation = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:9000/handleQuestions/GetPresentations?page=1&limit=10`,
+        `https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/GetPresentations?page=1&limit=10`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -73,7 +73,7 @@ const MyPresentation = () => {
   const deletePresentation = async (id) => {
     try {
       const response = await fetch(
-        "http://localhost:9000/handleQuestions/DeletePresenation",
+        "https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/DeletePresenation",
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
@@ -89,8 +89,18 @@ const MyPresentation = () => {
     }
   };
 
+  if (loading) {
+  return (
+    <div className="w-full h-screen flex justify-center items-center bg-white">
+      <div className="w-12 h-12 border-4 border-t-indigo-500 border-gray-300 rounded-full animate-spin"></div>
+    </div>
+  );
+}
+
+
   return (
     <main className="w-full min-h-screen bg-stone-50 text-gray-800 font-[Outfit] overflow-hidden">
+      
       {/* Navbar */}
       <div className="w-full flex justify-end mt-7 pr-7 items-center">
         <div className="flex h-full mr-5 items-center gap-3">

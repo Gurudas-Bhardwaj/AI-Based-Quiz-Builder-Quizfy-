@@ -36,7 +36,7 @@ const PresentationView = () => {
 
     const findDetails = async (presentationID, questionID) => {
         try {
-            const response = await fetch("http://localhost:9000/handleQuestions/searchQuestion", {
+            const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/searchQuestion", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

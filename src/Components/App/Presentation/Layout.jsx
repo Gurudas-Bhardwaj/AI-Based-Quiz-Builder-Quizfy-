@@ -106,7 +106,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
         debounceTimer.current = setTimeout(async () => {
             try {
                 const res = await fetch(
-                    `http://localhost:9000/handleQuestions/questions/${questionId}/options/${index}/color`,
+                    `https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/questions/${questionId}/options/${index}/color`,
                     {
                         method: "PATCH",
                         headers: { "Content-Type": "application/json" },
@@ -143,7 +143,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
         clearTimeout(debounceRef.current);
         debounceRef.current = setTimeout(async () => {
             try {
-                const res = await fetch(`http://localhost:9000/handleQuestions/questions/${questionId}/options`, {
+                const res = await fetch(`https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/questions/${questionId}/options`, {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ options: latestOptionsRef.current }),
@@ -167,7 +167,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
 
         debounceForQuestion.current = setTimeout(async () => {
             try {
-                const response = await fetch(`http://localhost:9000/handleQuestions/questions/${questionId}/editQuestion`, {
+                const response = await fetch(`https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/questions/${questionId}/editQuestion`, {
                     method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
@@ -200,7 +200,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
 
         debounceForPres.current = setTimeout(async () => {
             try {
-                const response = await fetch("http://localhost:9000/handleQuestions/presentation/editTitle", {
+                const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/presentation/editTitle", {
                     method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
@@ -245,7 +245,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
     const [selectedCorrect, setSelectedCorrect] = useState(null);
 
     const deleteOption = async (optionId) => {
-        const response = await fetch(`http://localhost:9000/handleQuestions/question/${questionId}/deleteOption`, {
+        const response = await fetch(`https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/question/${questionId}/deleteOption`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -283,7 +283,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
     }
 
     const addOption = async () => {
-        const response = await fetch(`http://localhost:9000/handleQuestions/question/${questionId}/addOption`, {
+        const response = await fetch(`https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/question/${questionId}/addOption`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -329,7 +329,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
             clearTimeout(debounceForChngeTemp.current);
 
         debounceForChngeTemp.current = setTimeout(async()=>{
-            const response = await fetch("http://localhost:9000/handleQuestions/editDesignTemplate", {
+            const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/editDesignTemplate", {
                 method : "POST", 
                 headers : {
                     "Content-Type" : "application/json"
@@ -350,7 +350,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
         if(!userGmail)
             return;
 
-        const response = await fetch("http://localhost:9000/handleQuestions/AddAdmin", {
+        const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/AddAdmin", {
             method : "POST", 
             headers : {
                 "Content-Type" : "application/json",
@@ -382,7 +382,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
     
 
     const deleteAddedAdmin = async(userId, userName)=>{
-        const response = await fetch("http://localhost:9000/handleQuestions/DeleteAddedAdmin", {
+        const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/DeleteAddedAdmin", {
             method : "POST", 
             headers : {
                 "Content-Type" : "application/json"
@@ -431,13 +431,13 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
         <div className='relative h-screen'>
             <div className='bg-gray-200 relative h-[530px] w-screen  overflow-hidden overflow-y-hidden'>
                 <div className='absolute top-5 left-4  bg-black pt-1 pb-1 pr-4 pl-4  rounded-3xl flex lg:hidden justify-center items-center gap-2' onClick={() => setShowSlide(!showSlide)}>
-                    <LuFileStack className='text-white' />
+                    <LuFileStack className='text-white flex lg:hidden' />
                     <p className='text-white font-Outfit'>1/1</p>
                 </div>
 
                     {/* FLoating  Menu appear in mobile*/}
                 <div className={`fixed top-0 left-0 h-full z-[999] pt-6 bg-white transition-all duration-500 ease-in-out transform ${showSlide ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'} flex justify-center w-[40%]`}>
-                    <div className='fixed z-[99999] left-[105%] border p-2 bg-black rounded-full ' onClick={() => setShowSlide(!showSlide)}>
+                    <div className='fixed md:hidden z-[99999] left-[105%] border p-2 bg-black rounded-full ' onClick={() => setShowSlide(!showSlide)}>
                         <RxCross2 className='text-white text-sm' />
                     </div>
 

@@ -49,7 +49,7 @@ const Live = () => {
 
   const socketConnection = () => {
 
-    socketRef.current = io("http://localhost:9000/adminControlledQuiz", {
+    socketRef.current = io("https://ai-based-quiz-builder-quizfy-backend.onrender.com/adminControlledQuiz", {
       transports: ["websocket", "polling"]
     });
 
