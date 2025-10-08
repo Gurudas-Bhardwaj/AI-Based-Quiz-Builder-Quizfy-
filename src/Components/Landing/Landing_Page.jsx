@@ -10,8 +10,8 @@ import Manage from "../../assets/Images/Landing_page_images/manage.jpg"
 import toolkit from "../../assets/Images/Landing_page_images/toolkit.png"
 import teaching from "../../assets/Images/Landing_page_images/teaching.png"
 import open_book from "../../assets/Images/Landing_page_images/open-book.png"
-import section_3 from "../../assets/Images/Landing_Page_images/section_3.png"
-import Ending from "../../assets/Images/Landing_Page_images/Ending.png"
+import section_3 from "../../assets/Images/Landing_page_images/section_3.png"
+import Ending from "../../assets/Images/Landing_page_images/Ending.png"
 import { useAuth } from '../../Context/authContext'
 import { NavLink } from 'react-router'
 
