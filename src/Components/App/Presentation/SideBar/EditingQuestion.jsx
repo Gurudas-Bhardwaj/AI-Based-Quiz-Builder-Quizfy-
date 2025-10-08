@@ -135,7 +135,16 @@ const EditingQuestion = ({
       const data = await response.json();
 
       console.log(data);
-    },2000)
+      if(response.ok){
+        setStatus(true);
+        setDetails("Description Updated Successfully");
+        setShowPopUp(true);
+
+        setTimeout(()=>{
+          setShowPopUp(false);
+        },2000);
+      }
+    },2000);
   }
 
   const deleteImage = async()=>{
@@ -152,6 +161,13 @@ const EditingQuestion = ({
     console.log(data);
     if(response.ok){
       setPreviewUrl(null);
+      setStatus(true);
+      setDetails("Image Deleted Successfully");
+      setShowPopUp(true);
+
+      setTimeout(()=>{
+        setShowPopUp(false);
+      } ,2000);
     }
 
   }

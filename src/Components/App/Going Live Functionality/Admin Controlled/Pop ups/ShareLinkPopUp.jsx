@@ -4,12 +4,12 @@ import logo from '../../../../../assets/Images/Logo/LOGO.png'
 import Slogan from '../../../../Messages/Slogan.jsx'
 
 const ShareLinkPopUp = ({presentationId, onClose}) => {
-    const [link, setLink] = useState(`http://localhost:5173/Join/AdminControlledQuiz/Live/${presentationId}`);
-    const[show,setShow] = useState(false);
+    const [link, setLink] = useState(`https://quizify-jlg9.onrender.com/Join/AdminControlledQuiz/Live/${presentationId}`);
+    const[show,setShow] = useState(false)
     const[statusPopup, setStatusPopup] = useState(false);
 
     useEffect(() => {
-        setLink(`http://localhost:5173/Join/AdminControlledQuiz/Live/${presentationId}`);
+        setLink(`https://quizify-jlg9.onrender.com/Join/AdminControlledQuiz/Live/${presentationId}`);
     }, [presentationId]);
 
     const copyLink = () => {
