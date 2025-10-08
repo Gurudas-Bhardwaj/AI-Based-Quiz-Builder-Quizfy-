@@ -3,7 +3,7 @@ import logo from "../../assets/Images/Logo/LOGO.png"
 import linkedin from "../../assets/Images/Logo/linkedin.png"
 import instagram from "../../assets/Images/Logo/instagram.png"
 import github from "../../assets/Images/Logo/github.png"
-import whatsapp from "../../assets/Images/Logo/whatsapp.png"
+import { NavLink } from 'react-router'
 
 const Footer = () => {
   return (
@@ -48,15 +48,15 @@ const Footer = () => {
               <h1>Follow us on:</h1>
             </div>
             <div className='flex w-full  gap-4'>
-              <div className='cursor-pointer'>
+              <NavLink target='_blank' to="https://www.linkedin.com/in/gurudas-bhardwaj-b900a5314/" className='cursor-pointer'>
                 <img src={linkedin} alt="" className='w-8' />
-              </div>
-              <div className='cursor-pointer'>
+              </NavLink>
+              <NavLink target='_blank' to="https://www.instagram.com/whynott_.gurudas/" className='cursor-pointer'>
                 <img src={instagram} alt="" className='w-8' />
-              </div>
-              <div className='cursor-pointer'>
+              </NavLink>
+              <NavLink target='_blank' to="https://github.com/Gurudas-Bhardwaj" className='cursor-pointer'>
                 <img src={github} alt="" className='w-8' />
-              </div>
+              </NavLink>
             </div>
           </div>
 

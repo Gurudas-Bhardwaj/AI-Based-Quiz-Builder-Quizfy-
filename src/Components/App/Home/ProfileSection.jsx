@@ -1,6 +1,5 @@
 import React from 'react'
 import { useAuth } from '../../../Context/authContext';
-import { NavLink } from 'react-router';
 
 const ProfileSection = (props) => {
   const {userName, email}=useAuth();

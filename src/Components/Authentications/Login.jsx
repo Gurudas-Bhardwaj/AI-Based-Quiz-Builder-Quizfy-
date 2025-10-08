@@ -27,8 +27,8 @@ const Login = () => {
 
     if (success) {
       setMessage("Successfully Logged in! Redirecting you to Application");
-      setDisplay(true);
       setStatus(true);
+      setDisplay(true);
 
       setTimeout(() => {
         setDisplay(false);
@@ -134,7 +134,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <div className={`fixed transition-all duration-300 ease-in-out ${display ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"} top-[80%] transition-all left-0 flex justify-center items-center w-screen`}>
+      <div className={`fixed transition-all duration-300 ease-in-out ${display ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 pointer-events-none translate-y-3"} top-[80%] transition-all left-0 flex justify-center items-center w-screen`}>
         <Slogan status={Status} details={message} />
       </div>
     </main>

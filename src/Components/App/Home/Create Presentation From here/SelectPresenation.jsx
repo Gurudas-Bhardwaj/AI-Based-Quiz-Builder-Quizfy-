@@ -1,8 +1,8 @@
 import { ChartBarDecreasing, ChartBarIncreasing, Circle, CircleQuestionMark, DonutIcon, PieChart, X } from 'lucide-react';
 import React, { useState } from 'react';
-import { FaCaretUp, FaComment } from 'react-icons/fa';
-import { MdOutlinePoll, MdQuiz } from 'react-icons/md';
-import { useNavigate, useParams } from 'react-router';
+import { FaCaretUp } from 'react-icons/fa';
+import { MdOutlinePoll } from 'react-icons/md';
+import { useNavigate } from 'react-router';
 import { useAuth } from '../../../../Context/authContext';
 import { templateOptions } from '../../Templates/Templates';
 import { SiQuizlet } from 'react-icons/si';

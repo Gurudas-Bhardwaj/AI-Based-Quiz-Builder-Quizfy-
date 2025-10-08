@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { FaSearch, FaPlay } from 'react-icons/fa'
 import empty from '../../../assets/Images/Logo/empty.png'
 import { useNavigate } from 'react-router';
-import Bell from "../../../assets/Images/HomePageImages/Bell.png";
+import Bell from "../../../assets/Images/HomePageImages/bell.png";
 import userone from "../../../assets/Images/HomePageImages/user_one.png";
 import NotificationCom from '../Home/NotificationCom';
 import ProfileSection from '../Home/ProfileSection';

@@ -1,10 +1,9 @@
 import { BadgePercent, Ban, BinaryIcon, ChartColumn, Cog, Donut, ExternalLink, Image, Lightbulb, MessageCircle, MessageCircleMore, PencilLine, Share, Timer, User, Users } from 'lucide-react'
-import React, { use, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { IoMdArrowRoundBack, IoMdArrowRoundForward } from 'react-icons/io'
-import { Navigate, NavLink, useNavigate, useParams } from 'react-router'
+import {  NavLink, useNavigate, useParams } from 'react-router'
 import { useAuth } from '../../../../Context/authContext'
-import { BiReset } from 'react-icons/bi'
-import { FaCaretUp, FaExclamationTriangle } from 'react-icons/fa'
+import {  FaExclamationTriangle } from 'react-icons/fa'
 import PopUp from './Pop ups/PopUp'
 import CommentSection from './Pop ups/CommentSection'
 import ParticipantResponse from './Pop ups/ParticipantResponse'
@@ -13,7 +12,6 @@ import { io } from "socket.io-client"
 import Ranking from './Types/Ranking'
 import QuizEndedPopUp from './Pop ups/QuizEndedPopUp'
 import ShareLinkPopUp from './Pop ups/ShareLinkPopUp'
-import JoiningPopup from './Pop ups/JoiningPopup'
 import { toast, Bounce, ToastContainer } from 'react-toastify'
 import { Toaster } from 'react-hot-toast'
 import { TbMessage2Bolt } from 'react-icons/tb'
@@ -23,6 +21,7 @@ import Quiz from './Types/Quiz'
 import Pie from './Types/Pie'
 import DonutType from './Types/Donut';
 import { BsThreeDots } from 'react-icons/bs'
+
 const AdminLiveSession = () => {
 
   const { presentationId } = useParams();

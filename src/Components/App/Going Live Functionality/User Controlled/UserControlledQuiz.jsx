@@ -17,7 +17,6 @@ import CommentPage from './Main Files/CommentPage';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 import { TbChartDonutFilled, TbMessage2Bolt } from 'react-icons/tb';
 import ParticipantsPage from './Main Files/ParticipantsPage';
-import { TiUserAdd } from 'react-icons/ti';
 import { AiFillBug } from 'react-icons/ai';
 import { SiQuizlet } from 'react-icons/si';
 import Quiz from './Types/Quiz';

@@ -282,6 +282,10 @@ const Live = () => {
         <div className={`absolute top-0 transition-all ease-in-out duration-100  left-0 z-[100]`}>
         <CorrectOptionPopup selectedOption={selectedOption} CorrectOption={CorrectOption.text} detail={detail} onClose={setCorrect}/>
       </div>}
+
+      <div className={`w-screen h-screen absolute top-0 left-0 z-[90] transition-all ease-in-out duration-500 ${quizEnded ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`} >
+        <QuizEndedPopUp />
+      </div>
     </div>  
 
   );
