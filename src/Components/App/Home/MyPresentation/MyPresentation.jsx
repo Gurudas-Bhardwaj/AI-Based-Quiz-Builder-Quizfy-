@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Bell from "../../../../assests/Images/HomePageImages/Bell.png";
+import Bell from "../../../../assets/Images/HomePageImages/Bell.png";
 import NotificationCom from "../NotificationCom";
 import ProfileSection from "../ProfileSection";
-import userone from "../../../../assests/Images/HomePageImages/user_one.png";
-import empty from "../../../../assests/Images/Logo/empty.png";
+import userone from "../../../../assets/Images/HomePageImages/user_one.png";
+import empty from "../../../../assets/Images/Logo/empty.png";
 import { FaPlay, FaSearch } from "react-icons/fa";
 import { MdDeleteSweep } from "react-icons/md";
 import { useAuth } from "../../../../Context/authContext";

@@ -3,7 +3,7 @@ import { FaRobot, FaUsers, FaBolt, FaLayerGroup, FaChartBar, FaImage } from "rea
 import { MdLiveTv, MdOutlineSecurity } from "react-icons/md";
 import { HiTemplate } from "react-icons/hi";
 import { motion } from "framer-motion";
-import logo from "../../assests/Images/Logo/LOGO.png"
+import logo from "../../assets/Images/Logo/LOGO.png"
 
 const features = [
   {

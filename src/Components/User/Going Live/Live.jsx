@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import logo from "../../../assests/Images/Logo/LOGO.png";
+import logo from "../../../assets/Images/Logo/LOGO.png";
 import { Expand, Info, MessageCircleMore } from "lucide-react";
 import CommentSection from "../../App/Going Live Functionality/Admin Controlled/Pop ups/CommentSection";
 import { useParams } from "react-router";
 import { useAuth } from "../../../Context/authContext";
 import { io } from "socket.io-client";
-import waitImage from "../../../assests/Images/Going live Images/wait.png"
+import waitImage from "../../../assets/Images/Going live Images/wait.png"
 import QuizEndedPopUp from "./PopUp/QuizEnded";
 import CorrectOptionPopup from "./PopUp/CorrectOptionPopup";
 import IncorrectOptionPopup from "./PopUp/IncorrectOptionPopup"

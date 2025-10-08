@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import close from "../../../assests/Images/Logo/close.png";
-import logo from "../../../assests/Images/Logo/LOGO.png";
+import close from "../../../assets/Images/Logo/close.png";
+import logo from "../../../assets/Images/Logo/LOGO.png";
 import { NavLink } from 'react-router';
 import { PlusCircle } from 'lucide-react';
 
-import home from "../../../assests/Images/HomePageImages/homeIcon.png";
-import user from "../../../assests/Images/HomePageImages/user.png";
-import users from "../../../assests/Images/HomePageImages/users.png";
-import share from "../../../assests/Images/HomePageImages/share.png";
+import home from "../../../assets/Images/HomePageImages/homeIcon.png";
+import user from "../../../assets/Images/HomePageImages/user.png";
+import users from "../../../assets/Images/HomePageImages/users.png";
+import share from "../../../assets/Images/HomePageImages/share.png";
 
 const SlidingSideBar = ({ isopen, onClose }) => {
   const [showSidebar, setShowSidebar] = useState(false);

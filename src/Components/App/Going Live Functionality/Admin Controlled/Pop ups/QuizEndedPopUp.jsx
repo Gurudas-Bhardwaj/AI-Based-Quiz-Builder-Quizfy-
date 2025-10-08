@@ -1,6 +1,6 @@
 
 import React from 'react'
-import thanks from "../../../../../assests/Images/Going live Images/HappyBear.png"
+import thanks from "../../../../../assets/Images/Going live Images/HappyBear.png"
 import { NavLink } from 'react-router';
 
 

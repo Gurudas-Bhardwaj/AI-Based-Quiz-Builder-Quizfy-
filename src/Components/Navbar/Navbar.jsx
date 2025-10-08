@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import logo from "../../assests/Images/Logo/LOGO.png"
+import logo from "../../assets/Images/Logo/LOGO.png"
 import { NavLink } from 'react-router'
-import menu from "../../assests/Images/Logo/menu.png"
-import close from "../../assests/Images/Logo/close.png"
+import menu from "../../assets/Images/Logo/menu.png"
+import close from "../../assets/Images/Logo/close.png"
 import Sliding_Navbar from './Sliding_Navbar'
 import { useAuth } from '../../Context/authContext'
 

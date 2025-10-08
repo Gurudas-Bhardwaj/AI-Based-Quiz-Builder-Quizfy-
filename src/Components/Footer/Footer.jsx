@@ -1,9 +1,9 @@
 import React from 'react'
-import logo from "../../assests/Images/Logo/LOGO.png"
-import linkedin from "../../assests/Images/Logo/linkedin.png"
-import instagram from "../../assests/Images/Logo/instagram.png"
-import github from "../../assests/Images/Logo/github.png"
-import whatsapp from "../../assests/Images/Logo/whatsapp.png"
+import logo from "../../assets/Images/Logo/LOGO.png"
+import linkedin from "../../assets/Images/Logo/linkedin.png"
+import instagram from "../../assets/Images/Logo/instagram.png"
+import github from "../../assets/Images/Logo/github.png"
+import whatsapp from "../../assets/Images/Logo/whatsapp.png"
 
 const Footer = () => {
   return (

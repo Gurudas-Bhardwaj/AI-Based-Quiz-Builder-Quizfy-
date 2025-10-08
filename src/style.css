@@ -1,26 +1,26 @@
 @font-face {
   font-family: Poppins;
-  src: url("./assests/fonts/Poppins-Regular.ttf");
+  src: url("./assets/fonts/Poppins-Regular.ttf");
 }
 
 @font-face {
   font-family: Outfit;
-  src: url('./assests//fonts/Outfit-Regular.ttf');
+  src: url('./assets//fonts/Outfit-Regular.ttf');
 }
 
 @font-face {
   font-family: spaceGrotesk;
-  src: url("./assests/fonts/SpaceGrotesk-Regular.ttf");
+  src: url("./assets/fonts/SpaceGrotesk-Regular.ttf");
 }
 
 @font-face {
   font-family: Montserrat;
-  src: url("./assests/fonts/Montserrat-Regular.ttf");
+  src: url("./assets/fonts/Montserrat-Regular.ttf");
 }
 
 @font-face {
   font-family: Sora;
-  src: url("./assests/fonts/Sora-Regular.ttf");
+  src: url("./assets/fonts/Sora-Regular.ttf");
 }
 
 @import "tailwindcss";
@@ -31,20 +31,20 @@
   --font-space: spaceGrotesk, "sans-serif";
   --font-Montserrat: Montserrat, "sans-serif";
   --font-Sora: Sora, "sans-serif";
-  --background-image-BG-1: url("./assests/Images/Background_Images/BackgroundTemplte/BG-1.jpg");
-  --background-image-BG-2: url("./assests/Images/Background_Images/BackgroundTemplte/BG-2.jpg");
-  --background-image-BG-3: url("./assests/Images/Background_Images/BackgroundTemplte/BG-3.jpg");
-  --background-image-BG-4: url("./assests/Images/Background_Images/BackgroundTemplte/BG-4.jpg");
-  --background-image-BG-5: url("./assests/Images/Background_Images/BackgroundTemplte/BG-5.jpg");
-  --background-image-BG-6: url("./assests/Images/Background_Images/BackgroundTemplte/BG-6.png");
-  --background-image-BG-7: url("./assests/Images/Background_Images/BackgroundTemplte/BG-7.jpg");
-  --background-image-BG-8: url("./assests/Images/Background_Images/BackgroundTemplte/BG-8.jpg");
-  --background-image-BG-9: url("./assests/Images/Background_Images/BackgroundTemplte/BG-9.jpg");
-  --background-image-BG-10: url("./assests/Images/Background_Images/BackgroundTemplte/BG-10.jpg");
-  --background-image-BG-11: url("./assests/Images/Background_Images/BackgroundTemplte/BG-11.png");
-  --background-image-BG-12: url("./assests/Images/Background_Images/BackgroundTemplte/BG-12.png");
-  --background-image-BG-13: url("./assests/Images/Background_Images/BackgroundTemplte/BG-13.jpg");
-  --background-image-BG-14: url("./assests/Images/Background_Images/BackgroundTemplte/BG-14.jpg");
-  --background-image-BG-15: url("./assests/Images/Background_Images/BackgroundTemplte/BG-15.jpg");
-  --background-image-BG-16: url("./assests/Images/Background_Images/BackgroundTemplte/BG-16.jpg");
+  --background-image-BG-1: url("./assets/Images/Background_Images/BackgroundTemplte/BG-1.jpg");
+  --background-image-BG-2: url("./assets/Images/Background_Images/BackgroundTemplte/BG-2.jpg");
+  --background-image-BG-3: url("./assets/Images/Background_Images/BackgroundTemplte/BG-3.jpg");
+  --background-image-BG-4: url("./assets/Images/Background_Images/BackgroundTemplte/BG-4.jpg");
+  --background-image-BG-5: url("./assets/Images/Background_Images/BackgroundTemplte/BG-5.jpg");
+  --background-image-BG-6: url("./assets/Images/Background_Images/BackgroundTemplte/BG-6.png");
+  --background-image-BG-7: url("./assets/Images/Background_Images/BackgroundTemplte/BG-7.jpg");
+  --background-image-BG-8: url("./assets/Images/Background_Images/BackgroundTemplte/BG-8.jpg");
+  --background-image-BG-9: url("./assets/Images/Background_Images/BackgroundTemplte/BG-9.jpg");
+  --background-image-BG-10: url("./assets/Images/Background_Images/BackgroundTemplte/BG-10.jpg");
+  --background-image-BG-11: url("./assets/Images/Background_Images/BackgroundTemplte/BG-11.png");
+  --background-image-BG-12: url("./assets/Images/Background_Images/BackgroundTemplte/BG-12.png");
+  --background-image-BG-13: url("./assets/Images/Background_Images/BackgroundTemplte/BG-13.jpg");
+  --background-image-BG-14: url("./assets/Images/Background_Images/BackgroundTemplte/BG-14.jpg");
+  --background-image-BG-15: url("./assets/Images/Background_Images/BackgroundTemplte/BG-15.jpg");
+  --background-image-BG-16: url("./assets/Images/Background_Images/BackgroundTemplte/BG-16.jpg");
 }

@@ -1,6 +1,6 @@
 import React from 'react'
-import close from "../../assests/Images/Logo/close.png"
-import logo from "../../assests/Images/Logo/LOGO.png"
+import close from "../../assets/Images/Logo/close.png"
+import logo from "../../assets/Images/Logo/LOGO.png"
 import { NavLink } from 'react-router'
 import classNames from 'classnames'
 

@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react'
-import Bell from "../../../assests/Images/HomePageImages/Bell.png"
-import user from "../../../assests/Images/HomePageImages/user.png"
-import down from "../../../assests/Images/HomePageImages/down.png"
-import AI from "../../../assests/Images/HomePageImages/AI.png"
-import userone from "../../../assests/Images/HomePageImages/user_one.png"
-import pin from "../../../assests/Images/HomePageImages/pin.png"
+import Bell from "../../../assets/Images/HomePageImages/Bell.png"
+import user from "../../../assets/Images/HomePageImages/user.png"
+import down from "../../../assets/Images/HomePageImages/down.png"
+import AI from "../../../assets/Images/HomePageImages/AI.png"
+import userone from "../../../assets/Images/HomePageImages/user_one.png"
+import pin from "../../../assets/Images/HomePageImages/pin.png"
 import { useAuth } from '../../../Context/authContext'
 import ProfileSection from './ProfileSection'
 import NotificationCom from './NotificationCom'

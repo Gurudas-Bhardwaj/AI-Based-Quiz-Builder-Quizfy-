@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import SideBar from './Home/SideBar'
 import { Outlet } from 'react-router'
-import menu from "../../assests/Images/Logo/menu.png"
+import menu from "../../assets/Images/Logo/menu.png"
 import SlidingSideBar from './Home/SlidingSideBar'
 
 const appLayout = () => {

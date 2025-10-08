@@ -1,6 +1,6 @@
 import React from 'react'
-import error from "../../assests/Images/Logo/warning.png"
-import success from "../../assests/Images/Logo/excellence.png"
+import error from "../../assets/Images/Logo/warning.png"
+import success from "../../assets/Images/Logo/excellence.png"
 
 
 const Slogan = ({status, details}) => {

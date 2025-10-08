@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ImCross } from 'react-icons/im'
 import { IoIosArrowDown } from 'react-icons/io'
-import user from "../../../assests/Images/HomePageImages/user_one.png"
+import user from "../../../assets/Images/HomePageImages/user_one.png"
 import { RxCrossCircled } from 'react-icons/rx'
 import ConfirmDeletePopUp from './ConfirmDeletePopUp'
 import Slogan from '../../Messages/Slogan'

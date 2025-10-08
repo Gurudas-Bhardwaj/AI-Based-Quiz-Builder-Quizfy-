@@ -1,6 +1,6 @@
 import { CirclePlus } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
-import logo from '../../../../../assests/Images/Logo/LOGO.png'
+import logo from '../../../../../assets/Images/Logo/LOGO.png'
 import Slogan from '../../../../Messages/Slogan.jsx'
 
 const ShareLink = ({presentationId, onClose}) => {

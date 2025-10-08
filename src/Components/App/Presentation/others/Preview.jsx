@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import logo from "../../../../assests/Images/Logo/LOGO.png"
+import logo from "../../../../assets/Images/Logo/LOGO.png"
 import { ImCross } from 'react-icons/im'
 
 const Preview = ({ question, onClose }) => {

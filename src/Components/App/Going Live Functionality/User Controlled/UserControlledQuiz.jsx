@@ -8,7 +8,7 @@ import { MdOutlinePoll } from 'react-icons/md';
 import { FaExclamationTriangle } from 'react-icons/fa';
 import { io } from 'socket.io-client';
 import { CiCirclePlus } from 'react-icons/ci';
-import logo from '../../../../assests/Images/Logo/LOGO.png';
+import logo from '../../../../assets/Images/Logo/LOGO.png';
 import Poll from './Types/Poll';
 import Ranking from './Types/Ranking';
 import ShareLink from './PopUps/ShareLink';

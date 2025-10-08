@@ -1,11 +1,11 @@
 import React from 'react'
-import Logo from "../../../assests/Images/Logo/Logo.png"
-import home from "../../../assests/Images/HomePageImages/homeIcon.png"
-import user from "../../../assests/Images/HomePageImages/user.png"
-import users from "../../../assests/Images/HomePageImages/users.png"
-import share from "../../../assests/Images/HomePageImages/share.png"
-import template from "../../../assests/Images/HomePageImages/template.png"
-import airplane from "../../../assests/Images/HomePageImages/airplane.png"
+import Logo from "../../../assets/Images/Logo/Logo.png"
+import home from "../../../assets/Images/HomePageImages/homeIcon.png"
+import user from "../../../assets/Images/HomePageImages/user.png"
+import users from "../../../assets/Images/HomePageImages/users.png"
+import share from "../../../assets/Images/HomePageImages/share.png"
+import template from "../../../assets/Images/HomePageImages/template.png"
+import airplane from "../../../assets/Images/HomePageImages/airplane.png"
 import { NavLink } from 'react-router'
 import { CirclePlus } from 'lucide-react'
 

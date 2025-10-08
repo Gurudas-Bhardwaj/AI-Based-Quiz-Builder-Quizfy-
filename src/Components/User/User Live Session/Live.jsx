@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
-import logo from '../../../assests/Images/Logo/LOGO.png'
+import logo from '../../../assets/Images/Logo/LOGO.png'
 import { io } from 'socket.io-client';
 import { NavLink, useParams } from 'react-router';
 import { useAuth } from '../../../Context/authContext';
 import { Expand, Info, Key, MessageCircleMore } from 'lucide-react';
 import { FaChevronCircleLeft, FaChevronCircleRight, FaExclamationTriangle } from 'react-icons/fa';
 import Slogan from '../../Messages/Slogan';
-import thnks from '../../../assests/Images/Going live Images/thankYou.png'
+import thnks from '../../../assets/Images/Going live Images/thankYou.png'
 import { FiArrowRight } from 'react-icons/fi';
-import waitImage from "../../../assests/Images/Going live Images/wait.png"
+import waitImage from "../../../assets/Images/Going live Images/wait.png"
 import CommentPage from '../../App/Going Live Functionality/User Controlled/Main Files/CommentPage';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 import { TbMessage2Bolt } from 'react-icons/tb';
