@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 import Slogan from '../Messages/Slogan.jsx';
 import { Eye, EyeOff } from 'lucide-react';
 
@@ -8,7 +8,7 @@ const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const navigate = useNavigate();
   //toaster data
   const [message, setMessage] = useState("");
   const [Status, setStatus] = useState(false);
@@ -41,7 +41,7 @@ const SignUp = () => {
     setStatus(true);
     setDisplay("flex");
     setTimeout(() => {
-      window.location.href = "/login";
+      navigate('/login');
       setDisplay("none");
     }, 2000);
   };

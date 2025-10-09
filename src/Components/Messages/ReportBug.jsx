@@ -1,9 +1,39 @@
 import React, { useState } from "react";
 import { FiX, FiSend, FiAlertCircle } from "react-icons/fi";
+import { useAuth } from "../../Context/authContext";
 
 const BugReportPopup = ({onClose}) => {
     const [bug, setBug] = useState("");
-  
+    const { userId } = useAuth();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if(bug.trim() === "") return;
+        setBug(bug.trim());
+        try {
+          const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/other/reportBug", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userId, details : bug }),
+          })
+          const data = await response.json();
+          console.log("Bug report response:", data);
+
+          if(!response.ok){
+            console.error("Failed to report bug");
+            return;
+          }
+
+          setBug("");
+          onClose();
+
+
+        }catch(e){
+          console.error("Error reporting bug:", e);
+        }
+    }
 
   return (
     <div className="font-Outfit ">
@@ -49,7 +79,8 @@ const BugReportPopup = ({onClose}) => {
                 className="border border-gray-200 rounded-lg p-3 h-32 focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none text-gray-700 text-sm"
               />
               <button
-                type="submit"
+                type="button"
+                onClick={handleSubmit}
                 className="bg-indigo-400 cursor-pointer hover:bg-indigo-500 text-white py-2 rounded-lg font-medium flex items-center justify-center gap-2 transition"
               >
                 <FiSend size={16} />

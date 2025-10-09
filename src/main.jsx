@@ -7,7 +7,7 @@ import AuthProvider from './Context/authContext.jsx';
 import LoggedInRoute from './Components/Protected_Route/LoggedInRoute.jsx';
 import ForUnLoggedUser from './Components/Protected_Route/accessOnlyRoute.jsx';
 import AdminLiveSession from './Components/App/Going Live Functionality/Admin Controlled/AdminLiveSession.jsx';
-
+import HowToUse from './Components/Landing/HowToUse.jsx';
 
 const MyPresentation = lazy(() => import("./Components/App/Home/MyPresentation/MyPresentation.jsx"))
 
@@ -26,6 +26,8 @@ const LazySharedWithMe = lazy(() => import("./Components/App/Shared Presentation
 const UserLiveSession = lazy(() => import("./Components/App/Going Live Functionality/User Controlled/UserControlledQuiz.jsx"))
 const LazyBilling = lazy(()=> import("./Components/Landing/Billing.jsx"));
 const LazyAboutUs = lazy(()=> import("./Components/Landing/AboutUs.jsx"));
+const LazyHowToUse = lazy(()=> import("./Components/Landing/HowToUse.jsx"));
+const LazyReadme = lazy(()=> import("./Components/Landing/Readme.jsx"));
 
 const route = createBrowserRouter([
   {
@@ -49,6 +51,12 @@ const route = createBrowserRouter([
           </LoggedInRoute>
         </Suspense>
       },
+      {
+        path : "/HowToUse", element : <Suspense fallback={<Basic />}>
+          <LazyHowToUse/>
+        </Suspense>
+      },
+      {path : "/Readme", element : <Suspense fallback={<Basic />}><LazyReadme/></Suspense>}
     ]
   },
 

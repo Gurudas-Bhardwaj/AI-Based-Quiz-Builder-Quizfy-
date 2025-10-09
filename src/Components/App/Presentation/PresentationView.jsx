@@ -33,9 +33,11 @@ const PresentationView = () => {
 
     const [goLiveOption, setGoLiveOption] = useState(false);
     const [isAuthorized, setIsAuthorized] = useState(true);
+    const [loading, isLoading] = useState(true);
 
     const findDetails = async (presentationID, questionID) => {
         try {
+            isLoading(true);
             const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/searchQuestion", {
                 method: "POST",
                 headers: {
@@ -64,6 +66,8 @@ const PresentationView = () => {
                 navigate(`/App/AdminPanel/Presentation/${presentationID}/${result.question[0]._id}`)
             }
 
+            isLoading(false);
+
         } catch (error) {
             console.error("Error in findDetails:", error);
         }
@@ -75,10 +79,17 @@ const PresentationView = () => {
     }, [presentationId, questionId]);
 
 
-
-
-
-
+    if (loading) {
+        return (
+            <div className="w-screen h-screen absolute top-0 left-0  flex justify-center items-center">
+                <div className='flex flex-col justify-center items-center gap-2'>
+                    <div className='h-10 w-10 border-4 border-gray-300 border-t-indigo-500 rounded-full animate-spin'>
+                    </div>
+                    <h1 className='font-Outfit text-gray-800'>Hang on! Loading Content</h1>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <main className='w-screen relative h-screen overflow-hidden bg-gray-200'>
@@ -136,7 +147,7 @@ const PresentationView = () => {
                             <div className='h-5 w-1 border-r border-r-stone-200'></div>
 
                             <div className='hidden md:flex'>
-                                <button onClick={()=>setReportBugPopUp(true)} className='text-sm cursor-pointer flex justify-center items-center bg-gray-300 text-black font-Outfit rounded-2xl pt-1 pb-1 pr-4 pl-4 gap-1'>
+                                <button onClick={() => setReportBugPopUp(true)} className='text-sm cursor-pointer flex justify-center items-center bg-gray-300 text-black font-Outfit rounded-2xl pt-1 pb-1 pr-4 pl-4 gap-1'>
                                     <FiAlertCircle size={13} />Report a Bug
                                 </button>
                             </div>

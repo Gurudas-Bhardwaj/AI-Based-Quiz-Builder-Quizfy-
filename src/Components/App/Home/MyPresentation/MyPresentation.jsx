@@ -8,6 +8,7 @@ import { FaPlay, FaSearch } from "react-icons/fa";
 import { MdDeleteSweep } from "react-icons/md";
 import { useAuth } from "../../../../Context/authContext";
 import { useNavigate } from "react-router";
+import AccountSettingPOPUP from "../AccountSettingPOPUP";
 
 const MyPresentation = () => {
   const { userId } = useAuth();
@@ -90,17 +91,17 @@ const MyPresentation = () => {
   };
 
   if (loading) {
-  return (
-    <div className="w-full h-screen flex justify-center items-center bg-white">
-      <div className="w-12 h-12 border-4 border-t-indigo-500 border-gray-300 rounded-full animate-spin"></div>
-    </div>
-  );
-}
+    return (
+      <div className="w-full h-screen flex justify-center items-center bg-white">
+        <div className="w-12 h-12 border-4 border-t-indigo-500 border-gray-300 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
 
   return (
     <main className="w-full min-h-screen bg-stone-50 text-gray-800 font-[Outfit] overflow-hidden">
-      
+
       {/* Navbar */}
       <div className="w-full flex justify-end mt-7 pr-7 items-center">
         <div className="flex h-full mr-5 items-center gap-3">
@@ -207,6 +208,10 @@ const MyPresentation = () => {
             ))}
           </div>
         )}
+      </div>
+
+      <div className={`w-screen bg-black/70 absolute transition-all ease-in-out duration-300 top-0 left-0 h-screen flex justify-center items-center ${settingState ? 'opacity-100 pointer-events-auto' : 'pointer-events-none opacity-0 '}`}>
+        <AccountSettingPOPUP onClose={() => setSettingState(false)} />
       </div>
     </main>
   );

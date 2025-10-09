@@ -6,6 +6,7 @@ import { RxCrossCircled } from 'react-icons/rx'
 import ConfirmDeletePopUp from './ConfirmDeletePopUp'
 import Slogan from '../../Messages/Slogan'
 import { useAuth } from "../../../Context/authContext.jsx"
+import { useNavigate } from 'react-router'
 
 const AccountSettingPOPUP = ({ onClose }) => {
 
@@ -13,7 +14,7 @@ const AccountSettingPOPUP = ({ onClose }) => {
     const [noOfCharacter, setNoOfCharacter] = useState(50);
     const [name, setName] = useState("");
 
-
+    const navigate = useNavigate();
     const { refreshToken, userName } = useAuth();
 
     const [message, setMessage] = useState("");
@@ -33,16 +34,16 @@ const AccountSettingPOPUP = ({ onClose }) => {
 
         try {
             // Call backend to clear refresh token
-            await fetch('https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/Logout', {
+            const response = await fetch('https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/Logout', {
                 method: 'POST',
                 credentials: 'include', //  sending the cookie
             });
 
-            // Remove access token from localStorage
-            localStorage.removeItem('accessToken');
-
-            // Redirect to login page
-            window.location.href = '/login';
+            if(response.ok){
+                localStorage.removeItem('accessToken');
+                await refreshToken(); 
+                navigate('/');
+            }
 
         } catch (err) {
             console.error('Logout failed', err);

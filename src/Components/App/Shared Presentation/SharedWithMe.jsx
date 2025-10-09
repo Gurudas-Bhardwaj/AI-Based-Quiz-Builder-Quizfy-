@@ -11,7 +11,7 @@ import { useAuth } from '../../../Context/authContext';
 
 const SharedWithMe = () => {
     const navigate = useNavigate();
-    const {userId} = useAuth();
+    const { userId } = useAuth();
     const [presentation, setPresentations] = useState([]);
     const [query, setQuery] = useState('');
     const [debouncedQuery, setDebouncedQuery] = useState('');
@@ -23,24 +23,24 @@ const SharedWithMe = () => {
     // Fetch shared presentations from backend
     const findPresentation = async () => {
         try {
-            const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/getSharedPresentations",{
-                method : "POST",
-                headers : {
-                    "Content-Type" : "application/json",
+            const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/getSharedPresentations", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
                 },
-                body : JSON.stringify({ userId })
+                body: JSON.stringify({ userId })
             });
 
             const data = await response.json();
-            if(response.ok){
+            if (response.ok) {
                 setPresentations(data.presentations);
             }
-            else{
+            else {
                 setPresentations([]);
                 console.error("Failed to fetch shared presentations");
             }
         }
-        catch(e){
+        catch (e) {
             console.error("Error fetching shared presentations:", e);
         }
     }
@@ -57,7 +57,7 @@ const SharedWithMe = () => {
 
     // Filter presentations based on debounced query
     const filteredPresentations = useMemo(() => {
-        if(!debouncedQuery.trim()) return presentation;
+        if (!debouncedQuery.trim()) return presentation;
         const q = debouncedQuery.trim().toLowerCase();
         return presentation.filter(p =>
             p.title.toLowerCase().includes(q) ||
@@ -68,38 +68,40 @@ const SharedWithMe = () => {
 
     return (
         <main className="w-full min-h-screen bg-stone-50 font-Outfit">
-            <div className="max-w-6xl mx-auto px-6 py-10">
+            <div className="max-w-6xl mx-auto px-6 py-7">
 
                 {/* Navbar */}
-                <div className="flex w-full h-full pl-[90%] mt-5 mb-5 items-center gap-3">
-                    <div className="relative">
-                        <div
-                            onClick={() => {
-                                setNotificationState(!NotificationState);
-                                setState(false);
-                            }}
-                            className="h-8 w-8 rounded-full flex justify-center items-center bg-stone-200 hover:bg-stone-300 cursor-pointer transition"
-                        >
-                            <img src={Bell} className="w-3" alt="Bell" />
+                <div className="w-full flex justify-end pr-2 items-center">
+                    <div className="flex h-full mr-5 items-center gap-3">
+                        <div className="relative">
+                            <div
+                                onClick={() => {
+                                    setNotificationState(!NotificationState);
+                                    setState(false);
+                                }}
+                                className="h-8 w-8 rounded-full flex justify-center items-center bg-stone-200 hover:bg-stone-300 cursor-pointer transition"
+                            >
+                                <img src={Bell} className="w-3" alt="Bell" />
+                            </div>
+                            <NotificationCom display={NotificationState} />
                         </div>
-                        <NotificationCom display={NotificationState} />
-                    </div>
 
-                    <div className="relative">
-                        <div
-                            className="h-8 w-8 bg-indigo-300 hover:bg-indigo-400 transition cursor-pointer rounded-full flex justify-center items-center"
-                            onClick={() => {
-                                setState(!state);
-                                setNotificationState(false);
-                            }}
-                        >
-                            <img src={userone} className="w-4" alt="User" />
+                        <div className="relative">
+                            <div
+                                className="h-8 w-8 bg-indigo-300 hover:bg-indigo-400 transition cursor-pointer rounded-full flex justify-center items-center"
+                                onClick={() => {
+                                    setState(!state);
+                                    setNotificationState(false);
+                                }}
+                            >
+                                <img src={userone} className="w-4" alt="User" />
+                            </div>
+                            <ProfileSection
+                                display={state}
+                                onClose={() => setState(false)}
+                                setSettingState={setSettingState}
+                            />
                         </div>
-                        <ProfileSection
-                            display={state}
-                            onClose={() => setState(false)}
-                            setSettingState={setSettingState}
-                        />
                     </div>
                 </div>
 
@@ -169,7 +171,7 @@ const SharedWithMe = () => {
 
             {/* Account Settings Popup */}
             <div className={`w-screen bg-black/70 absolute transition-all ease-in-out duration-300 top-0 left-0 h-screen flex justify-center items-center ${settingState ? 'opacity-100 pointer-events-auto' : 'pointer-events-none opacity-0 '}`}>
-                <AccountSettingPOPUP onClose={()=>setSettingState(false)}/>
+                <AccountSettingPOPUP onClose={() => setSettingState(false)} />
             </div>
         </main>
     );
