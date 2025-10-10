@@ -14,15 +14,15 @@ const Quiz = ({ designTemplate, localOptions, localQuestion }) => {
                         <h1>Q) {localQuestion}</h1>
                     </div>
                     <div className='w-full flex justify-center  items-center h-[90%]'>
-                        <div className='w-[95%] md:w-[85%] flex justify-center items-center  gap-4 h-[70%]'>
+                        <div className='w-[99%] md:w-[85%] flex justify-center items-center  gap-2 md:gap-4 h-[70%]'>
 
                             {localOptions.map((key, index) => (
                                 <div key={index} className='w-full h-full font-Outfit flex flex-col justify-end items-center'>
                                     <div>
                                         <p className='text-black'>{key.votes}</p>
                                     </div>
-                                    <div className='bg-indigo-400 h-[2%] w-[80%]' style={{ backgroundColor: key.color }}></div>
-                                    <div className=' w-[80%] min-h-6 mt-1 text-center text-white text-sm bg-black flex justify-center items-center'>
+                                    <div className='bg-indigo-400 h-[2%] w-[100%] md:w-[80%]' style={{ backgroundColor: key.color }}></div>
+                                    <div className='w-[100%] md:w-[80%] min-h-6 mt-1 text-center text-white text-sm bg-black flex justify-center items-center'>
                                         <p className=' inline  font-Outfit'>{truncateText(key.text)}</p>
                                     </div>
                                 </div>

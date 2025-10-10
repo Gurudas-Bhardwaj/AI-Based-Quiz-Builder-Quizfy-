@@ -4,7 +4,6 @@ import { Chart } from "chart.js/auto";
 const Pie = ({ designTemplate, localOptions, localQuestion }) => {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
-    console.log("hello")
 
   useEffect(() => {
     if (chartInstance.current) {
@@ -36,7 +35,8 @@ const Pie = ({ designTemplate, localOptions, localQuestion }) => {
         responsive: true,
         plugins: {
           legend: { display: false } // we'll make our own legend
-        }
+        },
+        aspectRatio: 1 // Maintain square aspect ratio for pie chart
       }
     });
 
@@ -59,16 +59,19 @@ const Pie = ({ designTemplate, localOptions, localQuestion }) => {
           </div>
 
           {/* Pie chart with legend */}
-          <div className="w-full h-[90%] flex flex-col md:flex-row justify-center items-center gap-20 p-6">
+          <div className="w-full h-[90%] flex flex-col md:flex-row justify-center items-center gap-10 p-6">
             {/* Pie chart */}
-            <div className="w-[300px] h-[300px]">
+            <div className="w-[90%] md:w-[300px] h-[300px]">
               <canvas ref={chartRef} />
             </div>
 
             {/* Custom legend */}
-            <div className="flex flex-col gap-4">
-              {localOptions.map((opt, index) => (
-                <div key={opt._id} className="flex items-center gap-3">
+            <div className="grid grid-cols-2 grid-rows-2 md:flex md: md:flex-row gap-4 md:gap-6 items-start md:items-center">
+              {localOptions.map((opt) => (
+                <div
+                  key={opt._id}
+                  className="flex items-center gap-3 flex-wrap justify-center"
+                >
                   <span
                     className="w-6 h-6 rounded-full"
                     style={{ backgroundColor: opt.color }}

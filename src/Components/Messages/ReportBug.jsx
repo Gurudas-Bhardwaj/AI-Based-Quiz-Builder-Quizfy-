@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { FiX, FiSend, FiAlertCircle } from "react-icons/fi";
 import { useAuth } from "../../Context/authContext";
 
-const BugReportPopup = ({onClose}) => {
+const BugReportPopup = ({onClose, setDisplayPopUp, setStatus, setDetails}) => {
     const [bug, setBug] = useState("");
-    const { userId } = useAuth();
+    const { userId, userName } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -16,7 +16,7 @@ const BugReportPopup = ({onClose}) => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ userId, details : bug }),
+            body: JSON.stringify({ userId, details : bug, userName }),
           })
           const data = await response.json();
           console.log("Bug report response:", data);
@@ -27,8 +27,6 @@ const BugReportPopup = ({onClose}) => {
           }
 
           setBug("");
-          onClose();
-
 
         }catch(e){
           console.error("Error reporting bug:", e);
@@ -37,7 +35,7 @@ const BugReportPopup = ({onClose}) => {
 
   return (
     <div className="font-Outfit ">
-
+      
         <div
           className="fixed inset-0 bg-stone-950/60 flex justify-center items-center z-50"
           onClick={() => setIsOpen(false)}
@@ -89,6 +87,7 @@ const BugReportPopup = ({onClose}) => {
             </form>
           </div>
         </div>
+      
     
     </div>
   );

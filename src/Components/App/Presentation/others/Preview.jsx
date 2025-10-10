@@ -17,13 +17,13 @@ const Preview = ({ question, onClose }) => {
                 <img src={logo} className='w-48' alt="" />
             </div>
             <div className='w-full flex flex-col gap-10 justify-center items-center'>
-                <div className='w-[80%] flex justify-center font-Outfit text-2xl'>
+                <div className='w-full md:w-[80%] flex justify-center font-Outfit text-2xl'>
                     Q){question.question}
                 </div>
-                <div className='w-[40%] flex flex-col gap-3 justify-center items-center'>
+                <div className='w-[80%] sm:w-[40%] flex flex-col gap-3 justify-center items-center'>
                     {
                         options.map((key, index)=>
-                        <div key={index} className='w-[80%] cursor-pointer hover:scale-105 transition-all ease-in-out text-white pl-6 flex items-center font-Outfit text-lg h-16 bg-black border border-black rounded-2xl'>
+                        <div key={index} className='w-full md:w-[80%] cursor-pointer hover:scale-105 transition-all ease-in-out text-white pl-6 flex items-center font-Outfit text-lg h-16 bg-black border border-black rounded-2xl'>
                            {key.text}
                         </div>
                         )

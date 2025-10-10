@@ -25,10 +25,7 @@ import Donut from './DesignType/Donut.jsx'
 import { TbChartDonutFilled } from 'react-icons/tb'
 
 const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQuestion}) => {
-    const navigate = useNavigate();
-
-
-    
+    const navigate = useNavigate();   
 
     const [selectedEditingSection, setSelectedEditingSection] = useState("none");
 
@@ -56,6 +53,9 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
     const [previewUrl, setPreviewUrl] = useState(currentQuestion.Image || "");
     const [description, setDescription] = useState(currentQuestion.description || "");
 
+    const [noOfSlide, setNoOfSlide] = useState(allQuestion.length || 0);
+    const [currentlyOnSlide, setCurrentlyOnSlide] = useState(1);
+
 
     let timeOutId = useRef(null);
 
@@ -70,6 +70,8 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
         setPreviewUrl(currentQuestion.Image || "");
         setDescription(currentQuestion.description || "");
         setPresentationName(presentation.title || "");
+        setNoOfSlide(allQuestion.length || 0);
+        setCurrentlyOnSlide(currentQuestion.order || 1);
     }, [currentQuestion, selectedQuestion, presentation]);
 
     const mainSectionSelection = ()=>{
@@ -221,7 +223,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
     };
 
 
-    const switchQuestions = async (questionID) => {
+    const switchQuestions = async (questionID, index) => {
         setSelectedQuestion(questionID);
         setShowSlide(false);
         navigate(`/App/AdminPanel/Presentation/${presentationId}/${questionID}`);
@@ -432,7 +434,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
             <div className='bg-gray-200 relative h-[530px] w-screen  overflow-hidden overflow-y-hidden'>
                 <div className='absolute top-5 left-4  bg-black pt-1 pb-1 pr-4 pl-4  rounded-3xl flex lg:hidden justify-center items-center gap-2' onClick={() => setShowSlide(!showSlide)}>
                     <LuFileStack className='text-white flex lg:hidden' />
-                    <p className='text-white font-Outfit'>1/1</p>
+                    <p className='text-white font-Outfit'>{currentlyOnSlide}/{noOfSlide}</p>
                 </div>
 
                     {/* FLoating  Menu appear in mobile*/}
@@ -449,7 +451,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
                         <div className='h-screen flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                             {allQuestion.map((key, index) => (
                                 <div
-                                    onClick={() => switchQuestions(key._id)}
+                                    onClick={() => switchQuestions(key._id, index)}
                                     key={key._id}
                                     className='w-full h-20 flex justify-center gap-1 cursor-pointer'
                                 >

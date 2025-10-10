@@ -2,19 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { Chart } from "chart.js/auto";
 
 const Pie = ({ currentQuestion, showRespInPercen }) => {
-  const [designTemplate, setDesignTemplate] = useState(
-    currentQuestion?.designTemplate || ""
-  );
-  const [localQuestion, setLocalQuestion] = useState(
-    currentQuestion?.question || ""
-  );
-  const [localOptions, setLocalOptions] = useState(
-    currentQuestion?.options || []
-  );
+  const [designTemplate, setDesignTemplate] = useState(currentQuestion?.designTemplate || "");
+  const [localQuestion, setLocalQuestion] = useState(currentQuestion?.question || "");
+  const [localOptions, setLocalOptions] = useState(currentQuestion?.options || []);
 
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
-  const timeoutRef = useRef(null); // for debounce
+  const timeoutRef = useRef(null); // debounce
 
   useEffect(() => {
     if (currentQuestion) {
@@ -27,35 +21,38 @@ const Pie = ({ currentQuestion, showRespInPercen }) => {
   useEffect(() => {
     if (!localOptions.length) return;
 
-    // Clear previous timeout if updating rapidly
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
     timeoutRef.current = setTimeout(() => {
       if (chartInstance.current) chartInstance.current.destroy();
 
       const ctx = chartRef.current.getContext("2d");
-      const allZero = localOptions.every((opt) => opt.votes === 0);
+      const allZero = localOptions.every(opt => opt.votes === 0);
 
       chartInstance.current = new Chart(ctx, {
-        type: "pie", // donut chart
+        type: "pie",
         data: {
-          labels: localOptions.map((opt) => opt.text),
+          labels: localOptions.map(opt => opt.text),
           datasets: [
             {
               data: allZero
                 ? localOptions.map(() => 1)
-                : localOptions.map((opt) => opt.votes),
+                : localOptions.map(opt => opt.votes),
               backgroundColor: allZero
                 ? localOptions.map(() => "rgba(0,0,0,0.20)")
-                : localOptions.map((opt) => opt.color),
+                : localOptions.map(opt => opt.color),
               borderWidth: 1,
             },
           ],
         },
         options: {
-          cutout: "0%", // donut hole
           responsive: true,
-          animation: { animateScale: true, animateRotate: true },
+          maintainAspectRatio: false,
+          animation: {
+            animateScale: true,
+            animateRotate: true,
+            duration: 500,
+          },
           plugins: {
             legend: { display: false },
             tooltip: {
@@ -63,10 +60,7 @@ const Pie = ({ currentQuestion, showRespInPercen }) => {
                 label: (context) => {
                   const value = context.raw;
                   if (showRespInPercen && !allZero) {
-                    const total = localOptions.reduce(
-                      (sum, o) => sum + o.votes,
-                      0
-                    );
+                    const total = localOptions.reduce((sum, o) => sum + o.votes, 0);
                     const percent = total ? ((value / total) * 100).toFixed(1) : 0;
                     return `${context.label}: ${percent}%`;
                   }
@@ -77,7 +71,7 @@ const Pie = ({ currentQuestion, showRespInPercen }) => {
           },
         },
       });
-    }, 1000); // 1-second debounce
+    }, 500); // shorter debounce
 
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -94,37 +88,42 @@ const Pie = ({ currentQuestion, showRespInPercen }) => {
   }
 
   return (
-    <div className="h-[500px] flex-1 flex flex-col justify-center transition-all ease-in-out duration-300">
+    <div className="h-full w-full flex flex-col justify-center items-center transition-all ease-in-out duration-300">
       <div className="w-full h-full flex flex-col justify-center items-center">
-        <div
-          className={`w-[76%] h-full bg-cover bg-center bg-no-repeat ${designTemplate}`}
-        >
+        <div className={`w-full h-full bg-cover bg-center bg-no-repeat ${designTemplate}`}>
+          
           {/* Question */}
           <div className="w-full h-[10%] text-black font-Outfit text-2xl pt-7 pl-7">
             <h1>Q) {localQuestion}</h1>
           </div>
 
-          {/* Chart + legend */}
-          <div className="w-full h-[90%] flex flex-col md:flex-row justify-center items-center gap-20 p-6">
-            {/* Donut Chart */}
-            <div className="w-[300px] h-[300px]">
-              <canvas ref={chartRef} />
+          {/* Pie Chart + Legend */}
+          <div className="w-full h-[90%] flex flex-col md:flex-row justify-center items-center gap-12 p-4">
+            
+            {/* Chart */}
+            <div className="w-full max-w-[320px] h-[300px] sm:h-[350px] md:h-full relative">
+              <canvas ref={chartRef} className="w-full h-full" />
             </div>
 
-            {/* Custom Legend */}
-            <div className="flex flex-col gap-4">
-              {localOptions.map((opt) => (
-                <div key={opt._id} className="flex items-center gap-3">
-                  <span
-                    className="w-6 h-6 rounded-full"
-                    style={{ backgroundColor: opt.color }}
-                  ></span>
-                  <p className="text-lg font-medium font-Outfit text-gray-800">
-                    {opt.text} : {opt.votes}
-                  </p>
-                </div>
-              ))}
+            {/* Legend */}
+            <div className="flex flex-col gap-4 flex-wrap justify-center">
+              {localOptions.map((opt) => {
+                const totalVotes = localOptions.reduce((sum, o) => sum + o.votes, 0);
+                const percent = totalVotes ? ((opt.votes / totalVotes) * 100).toFixed(1) : 0;
+                return (
+                  <div key={opt._id} className="flex items-center gap-3">
+                    <span
+                      className="w-5 h-5 rounded-full"
+                      style={{ backgroundColor: opt.color }}
+                    ></span>
+                    <p className="text-base font-Outfit font-medium text-gray-800">
+                      {opt.text}: {opt.votes} {showRespInPercen ? `(${percent}%)` : ""}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
+
           </div>
         </div>
       </div>

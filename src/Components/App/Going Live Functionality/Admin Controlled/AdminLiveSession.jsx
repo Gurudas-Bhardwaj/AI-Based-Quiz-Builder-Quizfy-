@@ -304,7 +304,7 @@ const AdminLiveSession = () => {
             </NavLink>
 
             <div className='font-Outfit relative text-[13px]'>
-              <p>Testing Presentation</p>
+              <p>Presentation</p>
               <p className='text-[10px] text-stone-600 flex  justify-start items-center'><User size={13} />{userName}
               </p>
 

@@ -18,6 +18,7 @@ const QuizEndedPopUp = () => {
                     <div className="font-Outfit text-center text-stone-700 text-base md:text-lg px-2">
                         <p className="pt-4 pb-2">Quiz is Ended<br></br><span className="inline-block">Hope You Enjoyed the Experience</span></p>
                         <p className="text-sm text-stone-500">You can check the detailed result in the <span className="font-semibold text-indigo-500">Session Page</span> of this presentation.</p>
+                        <p className="text-sm text-stone-500 flex gap-1 justify-center items-center ">Please <NavLink className="text-indigo-500 font-bold" to="/ReviewUs">Review Us</NavLink> and share your experience</p>
                     </div>
                     <div className="mt-8 w-full flex justify-center">
                         <NavLink to="/App/Admin/Home" className="bg-gradient-to-r font-Montserrat     from-indigo-400 via-pink-400 to-purple-700 text-white px-6 py-2 rounded-full font-semibold shadow-md hover:scale-105 transition-transform duration-200">Go To Home</NavLink>

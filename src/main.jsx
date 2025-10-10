@@ -28,6 +28,7 @@ const LazyBilling = lazy(()=> import("./Components/Landing/Billing.jsx"));
 const LazyAboutUs = lazy(()=> import("./Components/Landing/AboutUs.jsx"));
 const LazyHowToUse = lazy(()=> import("./Components/Landing/HowToUse.jsx"));
 const LazyReadme = lazy(()=> import("./Components/Landing/Readme.jsx"));
+const LazyReview = lazy(()=> import("./Components/Messages/ReviewUs.jsx"));
 
 const route = createBrowserRouter([
   {
@@ -127,6 +128,13 @@ const route = createBrowserRouter([
     element: <Suspense fallback={<Basic />}>
       <ForUnLoggedUser>
         <LazyUserControlledLive />
+      </ForUnLoggedUser>
+    </Suspense>
+  },{
+    path : "/ReviewUs", 
+    element : <Suspense fallback = {<Basic/>}>
+      <ForUnLoggedUser>
+        < LazyReview/>
       </ForUnLoggedUser>
     </Suspense>
   }

@@ -59,16 +59,19 @@ const Donut = ({ designTemplate, localOptions, localQuestion }) => {
           </div>
 
           {/* Donut chart with legend */}
-          <div className="w-full h-[90%] flex flex-col md:flex-row justify-center items-center gap-20 p-6">
+          <div className="w-full h-[90%] flex flex-col md:flex-row justify-center items-center gap-10 p-6">
             {/* Donut chart */}
-            <div className="w-[300px] h-[300px]">
+            <div className="w-[80%] sm:w-[60%] md:w-[300px] h-[70%] sm:h-[250px] md:h-[300px]">
               <canvas ref={chartRef} />
             </div>
 
             {/* Custom legend */}
-            <div className="flex flex-col gap-4">
+            <div className="grid grid-cols-2 grid-rows-2 md:flex md: md:flex-row gap-4 sm:gap-6 items-start sm:items-center  sm:mt-0">
               {localOptions.map((opt) => (
-                <div key={opt._id} className="flex items-center gap-3">
+                <div
+                  key={opt._id}
+                  className="flex items-center gap-3 flex-wrap justify-center"
+                >
                   <span
                     className="w-6 h-6 rounded-full"
                     style={{ backgroundColor: opt.color }}

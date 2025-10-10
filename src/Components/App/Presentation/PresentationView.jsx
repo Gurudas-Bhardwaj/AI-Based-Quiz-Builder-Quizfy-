@@ -11,11 +11,15 @@ import ReportBug from '../../Messages/ReportBug';
 
 import { FaExclamationTriangle } from "react-icons/fa";
 import { FiAlertCircle } from 'react-icons/fi';
+import Slogan from '../../Messages/Slogan';
 const PresentationView = () => {
 
     const { presentationId, questionId } = useParams();
     const { userId } = useAuth();
 
+    const [showPopUp, setShowPopUp] = useState(false);
+    const [details, setDetails] = useState("");
+    const [status, setStatus] = useState(false);
 
     const [allQuestion, setAllQuestion] = useState([]);
     const [currentQuestion, setCurrentQuestion] = useState([]);
@@ -106,7 +110,7 @@ const PresentationView = () => {
 
                             <div className='font-Outfit relative text-[14px]'>
                                 <p>Vibrant Color Mixture</p>
-                                <p className='text-[10px] text-stone-600 flex  justify-start items-center    '><User size={16} />{presentation.title}
+                                <p className='text-[10px] text-stone-600 flex  justify-start items-center'><User size={16} />{presentation.title}
                                 </p>
 
                             </div>
@@ -130,10 +134,10 @@ const PresentationView = () => {
                                     <BsThreeDots className='cursor-pointer' onClick={() => setShowOptions(!showOptions)} />
                                 </div>
                                 <div className={`absolute transition-all ${showOptions ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}  bg-white font-Outfit p-5  rounded-xl shadow-sm flex flex-col gap-3 top-12 z-[999999] -left-6 `}>
-                                    <div className='flex justify-center cursor-pointer items-center'>
+                                    <div onClick={() => { setPreview(true); setShowOptions(false) }} className='flex justify-center cursor-pointer items-center'>
                                         <h1 className='pt-1'>Preview</h1>
                                     </div>
-                                    <div className='border-b-transparent flex justify-center cursor-pointer items-center'>
+                                    <div onClick={() => { setReportBugPopUp(true); setShowOptions(false) }} className='border-b-transparent flex justify-center cursor-pointer items-center'>
                                         <h1 className='pt-1'>Report</h1>
                                     </div>
                                 </div>
@@ -210,7 +214,11 @@ const PresentationView = () => {
             </div>
 
             <div className={`absolute top-0 left-0 w-screen h-screen transition-all ease-in-out duration-300 ${reportBugPopUp ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
-                <ReportBug onClose={() => setReportBugPopUp(false)} />
+                <ReportBug onClose={() => setReportBugPopUp(false)} setDetails={setDetails} setDisplayPopUp={setShowPopUp} setStatus={setStatus} />
+            </div>
+
+            <div className={`absolute top-0 bottom-5 w-screen h-screen ${showPopUp ? "opacity-100 translate-x-0 pointer-events-auto" : "opacity-0 pointer-events-none translate-x-3"}`}>
+                <Slogan status={status} details={details} />
             </div>
         </main>
     )

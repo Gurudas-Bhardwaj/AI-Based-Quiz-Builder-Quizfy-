@@ -29,7 +29,7 @@ const Ranking = ({ currentQuestion, showRespInPercen }) => {
     return (
         <section className="h-full w-full flex justify-center">
             <div className="w-full h-auto flex flex-col mt-6 items-center">
-                <div className={`h-[96%] bg-cover bg-center ${designTemplate} w-[72%] text-white`}>
+                <div className={`h-[100%] bg-cover bg-center ${designTemplate} w-[100%] sm:w-[72%] text-white`}>
                     <div className="w-full text-black font-Outfit text-2xl pt-7 pl-7">
                         <h1>Q) {localQuestion}</h1>
                     </div>
@@ -38,11 +38,11 @@ const Ranking = ({ currentQuestion, showRespInPercen }) => {
 
                             {localOptions.map((key, index) => (
 
-                                <div key={key._id} className='w-full text-black  flex gap-1'>
-                                    <div className='w-[3%]'>
+                                <div key={key._id} className='w-full text-black  flex gap-3 sm:gap-1'>
+                                    <div className='w-[5%] md:w-[3%]'>
                                         {index + 1})
                                     </div>
-                                    <div className='w-[70%]  md:w-[100%] flex gap-2'>
+                                    <div className='w-[100%] flex gap-2'>
                                         <div className='w-[100%] flex gap-1'>
                                             <div className='text-black max-w-[56%] transition-all duration-300 ease-in-out overflow-hidden h-[20px]' style={{ width: `${key.percentage == 0 ? key.percentage + 2 : key.percentage}%`, backgroundColor: key.color }}></div>
                                             <div>{key.text}</div>

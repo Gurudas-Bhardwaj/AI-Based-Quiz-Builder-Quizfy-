@@ -1,8 +1,10 @@
 import React from 'react'
 import { useAuth } from '../../../Context/authContext';
+import { useNavigate } from 'react-router';
 
 const ProfileSection = (props) => {
   const { userName, email, refreshToken } = useAuth();
+  const navigate = useNavigate();
 
   const Logout = async () => {
     try {
@@ -44,7 +46,7 @@ const ProfileSection = (props) => {
           <button onClick={() => { props.setSettingState(true); props.onClose() }} className='text-sm w-full flex justify-start hover:bg-gray-100 rounded-sm cursor-pointer p-1 font-Outfit pl-2'>
             <p>Account Settings</p>
           </button>
-          <div className='text-sm   hover:bg-gray-100 rounded-sm cursor-pointer p-1 font-Outfit pl-2'>
+          <div onClick={()=>navigate("/Billing")} className='text-sm   hover:bg-gray-100 rounded-sm cursor-pointer p-1 font-Outfit pl-2'>
             <p>Billing</p>
           </div>
           <div className='text-sm   hover:bg-gray-100 rounded-sm cursor-pointer p-1 font-Outfit pl-2'>
