@@ -23,6 +23,10 @@ import Quiz from './Types/Quiz';
 import DonutType from './Types/Donut';
 import Pie from './Types/Pie';
 import ImagePreviewer from '../Admin Controlled/Pop ups/ImagePreviewer';
+import { LuFileStack } from 'react-icons/lu';
+import { RxCross1, RxCross2 } from 'react-icons/rx';
+import { GoPlus } from 'react-icons/go';
+import { BsThreeDots } from 'react-icons/bs';
 
 const AdminUserControlledLanding = () => {
   const { userName, userId } = useAuth();
@@ -30,8 +34,10 @@ const AdminUserControlledLanding = () => {
   const accessToken = localStorage.getItem('accessToken');
   const navigate = useNavigate();
 
+  const [loading, isLoading] = useState(false);
   const [showCommentSection, setShowCommentSection] = useState(false);
   const [showParticipantCompo, setShowParticipantCompo] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
 
   const [showCommentSecPopUp, setShowCommentSecPopup] = useState(false);
   const [showFullScreenPopup, setShowFullScreenPopUp] = useState(false);
@@ -52,6 +58,8 @@ const AdminUserControlledLanding = () => {
   const [imagePopup, setImagePopUp] = useState("");
 
   const [image, setImage] = useState("");
+
+  const [showSlide, setShowSlide] = useState(false);
 
   const containerRef = useRef(null);
 
@@ -79,6 +87,7 @@ const AdminUserControlledLanding = () => {
   const socket = useRef(null);
 
   const socketHandler = async () => {
+    isLoading(true);
     socket.current = io('https://ai-based-quiz-builder-quizfy-backend.onrender.com/userControlledQuiz', {
       transports: ['websocket', 'polling'],
     });
@@ -86,9 +95,9 @@ const AdminUserControlledLanding = () => {
     socket.current.emit('joinQuizByAdmin', { presentationId, accessToken });
 
     socket.current.on('questionsForAdmin', ({ questions }) => {
+      isLoading(false);
       const updated = addPercentageToQuestion(questions);
       setAllQuestion(updated || []);
-      console.log(questions);
     });
 
     socket.current.on('votesUpdates', ({ questions }) => {
@@ -157,12 +166,12 @@ const AdminUserControlledLanding = () => {
   }
 
   useEffect(() => {
+    isLoading(true);
     socketHandler();
   }, []);
 
   // Derive currentQuestion from allQuestion
-  const currentQuestion =
-    allQuestion.find((q) => q._id === selectedQuestionId) || null;
+  const currentQuestion = allQuestion.find((q) => q._id === selectedQuestionId) || null;
 
   const handleEnterFullscreen = () => {
     const elem = containerRef.current;
@@ -215,6 +224,15 @@ const AdminUserControlledLanding = () => {
     return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
   };
 
+  if (loading) {
+    return (
+      <div className='w-screen h-screen absolute top-0 left-0 bg-white flex flex-col justify-center items-center'>
+        <div className='h-10 w-10 border-4 border-t-indigo-500 border-gray-400 rounded-full animate-spin'></div>
+        <div className='font-Outfit text-gray-800 text-center flex justify-center items-center'>Loading Content! Please wait...</div>
+      </div>
+    )
+  }
+
   return (
     <div ref={containerRef} className="w-screen min-h-screen bg-white relative overflow-hidden">
       {/* Popup :  */}
@@ -261,18 +279,33 @@ const AdminUserControlledLanding = () => {
             </div>
           </div>
           <div className="flex items-center gap-3 font-Outfit text-sm">
-            <button className="pt-1 pb-1 pr-3 pl-3 flex gap-1 bg-gray-300 items-center justify-center text-black rounded-4xl text-xs cursor-pointer">
-              <AiFillBug size={18} />
-              <p>Report a Bug</p>
-            </button>
-            <div className="h-6 w-1 border-l border-l-stone-400"></div>
-            <button
-              onClick={() => setShareLink(true)}
-              className="pt-1 pb-1 pr-3 pl-3 flex gap-1 cursor-pointer bg-indigo-400 items-center justify-center text-white rounded-4xl text-xs"
-            >
-              <ExternalLink size={13} />
-              <p>Share Link</p>
-            </button>
+            <div className='hidden sm:flex justify-center items-center'>
+              <button className="pt-1 pb-1 pr-3 pl-3 flex gap-1 bg-gray-300 items-center justify-center text-black rounded-4xl text-xs cursor-pointer">
+                <AiFillBug size={18} />
+                <p>Report a Bug</p>
+              </button>
+              <div className="h-6 w-1 border-l border-l-stone-400"></div>
+              <button
+                onClick={() => setShareLink(true)}
+                className="pt-1 pb-1 pr-3 pl-3 flex gap-1 cursor-pointer bg-indigo-400 items-center justify-center text-white rounded-4xl text-xs"
+              >
+                <ExternalLink size={13} />
+                <p>Share Link</p>
+              </button>
+            </div>
+            <div className='flex relative md:hidden'>
+              <div className='p-1 border border-stone-200 rounded-full bg-gray-200'>
+                <BsThreeDots className='cursor-pointer' onClick={() => setShowOptions(!showOptions)} />
+              </div>
+              <div className={`absolute transition-all ${showOptions ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}  bg-white font-Outfit p-5  rounded-xl shadow-sm flex flex-col gap-3 top-12 z-[999999] -left-6 `}>
+                <div onClick={() => { setPreview(true); setShowOptions(false) }} className='flex justify-center cursor-pointer items-center'>
+                  <h1 className='pt-1'>Preview</h1>
+                </div>
+                <div onClick={() => { setReportBugPopUp(true); setShowOptions(false) }} className='border-b-transparent flex justify-center cursor-pointer items-center'>
+                  <h1 className='pt-1'>Report</h1>
+                </div>
+              </div>
+            </div>
             <button
               onClick={() => goOffline()}
               className="cursor-pointer pt-1 pb-1 pr-3 pl-3 flex gap-1 bg-indigo-400 items-center justify-center text-white rounded-4xl text-xs"
@@ -285,9 +318,16 @@ const AdminUserControlledLanding = () => {
       </div>
 
       {/* Body */}
-      <div className="w-screen flex items-center pt-5 gap-14">
+      <div className="w-screen relative flex items-center pt-5 gap-14">
+
+        <div className='absolute  md:hidden z-10  top-5 left-4  bg-black pt-1 pb-1 pr-4 pl-4  rounded-3xl flex lg:hidden justify-center items-center gap-2' onClick={() => setShowSlide(!showSlide)}>
+          <LuFileStack className='text-white flex lg:hidden' />
+          <p className='text-white font-Outfit'>{currentQuestion?.order ? currentQuestion.order : "-"}/{allQuestion.length}</p>
+        </div>
+
+
         {/* Sidebar */}
-        <div className="w-[12%] ml-2">
+        <div className="w-[12%] hidden md:block ml-2">
           <div className="flex mr-5 flex-col gap-4 items-center w-full">
             <button className="flex justify-center text-[13px] gap-1 pt-2 pb-2 pr-6 pl-6 bg-stone-900 text-white items-center font-Outfit rounded-2xl">
               <p>All Slides 👇</p>
@@ -320,8 +360,40 @@ const AdminUserControlledLanding = () => {
           </div>
         </div>
 
+        <div className={`fixed top-0 left-0 h-full z-[999] pt-6 bg-white transition-all duration-500 ease-in-out transform ${showSlide ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'} flex justify-center w-[40%]`}>
+          <div className='fixed md:hidden z-[99999] left-[105%] border p-2 bg-black rounded-full ' onClick={() => setShowSlide(!showSlide)}>
+            <RxCross1 className='text-white text-sm' />
+          </div>
+
+          <div className='flex  pr-5 pl-2 flex-col gap-4 items-center w-full'>
+            <button className='flex justify-center text-[13px] gap-1 pt-2 pb-2 pr-6 pl-6 bg-stone-900 text-white items-center font-Outfit rounded-2xl'>
+              <GoPlus />
+              <p>All Slide👇</p>
+            </button>
+            <div className='h-screen flex flex-col gap-2 w-full overflow-auto' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              {allQuestion.map((key, index) => (
+                <div
+                  onClick={() => { setSelectedQuestionId(key._id); setShowSlide(false) }}
+                  key={key._id}
+                  className='w-full h-20 flex justify-center gap-1 cursor-pointer'
+                >
+                  <p className='font-Outfit text-xs pt-2'>{index + 1}</p>
+                  <div
+                    className={`w-full h-20 border-2 flex justify-center flex-col items-center ${selectedQuestionId === key._id ? 'border-indigo-300' : 'border-gray-200'} rounded-xl bg-center ${key.designTemplate} bg-cover gap-1`}>
+                    {
+                      setIcon(key.designType)
+                    }
+                    <h1 className='text-[7px] text-center font-Outfit'>{truncateText(key.question)}</h1>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+
         {/* Main question display */}
-        <div className="w-[73%] h-[600px] flex justify-center items-center">
+        <div className="w-[98%] ml-2 md:ml-0 md:w-[73%] h-[600px] flex justify-center items-center">
           {currentQuestion == null ? (
             <div className="w-full cursor-pointer relative h-[550px] flex justify-center items-center border-2 bg-stone-200 border-gray-500 border-dashed">
               <div className="absolute top-4 right-4">
@@ -410,7 +482,7 @@ const AdminUserControlledLanding = () => {
 
       {/* Conditional Rendering */}
       <div
-        className={`fixed left-[18%] sm:left-[55%] top-[23%] md:left-[60%] lg:top-[23%] lg:left-[72%] z-50 w-[90%] sm:w-[400px] max-w-[90%] transition-all ease-in-out duration-500 ${showCommentSection || showParticipantCompo ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        className={`fixed right-4 bottom-4 z-50 w-[90%] sm:w-[400px] max-w-[90%] transition-all ease-in-out duration-500 ${showCommentSection || showParticipantCompo ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
       >
         {showCommentSection && (
@@ -430,7 +502,7 @@ const AdminUserControlledLanding = () => {
         )}
       </div>
 
-      <div className={`absolute top-[35%] z-[20000] left-[20%] sm:left-[50%] md:left-[60%] lg:left-[70%] transition-all ease-in-out duration-500 ${image ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} `}>
+      <div className={`absolute bottom-4 z-[20000] right-4 transition-all ease-in-out duration-500 ${image ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} `}>
         <ImagePreviewer image={currentQuestion?.Image} onClose={() => setImage(false)} />
       </div>
 

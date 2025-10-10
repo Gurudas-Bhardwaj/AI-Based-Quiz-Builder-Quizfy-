@@ -4,11 +4,13 @@ import home from "../../../assets/Images/HomePageImages/homeIcon.png"
 import user from "../../../assets/Images/HomePageImages/user.png"
 import users from "../../../assets/Images/HomePageImages/users.png"
 import share from "../../../assets/Images/HomePageImages/share.png"
-import { NavLink } from 'react-router'
+import { NavLink, useNavigate } from 'react-router'
 import { CirclePlus } from 'lucide-react'
 
 
-const SideBar = () => {
+const SideBar = ({displayReportBug}) => {
+
+  const Navigate = useNavigate();
   return (
     <aside className='w-full'>
       <div className="flex w-full flex-col gap-5 pl-7">
@@ -56,23 +58,24 @@ const SideBar = () => {
         </div>
 
         <div className='mt-7'>
-          <div className='flex flex-col gap-2 text-sm font-extralight'>
-            <div className='cursor-pointer'>
-              <p className=' font-Outfit'>Templates</p>
-            </div>
-            <div className='cursor-pointer'>
-              <p className=' font-Outfit'>Integrations</p>
-            </div>
-            <div className='cursor-pointer'>
-              <p className=' font-Outfit'>Help</p>
-            </div>
-            <div className='cursor-pointer'>
-              <p className=' font-Outfit'>ReadMe</p>
-            </div>
-            <NavLink to="https://tailwind-portfolio-red.vercel.app/" target='main' className='cursor-pointer'>
-              <p className=' font-Outfit'>About Us</p>
-            </NavLink>
-          </div>
+              <div className="flex flex-col gap-2 font-extralight">
+        
+                <NavLink className="cursor-pointer">
+                  <p className="text-[11px] font-Outfit">Templates</p>
+                </NavLink>
+                <div onClick={displayReportBug} className="cursor-pointer">
+                  <p className="text-[11px] font-Outfit">Report a Bug</p>
+                </div>
+                <div onClick={()=>Navigate("/ReviewUs")} className="cursor-pointer">
+                  <p className="text-[11px] font-Outfit">Review us</p>
+                </div>
+                <NavLink to="https://tailwind-portfolio-red.vercel.app/" target='main' className="cursor-pointer">
+                  <p className="text-[11px] font-Outfit">About us</p>
+                </NavLink>
+                <NavLink  className="cursor-pointer">
+                  <p className="text-[11px] font-Outfit">Readme File</p>
+                </NavLink>
+              </div>
         </div>
 
       </div>

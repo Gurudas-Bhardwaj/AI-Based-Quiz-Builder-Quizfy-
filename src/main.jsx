@@ -80,7 +80,7 @@ const route = createBrowserRouter([
         path : "SharedWithMe", element: <Suspense fallback={<Basic />}>
           <LazySharedWithMe />
         </Suspense>
-      }
+      },
     ]
   },
   {

@@ -34,14 +34,12 @@ const SlidingSideBar = ({ isopen, onClose }) => {
     <>
       {showSidebar && (
         <nav
-          className={`fixed md:hidden  top-0 left-0 flex justify-end w-screen h-screen z-50 bg-black/40 backdrop-blur-md transition-opacity duration-300 ease-in-out ${
-            animateSidebar ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-          }`}
+          className={`fixed md:hidden  top-0 left-0 flex justify-end w-screen h-screen z-50 bg-black/40 backdrop-blur-md transition-opacity duration-300 ease-in-out ${animateSidebar ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+            }`}
         >
           <div
-            className={`w-[90%] transition-transform duration-300 ease-in-out ${
-              animateSidebar ? 'translate-x-0' : 'translate-x-full'
-            } bg-white flex flex-col gap-5`}
+            className={`w-[90%] transition-transform duration-300 ease-in-out ${animateSidebar ? 'translate-x-0' : 'translate-x-full'
+              } bg-white flex flex-col gap-5`}
           >
             {/* Close button */}
             <div className="w-full flex justify-end">
@@ -56,8 +54,7 @@ const SlidingSideBar = ({ isopen, onClose }) => {
                 <NavLink
                   to="/App/Admin/Home"
                   className={({ isActive }) =>
-                    `flex cursor-pointer border-l-2 ${
-                      isActive ? 'border-l-indigo-500' : 'border-l-transparent'
+                    `flex cursor-pointer border-l-2 ${isActive ? 'border-l-indigo-500' : 'border-l-transparent'
                     } gap-2 pl-2 justify-start items-center`
                   }
                 >
@@ -67,8 +64,7 @@ const SlidingSideBar = ({ isopen, onClose }) => {
                 <NavLink
                   to="/App/Admin/MyPresentation"
                   className={({ isActive }) =>
-                    `flex cursor-pointer border-l-2 ${
-                      isActive ? 'border-l-indigo-500' : 'border-l-transparent'
+                    `flex cursor-pointer border-l-2 ${isActive ? 'border-l-indigo-500' : 'border-l-transparent'
                     } gap-2 pl-2 justify-start items-center`
                   }
                 >
@@ -78,8 +74,7 @@ const SlidingSideBar = ({ isopen, onClose }) => {
                 <NavLink
                   to="/App/Admin/SharedWithMe"
                   className={({ isActive }) =>
-                    `flex cursor-pointer border-l-2 ${
-                      isActive ? 'border-l-indigo-500' : 'border-l-transparent'
+                    `flex cursor-pointer border-l-2 ${isActive ? 'border-l-indigo-500' : 'border-l-transparent'
                     } gap-2 pl-2 justify-start items-center`
                   }
                 >
@@ -111,12 +106,23 @@ const SlidingSideBar = ({ isopen, onClose }) => {
             {/* Footer Links */}
             <div className="mt-2 ml-4">
               <div className="flex flex-col gap-2 font-extralight">
-                {['Templates', 'Integrations', 'Help', 'ReadMe', 'About Us'].map((item) => (
-                  <div key={item} className="cursor-pointer">
-                    <p className="text-[11px] font-Outfit">{item}</p>
-                  </div>
-                ))}
-              </div>
+                      
+                              <NavLink className="cursor-pointer">
+                                <p className="text-[11px] font-Outfit">Templates</p>
+                              </NavLink>
+                              <div onClick={displayReportBug} className="cursor-pointer">
+                                <p className="text-[11px] font-Outfit">Report a Bug</p>
+                              </div>
+                              <div onClick={()=>Navigate("/ReviewUs")} className="cursor-pointer">
+                                <p className="text-[11px] font-Outfit">Review us</p>
+                              </div>
+                              <NavLink to="https://tailwind-portfolio-red.vercel.app/" target='main' className="cursor-pointer">
+                                <p className="text-[11px] font-Outfit">About us</p>
+                              </NavLink>
+                              <NavLink  className="cursor-pointer">
+                                <p className="text-[11px] font-Outfit">Readme File</p>
+                              </NavLink>
+                            </div>
               <div className="w-full mt-10 flex justify-center items-center">
                 <img src={logo} className="w-32" alt="Logo" />
               </div>

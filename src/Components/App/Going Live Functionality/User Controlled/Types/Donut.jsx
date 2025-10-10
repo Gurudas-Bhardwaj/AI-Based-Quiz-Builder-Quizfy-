@@ -21,8 +21,8 @@ const DonutType = ({ currentQuestion, showRespInPercen }) => {
   useEffect(() => {
     if (!localOptions.length) return;
 
-    // debounce updates to avoid frequent re-renders
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
     timeoutRef.current = setTimeout(() => {
       if (chartInstance.current) chartInstance.current.destroy();
 
@@ -48,10 +48,11 @@ const DonutType = ({ currentQuestion, showRespInPercen }) => {
         options: {
           cutout: "50%",
           responsive: true,
+          maintainAspectRatio: false, // important for height responsiveness
           animation: {
             animateScale: true,
             animateRotate: true,
-            duration: 500, // smooth transition
+            duration: 500,
           },
           plugins: {
             legend: { display: false },
@@ -71,7 +72,7 @@ const DonutType = ({ currentQuestion, showRespInPercen }) => {
           },
         },
       });
-    }, 1000); // 1-second debounce
+    }, 500); // faster debounce
 
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -88,28 +89,31 @@ const DonutType = ({ currentQuestion, showRespInPercen }) => {
   }
 
   return (
-    <div className="h-full flex-1 flex flex-col justify-center transition-all ease-in-out duration-300">
-      <div className="w-full h-full mt-6 flex flex-col justify-center items-center">
-        <div className={`w-full h-full bg-cover bg-center  bg-no-repeat ${designTemplate}`}>
+    <div className="h-full w-full flex flex-col justify-center items-center transition-all ease-in-out duration-300">
+      <div className="w-full h-full flex flex-col justify-center items-center">
+        <div className={`w-full h-full bg-cover bg-center bg-no-repeat ${designTemplate}`}>
           {/* Question */}
           <div className="w-full h-[10%] text-black font-Outfit text-2xl pt-7 pl-7">
             <h1>Q) {localQuestion}</h1>
           </div>
 
-          {/* Donut + Legend */}
-          <div className="w-full h-[90%] flex flex-col md:flex-row justify-center items-center gap-24 p-6">
-            <div className="w-[300px] h-[300px]">
-              <canvas ref={chartRef} />
+          {/* Donut Chart + Legend */}
+          <div className="w-full h-[90%] flex flex-col md:flex-row justify-center items-center gap-12 p-4">
+            {/* Chart Container */}
+            <div className="w-full max-w-[320px] h-[300px] sm:h-[350px] md:h-full relative">
+              <canvas ref={chartRef} className="w-full h-full" />
             </div>
-            <div className="flex flex-col gap-4">
+
+            {/* Custom Legend */}
+            <div className="flex flex-col gap-4 flex-wrap justify-center">
               {localOptions.map((opt) => {
                 const totalVotes = localOptions.reduce((sum, o) => sum + o.votes, 0);
                 const percent = totalVotes ? ((opt.votes / totalVotes) * 100).toFixed(1) : 0;
                 return (
                   <div key={opt._id} className="flex items-center gap-3">
-                    <span className="w-6 h-6 rounded-full" style={{ backgroundColor: opt.color }}></span>
-                    <p className="text-lg font-Outfit font-medium text-gray-800">
-                      {opt.text} : {opt.votes} {showRespInPercen ? `(${percent}%)` : ""}
+                    <span className="w-5 h-5 rounded-full" style={{ backgroundColor: opt.color }}></span>
+                    <p className="text-base font-Outfit font-medium text-gray-800">
+                      {opt.text}: {opt.votes} {showRespInPercen ? `(${percent}%)` : ""}
                     </p>
                   </div>
                 );
