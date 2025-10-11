@@ -66,9 +66,9 @@ const SideBar = ({displayReportBug}) => {
                 <div onClick={displayReportBug} className="cursor-pointer">
                   <p className="text-[11px] font-Outfit">Report a Bug</p>
                 </div>
-                <div onClick={()=>Navigate("/ReviewUs")} className="cursor-pointer">
+                <NavLink onClick={()=>Navigate("/ReviewUs")} className="cursor-pointer">
                   <p className="text-[11px] font-Outfit">Review us</p>
-                </div>
+                </NavLink>
                 <NavLink to="https://tailwind-portfolio-red.vercel.app/" target='main' className="cursor-pointer">
                   <p className="text-[11px] font-Outfit">About us</p>
                 </NavLink>

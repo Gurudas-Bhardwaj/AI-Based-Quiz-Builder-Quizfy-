@@ -20,7 +20,7 @@ const appLayout = () => {
 
       <div className='absolute right-3 overflow-x-hidden' onClick={()=>{setOpen(!open)}}>
         <img src={menu} className='w-5 flex md:hidden displayMenu mt-8' alt="" />
-        <SlidingSideBar isopen={open} onClose={() => setOpen(false)}/>
+        <SlidingSideBar isopen={open} onClose={() => setOpen(false)} displayReportBug={()=>setDisplayReportBug(true)}/>
       </div>
 
       <div className={`w-screen h-screen absolute transition-all duration-300 ease-in-out ${displayReportBug?"opacity-100 pointer-events-auto ":"opacity-0 pointer-events-none"}`}>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import close from "../../../assets/Images/Logo/close.png";
 import logo from "../../../assets/Images/Logo/LOGO.png";
-import { NavLink } from 'react-router';
+import { Navigate, NavLink } from 'react-router';
 import { PlusCircle } from 'lucide-react';
 
 import home from "../../../assets/Images/HomePageImages/homeIcon.png";
@@ -9,7 +9,7 @@ import user from "../../../assets/Images/HomePageImages/user.png";
 import users from "../../../assets/Images/HomePageImages/users.png";
 import share from "../../../assets/Images/HomePageImages/share.png";
 
-const SlidingSideBar = ({ isopen, onClose }) => {
+const SlidingSideBar = ({ isopen, onClose, displayReportBug }) => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [animateSidebar, setAnimateSidebar] = useState(false);
 

@@ -12,7 +12,6 @@ import EditingQuestion from './SideBar/EditingQuestion.jsx'
 import SlideEditing from './SideBar/SlideEditing.jsx'
 import AddAdmin from './SideBar/AddAdmin.jsx'
 import NewSlide from './Slide Functionality/NewSlide.jsx'
-import { useAuth } from '../../../Context/authContext.jsx'
 import Slogan from '../../Messages/Slogan.jsx'
 import FloatingSwitch from './others/FloatingSwitch.jsx'
 import Poll from './DesignType/Poll.jsx'
@@ -210,6 +209,16 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
                     body: JSON.stringify({ presentationId, presentationName: newName}),
                 });
                 const data = await response.json();
+                if(response.ok){
+                    setShowPopUp(true);
+                    setDetails("Successfully Changed!")
+                    setStatus(true);
+                }else{
+                    setShowPopUp(true);
+                    setDetails(data?.message);  
+                    setStatus(false);
+                }
+                    
             }
             catch (e) {
                 console.log("Error : ", e)
@@ -223,7 +232,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
     };
 
 
-    const switchQuestions = async (questionID, index) => {
+    const switchQuestions = async (questionID) => {
         setSelectedQuestion(questionID);
         setShowSlide(false);
         navigate(`/App/AdminPanel/Presentation/${presentationId}/${questionID}`);
@@ -383,7 +392,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
     }
     
 
-    const deleteAddedAdmin = async(userId, userName)=>{
+    const deleteAddedAdmin = async(userId)=>{
         const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/DeleteAddedAdmin", {
             method : "POST", 
             headers : {
