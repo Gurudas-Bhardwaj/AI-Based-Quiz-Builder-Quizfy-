@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
     try {
       return JSON.parse(atob(token.split('.')[1]));
     } catch (err) {
+      console.log("error in parsing : ", err);
       return null;
     }
   };

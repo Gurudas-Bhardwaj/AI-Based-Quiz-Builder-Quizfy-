@@ -2,7 +2,7 @@ import React from 'react'
 import Logo from "../../../assets/Images/Logo/LOGO.png"
 import home from "../../../assets/Images/HomePageImages/homeIcon.png"
 import user from "../../../assets/Images/HomePageImages/user.png"
-import users from "../../../assets/Images/HomePageImages/users.png"
+import { MdAutoAwesome } from "react-icons/md";
 import share from "../../../assets/Images/HomePageImages/share.png"
 import { NavLink, useNavigate } from 'react-router'
 import { CirclePlus } from 'lucide-react'
@@ -42,16 +42,16 @@ const SideBar = ({displayReportBug}) => {
         <div className='mt-5'>
           <div className='flex flex-col gap-4'>
             <div>
-              <p className='text-sm text-gray-500 font-extralight font-Outfit'>Sessions</p>
+              <p className='text-sm text-gray-500 font-extralight font-Outfit'>AI Features</p>
             </div>
             <div className='flex gap-3 flex-col text-xs'>
               <div className="flex cursor-pointer text-sm gap-2 pl-2 justify-start items-center">
-                <img src={users} className="w-4" alt="" />
-                <p className='font-Outfit'>Conducted By Me</p>
+                <MdAutoAwesome/>
+                <p className='font-Outfit'>Create using AI</p>
               </div>
               <div className="flex cursor-pointer text-sm gap-2 pl-2 justify-start items-center">
                 <CirclePlus size={18}/>
-                <p className='font-Outfit'>Joined By me</p>
+                <p className='font-Outfit'>Join a AI Powered Quiz</p>
               </div>
             </div>
           </div>

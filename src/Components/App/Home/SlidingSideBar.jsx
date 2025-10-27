@@ -88,16 +88,16 @@ const SlidingSideBar = ({ isopen, onClose, displayReportBug }) => {
             <div className="mt-3 ml-4">
               <div className="flex flex-col gap-4">
                 <div>
-                  <p className="text-xs text-gray-500 font-extralight font-Outfit">Sessions</p>
+                  <p className="text-xs text-gray-500 font-extralight font-Outfit">AI Features</p>
                 </div>
                 <div className="flex gap-3 flex-col text-xs">
                   <div className="flex cursor-pointer gap-2 pl-2 justify-start items-center">
                     <img src={users} className="w-4" alt="Conducted" />
-                    <p className="font-Outfit">Conducted By Me</p>
+                    <p className="font-Outfit">Host using AI</p>
                   </div>
                   <div className="flex cursor-pointer gap-2 pl-2 justify-start items-center">
                     <PlusCircle size={16} />
-                    <p className="font-Outfit">Joined By me</p>
+                    <p className="font-Outfit">Join a AI Powered Quiz</p>
                   </div>
                 </div>
               </div>
