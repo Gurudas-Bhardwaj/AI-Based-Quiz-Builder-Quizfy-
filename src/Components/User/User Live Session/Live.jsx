@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import logo from '../../../assets/Images/Logo/LOGO.png'
 import { io } from 'socket.io-client';
-import { NavLink, useParams } from 'react-router';
+import { NavLink, useNavigate, useParams } from 'react-router';
 import { useAuth } from '../../../Context/authContext';
 import { Expand, Info, Key, MessageCircleMore } from 'lucide-react';
 import { FaChevronCircleLeft, FaChevronCircleRight, FaExclamationTriangle } from 'react-icons/fa';
@@ -20,6 +20,7 @@ const Live = () => {
   const { presentationId } = useParams();
   const { userId, userName } = useAuth();
   const accessToken = localStorage.getItem('accessToken');
+  const navigate = useNavigate();
 
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);

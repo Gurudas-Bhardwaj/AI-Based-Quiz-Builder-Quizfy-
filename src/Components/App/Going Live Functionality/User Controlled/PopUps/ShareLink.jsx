@@ -4,11 +4,11 @@ import logo from '../../../../../assets/Images/Logo/LOGO.png'
 import Slogan from '../../../../Messages/Slogan.jsx'
 
 const ShareLink = ({presentationId, onClose}) => {
-    const [link, setLink] = useState(`https://quizify-jlg9.onrender.com/UserControlledQuiz/Live/${presentationId}`);
+    const [link, setLink] = useState(`https://quizify-jlg9.onrender.com/Join/UserControlledQuiz/Live/${presentationId}`);
     const[show,setShow] = useState(false);
 
     useEffect(() => {
-        setLink(`https://quizify-jlg9.onrender.com/UserControlledQuiz/Live/${presentationId}`);
+        setLink(`https://quizify-jlg9.onrender.com/Join/UserControlledQuiz/Live/${presentationId}`);
     }, [presentationId]);
 
     const copyLink = () => {

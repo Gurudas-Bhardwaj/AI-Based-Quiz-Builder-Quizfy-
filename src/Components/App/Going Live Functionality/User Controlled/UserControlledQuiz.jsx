@@ -298,10 +298,10 @@ const AdminUserControlledLanding = () => {
                 <BsThreeDots className='cursor-pointer' onClick={() => setShowOptions(!showOptions)} />
               </div>
               <div className={`absolute transition-all ${showOptions ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}  bg-white font-Outfit p-5  rounded-xl shadow-sm flex flex-col gap-3 top-12 z-[999999] -left-6 `}>
-                <div onClick={() => { setPreview(true); setShowOptions(false) }} className='flex justify-center cursor-pointer items-center'>
+                <div onClick={() => {  setShowOptions(false) }} className='flex justify-center cursor-pointer items-center'>
                   <h1 className='pt-1'>Preview</h1>
                 </div>
-                <div onClick={() => { setReportBugPopUp(true); setShowOptions(false) }} className='border-b-transparent flex justify-center cursor-pointer items-center'>
+                <div onClick={() => {  setShowOptions(false) }} className='border-b-transparent flex justify-center cursor-pointer items-center'>
                   <h1 className='pt-1'>Report</h1>
                 </div>
               </div>
