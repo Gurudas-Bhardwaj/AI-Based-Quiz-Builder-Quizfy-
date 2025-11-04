@@ -15,7 +15,7 @@ const AccountSettingPOPUP = ({ onClose }) => {
     const [name, setName] = useState("");
 
     const navigate = useNavigate();
-    const { refreshToken, userName } = useAuth();
+    const { userName, logout, refreshToken } = useAuth();
 
     const [message, setMessage] = useState("");
     const [Status, setStatus] = useState(false);
@@ -41,7 +41,7 @@ const AccountSettingPOPUP = ({ onClose }) => {
 
             if(response.ok){
                 localStorage.removeItem('accessToken');
-                await refreshToken(); 
+                await logout(); 
                 navigate('/');
             }
 
@@ -248,7 +248,7 @@ const AccountSettingPOPUP = ({ onClose }) => {
                             </div>
                             <div className='mt-3'>
                                 <button
-                                    className={`cursor-pointer px-4 py-2 rounded-md text-sm transition-colors duration-150 ${email.includes('@gmail.com' || '@email.com') ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-stone-200 text-stone-600 cursor-not-allowed'}`}
+                                    className={`cursor-pointer px-4 py-2 rounded-md text-sm transition-colors duration-150 ${email.includes("@gmail.com") || email.includes('@email.com') ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-stone-200 text-stone-600 cursor-not-allowed'}`}
                                     aria-disabled={!(email)}
                                 >
                                     Send verification email

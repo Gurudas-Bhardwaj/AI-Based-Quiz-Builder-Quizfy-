@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
 
   const parseJWT = (token) => {
     try {
-      return JSON.parse(atob(token.split('.')[1]));
+      return JSON.parse(atob(token.split(".")[1]));
     } catch (err) {
       console.log("error in parsing : ", err);
       return null;
@@ -22,40 +22,43 @@ export const AuthProvider = ({ children }) => {
 
   const refreshToken = async () => {
     try {
-      const response = await fetch('https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/token/RefreshAccessToken', {
-        method: 'GET',
-        credentials: 'include',
-      });
+      const response = await fetch(
+        "https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/token/RefreshAccessToken",
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
 
-      if (!response.ok) throw new Error('Refresh failed');
+      if (!response.ok) throw new Error("Refresh failed");
 
       const data = await response.json();
       const accessToken = data.accessToken;
       console.log(data);
 
       if (accessToken) {
-        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem("accessToken", accessToken);
         const decoded = parseJWT(accessToken);
-        setIsLogin(true); 
+        setIsLogin(true);
         setUserName(decoded?.name || null);
         setEmail(decoded?.email || null);
         setUserId(decoded?.id || null);
       } else {
-        throw new Error('Access token not returned');
+        throw new Error("Access token not returned");
       }
     } catch (error) {
-      console.error('Refresh failed:', error);
+      console.error("Refresh failed:", error);
       setIsLogin(false);
       setUserName(null);
       setEmail(null);
       setUserId(null);
-      localStorage.removeItem('accessToken');
+      localStorage.removeItem("accessToken");
     }
   };
 
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem("accessToken");
       if (!token) {
         await refreshToken();
         setIsLoading(false);
@@ -81,15 +84,17 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-
   const login = async (email, password) => {
     try {
-      const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/Login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        "https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/Login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await response.json();
       if (!response.ok) {
@@ -112,6 +117,25 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const logout = async () => {
+    try {
+      await fetch(
+        "https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/Logout",
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
+    } catch (err) {
+      console.error("Error calling backend logout:", err);
+    } finally {
+      localStorage.removeItem("accessToken");
+      setIsLogin(false);
+      setUserName(null);
+      setEmail(null);
+      setUserId(null);
+    }
+  };
 
   return (
     <AuthContext.Provider
@@ -123,6 +147,7 @@ export const AuthProvider = ({ children }) => {
         isLoading,
         refreshToken,
         login,
+        logout,
       }}
     >
       {children}

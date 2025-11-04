@@ -3,7 +3,7 @@ import { useAuth } from '../../../Context/authContext';
 import { useNavigate } from 'react-router';
 
 const ProfileSection = (props) => {
-  const { userName, email, refreshToken } = useAuth();
+  const { userName, email, logout } = useAuth();
   const navigate = useNavigate();
 
   const Logout = async () => {
@@ -16,7 +16,7 @@ const ProfileSection = (props) => {
 
       if (response.ok) {
         localStorage.removeItem('accessToken');
-        await refreshToken();
+        await logout();
         navigate('/');
       }
 
