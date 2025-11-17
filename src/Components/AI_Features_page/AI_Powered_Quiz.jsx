@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 import { Expand, Info } from "lucide-react";
 import logo from "../../assets/Images/Logo/LOGO.png";
@@ -36,9 +36,11 @@ const AI_Powered_Quiz = () => {
 
   const containerRef = useRef(null);
 
-  const allAttempted = questions.length > 0 ? questions.every((q) => q.attempted?.attempted === true) : false;
+  const allAttempted = useMemo(() => {
+    return questions.length > 0 ? questions.every((q) => q.attempted?.attempted === true) : false;
+  }, [questions]);
 
-  const submitAnswer = async (question, option) => {
+  const submitAnswer = useCallback(async (question, option) => {
     // Check if already attempted
     if (question.attempted?.attempted === true) {
       return;
@@ -106,31 +108,69 @@ const AI_Powered_Quiz = () => {
     } else {
       setShowIncorrectPopup(true);
     }
-  };
+  }, [presentationId, userId]);
 
   //Function to show next question
-  const showNext = () => {
+  const showNext = useCallback(() => {
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
     }
-  };
+  }, [currentIndex, questions.length]);
 
   //Function to show previous question
-  const showPrevious = () => {
+  const showPrevious = useCallback(() => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
     }
-  };
+  }, [currentIndex]);
+
+  // Handler for viewing explanation
+  const handleViewExplanation = useCallback(() => {
+    if (!currentQuestion) return;
+    
+    const correctOption = currentQuestion.options.find(
+      (opt) => opt.answer === true
+    );
+    const selectedOption = currentQuestion.options.find(
+      (opt) => opt._id === currentQuestion.attempted?.optionId
+    );
+    const wasCorrect = selectedOption?.answer === true;
+
+    setPopupData({
+      isCorrect: wasCorrect,
+      selectedOption: selectedOption?.text || "",
+      correctOption: correctOption?.text || "",
+      description: currentQuestion.description,
+      selectedOptionObj: selectedOption,
+    });
+
+    setShouldShowConfetti(false);
+
+    if (wasCorrect) {
+      setShowCorrectPopup(true);
+    } else {
+      setShowIncorrectPopup(true);
+    }
+  }, [currentQuestion]);
+
+  // Handlers for closing popups
+  const handleCloseCorrectPopup = useCallback(() => {
+    setShowCorrectPopup(false);
+  }, []);
+
+  const handleCloseIncorrectPopup = useCallback(() => {
+    setShowIncorrectPopup(false);
+  }, []);
 
   //Function to enter fullscreen mode
-  const handleEnterFullscreen = () => {
+  const handleEnterFullscreen = useCallback(() => {
     const elem = containerRef.current;
     if (elem && elem.requestFullscreen) {
       elem.requestFullscreen().catch((err) => {
         console.warn("Fullscreen request failed:", err);
       });
     }
-  };
+  }, []);
 
   //Function to fetch questions for the quiz
   const getQuestions = async () => {
@@ -182,6 +222,7 @@ const AI_Powered_Quiz = () => {
         setShowCompletionPopup(true);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questions, currentIndex, allAttempted]);
 
   if (loading) {
@@ -268,31 +309,7 @@ const AI_Powered_Quiz = () => {
                 Already Attempted
               </div>
               <button
-                onClick={() => {
-                  const correctOption = currentQuestion.options.find(
-                    (opt) => opt.answer === true
-                  );
-                  const selectedOption = currentQuestion.options.find(
-                    (opt) => opt._id === currentQuestion.attempted?.optionId
-                  );
-                  const wasCorrect = selectedOption?.answer === true;
-
-                  setPopupData({
-                    isCorrect: wasCorrect,
-                    selectedOption: selectedOption?.text || "",
-                    correctOption: correctOption?.text || "",
-                    description: currentQuestion.description,
-                    selectedOptionObj: selectedOption,
-                  });
-
-                  setShouldShowConfetti(false);
-
-                  if (wasCorrect) {
-                    setShowCorrectPopup(true);
-                  } else {
-                    setShowIncorrectPopup(true);
-                  }
-                }}
+                onClick={handleViewExplanation}
                 className="bg-emerald-500 hover:bg-emerald-600 text-white font-Outfit rounded-md px-4 py-2 shadow-sm transition-colors"
               >
                 View Explanation
@@ -383,7 +400,7 @@ const AI_Powered_Quiz = () => {
       {/* Correct Answer Popup */}
       {showCorrectPopup && (
         <CorrectOptionPopup
-          onClose={setShowCorrectPopup}
+          onClose={handleCloseCorrectPopup}
           selectedOption={
             popupData.selectedOptionObj || { text: popupData.selectedOption }
           }
@@ -395,7 +412,7 @@ const AI_Powered_Quiz = () => {
       {/* Incorrect Answer Popup */}
       {showIncorrectPopup && (
         <IncorrectOptionPopup
-          onClose={setShowIncorrectPopup}
+          onClose={handleCloseIncorrectPopup}
           selectedOption={popupData.selectedOption}
           CorrectOption={popupData.correctOption}
           detail={popupData.description}
