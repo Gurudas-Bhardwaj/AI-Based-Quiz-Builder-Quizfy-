@@ -39,20 +39,20 @@ const SideBar = ({displayReportBug}) => {
         </div>
 
 
-        <div className='mt-5'>
+        <div className='mt-5 font-Outfit'>
           <div className='flex flex-col gap-4'>
             <div>
               <p className='text-sm text-gray-500 font-extralight font-Outfit'>AI Features</p>
             </div>
             <div className='flex gap-3 flex-col text-xs'>
-              <div className="flex cursor-pointer text-sm gap-2 pl-2 justify-start items-center">
+              <NavLink to="/App/Admin/AIFeatures/CreateUsingAI" className={({ isActive }) => `flex  gap-2 pl-1 cursor-pointer justify-start text-sm items-center border-l-2  ${isActive ? " border-l-indigo-500" : "border-l-transparent"}`}>
                 <MdAutoAwesome/>
-                <p className='font-Outfit'>Create using AI</p>
-              </div>
-              <div className="flex cursor-pointer text-sm gap-2 pl-2 justify-start items-center">
+                <p >Create using AI</p>
+              </NavLink>
+              <NavLink to="/App/Admin/AIFeatures/JoinUsingAI" className={({ isActive }) => `flex  gap-2 pl-1 cursor-pointer justify-start text-sm items-center border-l-2  ${isActive ? " border-l-indigo-500" : "border-l-transparent"}`} >
                 <CirclePlus size={18}/>
                 <p className='font-Outfit'>Join a AI Powered Quiz</p>
-              </div>
+              </NavLink>
             </div>
           </div>
         </div>

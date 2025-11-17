@@ -316,7 +316,7 @@ const Live = () => {
             if (currentQuestion) {
               return (
                 <>
-                  <div className='font-Outfit text-2xl'>
+                  <div className='font-Outfit w-full flex justify-center items-center pl-5 pr-5 text-center text-2xl'>
                     Q) {currentQuestion.question}
                   </div>
 
@@ -329,7 +329,7 @@ const Live = () => {
                     null
                   }
 
-                  <div className={` ${currentQuestion.Image == null ? "flex w-[40%] flex-col justify-center items-center" : "grid grid-cols-2 w-[60%]" } gap-4 px-4 sm:px-8`}>
+                  <div className={` ${currentQuestion.Image == null ? "flex w-[90%] sm:w-[80%] md:w-[40%] flex-col justify-center items-center" : "grid grid-cols-2 w-[60%]" } gap-4 px-4 sm:px-8`}>
                     {(currentQuestion.options || []).map((option, index) => (
                       <div
                         key={option._id || index}

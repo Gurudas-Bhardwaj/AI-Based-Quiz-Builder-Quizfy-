@@ -59,6 +59,8 @@ const Live = () => {
       console.log("New question received:", question);
       sethasVoted(false);
       setQuestionList(question);
+      setCorrect(false);
+      setIncorrect(false);
 
       if (question.designType == 'quiz') {
         setCorrectOption(
@@ -181,8 +183,8 @@ const Live = () => {
                 <div className="w-full h-full flex flex-col justify-center items-center">
 
                   <div className="w-full">
-                    <div className="text-black font-Outfit text-2xl text-center">
-                      <h1>
+                    <div className="text-black w-full flex justify-center items-center font-Outfit text-2xl text-center">
+                      <h1 className="w-[80%]">
                         {questionList.question ||
                           <div className="w-full h-full flex flex-col justify-center items-center gap-5">
                             <div className="w-full flex justify-center items-center">

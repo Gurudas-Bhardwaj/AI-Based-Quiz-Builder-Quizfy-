@@ -30,6 +30,10 @@ const LazyHowToUse = lazy(()=> import("./Components/Landing/HowToUse.jsx"));
 const LazyReadme = lazy(()=> import("./Components/Landing/Readme.jsx"));
 const LazyReview = lazy(()=> import("./Components/Messages/ReviewUs.jsx"));
 
+const CreateUsingAI = lazy(()=> import("./Components/AI_Features_page/CreateUsingAI.jsx"))
+const JoinUsingAI = lazy(()=> import("./Components/AI_Features_page/JoinUsingAI.jsx"))
+const LazyAIPoweredQuiz = lazy(()=> import("./Components/AI_Features_page/AI_Powered_Quiz.jsx"))
+
 const route = createBrowserRouter([
   {
     path: "",
@@ -79,6 +83,20 @@ const route = createBrowserRouter([
       {
         path : "SharedWithMe", element: <Suspense fallback={<Basic />}>
           <LazySharedWithMe />
+        </Suspense>
+      },
+      {
+        path : "AIFeatures/CreateUsingAI", element : <Suspense fallback = {<Basic/>}>
+          <ForUnLoggedUser>
+            <CreateUsingAI/>
+          </ForUnLoggedUser>
+        </Suspense>
+      },
+      {
+        path : "AIFeatures/JoinUsingAI", element : <Suspense fallback = {<Basic/>}>
+          <ForUnLoggedUser>
+            <JoinUsingAI/>
+          </ForUnLoggedUser>
         </Suspense>
       },
     ]
@@ -135,6 +153,13 @@ const route = createBrowserRouter([
     element : <Suspense fallback = {<Basic/>}>
       <ForUnLoggedUser>
         < LazyReview/>
+      </ForUnLoggedUser>
+    </Suspense>
+  },{
+    path : "/Quiz/AIQuiz/:presentationId",
+    element : <Suspense fallback = {<Basic/>}>
+      <ForUnLoggedUser>
+        <LazyAIPoweredQuiz/>
       </ForUnLoggedUser>
     </Suspense>
   }
