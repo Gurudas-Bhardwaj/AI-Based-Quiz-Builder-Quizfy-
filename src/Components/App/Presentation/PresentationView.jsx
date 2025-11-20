@@ -32,9 +32,6 @@ const PresentationView = () => {
 
     const [showOptions, setShowOptions] = useState(false);
 
-    const [designType, setDesignType] = useState("");
-    const [designTemplate, setDesignTemplate] = useState("");
-
     const [goLiveOption, setGoLiveOption] = useState(false);
     const [isAuthorized, setIsAuthorized] = useState(true);
     const [loading, isLoading] = useState(true);
@@ -42,7 +39,7 @@ const PresentationView = () => {
     const findDetails = async (presentationID, questionID) => {
         try {
             isLoading(true);
-            const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/searchQuestion", {
+            const response = await fetch("https://quizidy-backend.duckdns.org/handleQuestions/searchQuestion", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -109,17 +106,17 @@ const PresentationView = () => {
                             </NavLink>
 
                             <div className='font-Outfit relative text-[14px]'>
-                                <p>Vibrant Color Mixture</p>
+                                <p>Presentation</p>
                                 <p className='text-[10px] text-stone-600 flex  justify-start items-center'><User size={16} />{presentation.title}
                                 </p>
 
                             </div>
 
-                            <div className='h-5 w-1 border-r border-r-stone-200'></div>
+                            {/* <div className='h-5 w-1 border-r border-r-stone-200'></div>
 
                             <div className='h-7 w-7 flex bg-stone-200 justify-center items-center rounded-full'>
                                 <Cog size={20} />
-                            </div>
+                            </div> */}
                         </div>
 
                         <div className=' font-Outfit hidden md:flex justify-center items-center gap-8 text-sm'>
@@ -133,7 +130,7 @@ const PresentationView = () => {
                                 <div className='p-1 border border-stone-200 rounded-full bg-gray-200'>
                                     <BsThreeDots className='cursor-pointer' onClick={() => setShowOptions(!showOptions)} />
                                 </div>
-                                <div className={`absolute transition-all ${showOptions ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}  bg-white font-Outfit p-5  rounded-xl shadow-sm flex flex-col gap-3 top-12 z-[999999] -left-6 `}>
+                                <div className={`absolute transition-all ${showOptions ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-2 pointer-events-none"}  bg-white font-Outfit p-5  rounded-xl shadow-sm flex flex-col gap-3 top-12 z-[999999] -left-6 `}>
                                     <div onClick={() => { setPreview(true); setShowOptions(false) }} className='flex justify-center cursor-pointer items-center'>
                                         <h1 className='pt-1'>Preview</h1>
                                     </div>

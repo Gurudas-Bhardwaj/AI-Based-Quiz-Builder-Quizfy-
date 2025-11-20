@@ -34,7 +34,7 @@ const AccountSettingPOPUP = ({ onClose }) => {
 
         try {
             // Call backend to clear refresh token
-            const response = await fetch('https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/Logout', {
+            const response = await fetch('https://quizidy-backend.duckdns.org/user/Logout', {
                 method: 'POST',
                 credentials: 'include', //  sending the cookie
             });
@@ -62,7 +62,7 @@ const AccountSettingPOPUP = ({ onClose }) => {
 
     const updateName = async () => {
 
-        const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/UpdateName", {
+        const response = await fetch("https://quizidy-backend.duckdns.org/user/UpdateName", {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -98,7 +98,7 @@ const AccountSettingPOPUP = ({ onClose }) => {
     }
 
     const updatePassword = async () => {
-        const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/UpdatePassword", {
+        const response = await fetch("https://quizidy-backend.duckdns.org/user/UpdatePassword", {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",

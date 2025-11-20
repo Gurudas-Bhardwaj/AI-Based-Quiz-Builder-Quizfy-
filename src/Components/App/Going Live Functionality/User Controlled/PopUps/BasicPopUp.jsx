@@ -4,7 +4,7 @@ import { FaCaretUp } from 'react-icons/fa'
 const BasicPopUp = ({isVisible, value}) => {
     return (
         <div className={`absolute flex-col left-0 z-50 gap-0 transition-all duration-500 ease-out ${isVisible ? 'opacity-100 translate-y-0 flex' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
-            <div className='absolute -top-9 -left-[50px] px-3 py-1 flex justify-center items-center rounded-2xl text-white bg-black font-space font-semibold whitespace-nowrap z-10'>
+            <div className='absolute -top-9 -left-[50px] px-3 py-1 flex justify-center items-center rounded-2xl text-white bg-black font-Outfit font-semibold whitespace-nowrap z-10'>
                 <p className='text-base'>{value}</p>
             </div>
             <div className='absolute -top-[12px] -left-1'>

@@ -11,7 +11,7 @@ const BugReportPopup = ({onClose, setDisplayPopUp, setStatus, setDetails}) => {
         if(bug.trim() === "") return;
         setBug(bug.trim());
         try {
-          const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/other/reportBug", {
+          const response = await fetch("https://quizidy-backend.duckdns.org/other/reportBug", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

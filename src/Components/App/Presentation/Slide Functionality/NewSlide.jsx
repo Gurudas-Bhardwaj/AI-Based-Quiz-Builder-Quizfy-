@@ -28,7 +28,7 @@ const NewSlide = ({ onClose, isVisible, presentationId }) => {
       ];
 
       try {
-        const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/addQuestion", {
+        const response = await fetch("https://quizidy-backend.duckdns.org/handleQuestions/addQuestion", {
           method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -153,7 +153,7 @@ const NewSlide = ({ onClose, isVisible, presentationId }) => {
             <button
               onClick={handleCreate}
               disabled={!selectedDesignType || !selectedTemplate}
-              className={`${selectedDesignType && selectedTemplate ? 'bg-indigo-400 cursor-pointer' : 'bg-gray-300 cursor-not-allowed'} text-sm font-Sora pt-1 pb-1 pl-5 pr-5 text-white rounded-2xl`}
+              className={`${selectedDesignType && selectedTemplate ? 'bg-indigo-400 cursor-pointer' : 'bg-gray-300 cursor-not-allowed'} text-sm font-Outfit pt-1 pb-1 pl-5 pr-5 text-white rounded-2xl`}
             >
               Create
             </button>

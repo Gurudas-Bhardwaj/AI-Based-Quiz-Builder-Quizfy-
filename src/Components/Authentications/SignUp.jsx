@@ -17,7 +17,7 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const signupFun = async () => {
-    const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/SignUp", {
+    const response = await fetch("https://quizidy-backend.duckdns.org/user/SignUp", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const SignUp = () => {
   };
 
   return (
-    <main className="w-screen relative font-poppins bg-stone-100 flex pt-5 justify-center items-center pb-5">
+    <main className="w-screen relative font-Outfit bg-stone-100 flex pt-5 justify-center items-center pb-5">
       <div className="w-[80%] sm:w-[60%] md:w-[40%] lg:w-[29%] shadow-sm bg-white rounded-lg pt-10 pb-10 flex flex-col justify-center items-center gap-5">
         {/* Header */}
         <div className="flex flex-col w-full justify-center items-center gap-1">

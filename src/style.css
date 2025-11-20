@@ -1,36 +1,17 @@
-@font-face {
-  font-family: Poppins;
-  src: url("./assets/fonts/Poppins-Regular.ttf");
-}
 
 @font-face {
   font-family: Outfit;
   src: url('./assets//fonts/Outfit-Regular.ttf');
 }
-
-@font-face {
-  font-family: spaceGrotesk;
-  src: url("./assets/fonts/SpaceGrotesk-Regular.ttf");
-}
-
 @font-face {
   font-family: Montserrat;
   src: url("./assets/fonts/Montserrat-Regular.ttf");
 }
-
-@font-face {
-  font-family: Sora;
-  src: url("./assets/fonts/Sora-Regular.ttf");
-}
-
 @import "tailwindcss";
 
 @theme {
-  --font-poppins: Poppins, "sans-serif";
   --font-Outfit: Outfit, "sans-serif";
-  --font-space: spaceGrotesk, "sans-serif";
   --font-Montserrat: Montserrat, "sans-serif";
-  --font-Sora: Sora, "sans-serif";
   --background-image-BG-1: url("./assets/Images/Background_Images/BackgroundTemplte/BG-1.jpg");
   --background-image-BG-2: url("./assets/Images/Background_Images/BackgroundTemplte/BG-2.jpg");
   --background-image-BG-3: url("./assets/Images/Background_Images/BackgroundTemplte/BG-3.jpg");

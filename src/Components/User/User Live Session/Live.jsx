@@ -49,7 +49,7 @@ const Live = () => {
   const containerRef = useRef(null);
 
   const socketHandler = async () => {
-    socket.current = io("https://ai-based-quiz-builder-quizfy-backend.onrender.com/userControlledQuiz", {
+    socket.current = io("https://quizidy-backend.duckdns.org/userControlledQuiz", {
       transports: ["websocket", "polling"]
     })
 

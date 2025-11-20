@@ -8,7 +8,7 @@ const DeleteConfirmPopup = ({ onClose, questionId, setQuestion, setDisplay, setD
 
   const deleteSlide = async () => {
     console.log(questionId);
-    const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/deleteSlide", {
+    const response = await fetch("https://quizidy-backend.duckdns.org/handleQuestions/deleteSlide", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

@@ -81,7 +81,7 @@ const AI_Powered_Quiz = () => {
     // Send answer to backend
     try {
       const response = await fetch(
-        `https://ai-based-quiz-builder-quizfy-backend.onrender.com/AIFeatures/SubmitAnswerForAIPoweredQuiz`,
+        `https://quizidy-backend.duckdns.org/AIFeatures/SubmitAnswerForAIPoweredQuiz`,
         {
           method: "POST",
           headers: {
@@ -139,7 +139,7 @@ const AI_Powered_Quiz = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://ai-based-quiz-builder-quizfy-backend.onrender.com/AIFeatures/GetQuestionsForAIPoweredQuiz/${presentationId}/${userId}`
+        `https://quizidy-backend.duckdns.org/AIFeatures/GetQuestionsForAIPoweredQuiz/${presentationId}/${userId}`
       );
 
       if (!response.ok) {
@@ -212,7 +212,7 @@ const AI_Powered_Quiz = () => {
 
         <div className="flex flex-col gap-6 w-full justify-center items-center">
           {/* Question Text */}
-          <div className="font-Outfit w-full flex justify-center items-center pl-5 pr-5 text-center text-2xl">
+          <div className="font-Outfit  w-full flex justify-center items-center pl-5 pr-5 text-center text-2xl">
             Q) {currentQuestion?.question || ""}
           </div>
 

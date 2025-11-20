@@ -70,7 +70,7 @@ const Home = () => {
 
                 <div className='w-full flex mt-6'>
                     <div className='w-[90%] md:w-[80%] flex flex-col pl-8 pt-6 rounded-2xl pr-8' style={{"backgroundColor":"#f8f8fe"}}>
-                        <div className='font-space text-[16px] font-bold'>
+                        <div className='font-Outfit text-[16px] font-bold'>
                           <p>Create Presentations</p>
                         </div>
 
@@ -89,7 +89,7 @@ const Home = () => {
 
                 <div className='w-full flex mt-8 mb-8'>
                     <div className='w-[90%] md:w-[80%] flex flex-col pl-8 pt-6 rounded-2xl pr-8' style={{"backgroundColor":"#f8f8fe"}}>
-                        <div className='font-space text-[16px] font-bold'>
+                        <div className='font-Outfit text-[16px] font-bold'>
                           <p>Join Quizies</p>
                         </div>
 

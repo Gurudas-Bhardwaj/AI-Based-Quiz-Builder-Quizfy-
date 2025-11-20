@@ -28,7 +28,7 @@ const MyPresentation = () => {
 
     try {
       const res = await fetch(
-        `https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/GetPresentations?page=1&limit=10`,
+        `https://quizidy-backend.duckdns.org/handleQuestions/GetPresentations?page=1&limit=10`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -74,7 +74,7 @@ const MyPresentation = () => {
   const deletePresentation = async (id) => {
     try {
       const response = await fetch(
-        "https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/DeletePresenation",
+        "https://quizidy-backend.duckdns.org/handleQuestions/DeletePresenation",
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
@@ -140,7 +140,7 @@ const MyPresentation = () => {
       {/* Content Section */}
       <div className="w-full flex flex-col pl-6 pr-6 sm:pl-10 sm:pr-10 pt-10">
         {/* Heading */}
-        <h1 className="text-3xl font-semibold font-space text-gray-800 tracking-tight mb-2">
+        <h1 className="text-3xl font-semibold font-Outfit text-gray-800 tracking-tight mb-2">
           My Presentations
         </h1>
         <p className="text-sm text-gray-500 mb-6">

@@ -46,7 +46,7 @@ const Landing_Page = () => {
       >
         {/* Left */}
         <motion.section
-          className='w-full md:w-1/2 font-poppins flex flex-col justify-center items-center'
+          className='w-full md:w-1/2 font-Outfit flex flex-col justify-center items-center'
           variants={staggerContainer}
         >
           <motion.div className='w-3/4 md:w-3/5' variants={fadeUp}>
@@ -129,12 +129,12 @@ const Landing_Page = () => {
         viewport={{ once: true }}
       >
         <motion.div className='w-full flex justify-center items-center pt-16' variants={fadeUp}>
-          <p className='font-Sora font-extrabold p-3 bg-[#f7f6f4]'>How it works</p>
+          <p className='font-Outfit font-extrabold p-3 bg-[#f7f6f4]'>How it works</p>
         </motion.div>
 
         <motion.div className='w-full pb-10 font-Outfit pt-2' variants={fadeUp}>
           <div className='w-full flex justify-center items-center'>
-            <h1 className='text-2xl md:text-4xl font-Sora'>Start a Quiz in 3 Easy Steps</h1>
+            <h1 className='text-2xl md:text-4xl font-Outfit'>Start a Quiz in 3 Easy Steps</h1>
           </div>
         </motion.div>
 
@@ -177,7 +177,7 @@ const Landing_Page = () => {
         viewport={{ once: true }}
       >
         <motion.div className='w-full flex justify-center items-center pb-5' variants={fadeUp}>
-          <h1 className='text-4xl font-Sora font-bold p-3 bg-[#f7f6f4]'>A Legacy</h1>
+          <h1 className='text-4xl font-Outfit font-bold p-3 bg-[#f7f6f4]'>A Legacy</h1>
         </motion.div>
 
         <div className='flex justify-center items-center'>
@@ -192,7 +192,7 @@ const Landing_Page = () => {
                   <h1>Built for Creatives,</h1>
                   <h1>By Creatives.</h1>
                 </div>
-                <p className='font-poppins text-sm pt-7 text-center md:text-left w-[90%] md:w-[70%] mx-auto md:mx-0'>
+                <p className='font-Outfit text-sm pt-7 text-center md:text-left w-[90%] md:w-[70%] mx-auto md:mx-0'>
                   Teachers, trainers, and creators can build engaging quizzes for classrooms, workshops, or communities with AI-powered tools and real-time collaboration.
                 </p>
               </div>
@@ -256,10 +256,10 @@ const Landing_Page = () => {
         viewport={{ once: true }}
       >
         <motion.div className='w-full flex justify-center items-center flex-col' variants={fadeUp}>
-          <h1 className='text-center font-Sora text-3xl font-extralight w-[90%] md:w-1/2'>
+          <h1 className='text-center font-Outfit text-3xl font-extralight w-[90%] md:w-1/2'>
             Get Ready to Maximize Your Productivity With Our Workflow Solutions
           </h1>
-          <button className='mt-5 pl-4 pr-4 text-sm font-poppins hover:bg-amber-400 hover:border hover:border-black hover:text-black pt-2 pb-2 border rounded-sm bg-black text-white cursor-pointer transition-all font-medium'>
+          <button className='mt-5 pl-4 pr-4 text-sm font-Outfit hover:bg-amber-400 hover:border hover:border-black hover:text-black pt-2 pb-2 border rounded-sm bg-black text-white cursor-pointer transition-all font-medium'>
             Get Started
           </button>
         </motion.div>

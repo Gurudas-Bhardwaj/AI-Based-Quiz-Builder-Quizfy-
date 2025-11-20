@@ -29,7 +29,7 @@ export default function ReviewPage() {
     console.log(rating)
 
     try {
-      const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/other/giveReview", {
+      const response = await fetch("https://quizidy-backend.duckdns.org/other/giveReview", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

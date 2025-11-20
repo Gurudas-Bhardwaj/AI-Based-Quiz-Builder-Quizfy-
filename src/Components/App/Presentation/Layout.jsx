@@ -107,7 +107,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
         debounceTimer.current = setTimeout(async () => {
             try {
                 const res = await fetch(
-                    `https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/questions/${questionId}/options/${index}/color`,
+                    `https://quizidy-backend.duckdns.org/handleQuestions/questions/${questionId}/options/${index}/color`,
                     {
                         method: "PATCH",
                         headers: { "Content-Type": "application/json" },
@@ -144,7 +144,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
         clearTimeout(debounceRef.current);
         debounceRef.current = setTimeout(async () => {
             try {
-                const res = await fetch(`https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/questions/${questionId}/options`, {
+                const res = await fetch(`https://quizidy-backend.duckdns.org/handleQuestions/questions/${questionId}/options`, {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ options: latestOptionsRef.current }),
@@ -168,7 +168,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
 
         debounceForQuestion.current = setTimeout(async () => {
             try {
-                const response = await fetch(`https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/questions/${questionId}/editQuestion`, {
+                const response = await fetch(`https://quizidy-backend.duckdns.org/handleQuestions/questions/${questionId}/editQuestion`, {
                     method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
@@ -201,7 +201,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
 
         debounceForPres.current = setTimeout(async () => {
             try {
-                const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/presentation/editTitle", {
+                const response = await fetch("https://quizidy-backend.duckdns.org/handleQuestions/presentation/editTitle", {
                     method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
@@ -256,7 +256,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
     const [selectedCorrect, setSelectedCorrect] = useState(null);
 
     const deleteOption = async (optionId) => {
-        const response = await fetch(`https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/question/${questionId}/deleteOption`, {
+        const response = await fetch(`https://quizidy-backend.duckdns.org/handleQuestions/question/${questionId}/deleteOption`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -294,7 +294,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
     }
 
     const addOption = async () => {
-        const response = await fetch(`https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/question/${questionId}/addOption`, {
+        const response = await fetch(`https://quizidy-backend.duckdns.org/handleQuestions/question/${questionId}/addOption`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -340,7 +340,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
             clearTimeout(debounceForChngeTemp.current);
 
         debounceForChngeTemp.current = setTimeout(async()=>{
-            const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/editDesignTemplate", {
+            const response = await fetch("https://quizidy-backend.duckdns.org/handleQuestions/editDesignTemplate", {
                 method : "POST", 
                 headers : {
                     "Content-Type" : "application/json"
@@ -361,7 +361,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
         if(!userGmail)
             return;
 
-        const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/AddAdmin", {
+        const response = await fetch("https://quizidy-backend.duckdns.org/handleQuestions/AddAdmin", {
             method : "POST", 
             headers : {
                 "Content-Type" : "application/json",
@@ -393,7 +393,7 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
     
 
     const deleteAddedAdmin = async(userId)=>{
-        const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/DeleteAddedAdmin", {
+        const response = await fetch("https://quizidy-backend.duckdns.org/handleQuestions/DeleteAddedAdmin", {
             method : "POST", 
             headers : {
                 "Content-Type" : "application/json"
@@ -441,19 +441,19 @@ const Layout = ({currentQuestion, allQuestion, presentation, questionId, setAllQ
     return (
         <div className='relative h-screen'>
             <div className='bg-gray-200 relative h-[530px] w-screen  overflow-hidden overflow-y-hidden'>
-                <div className='absolute top-5 left-4  bg-black pt-1 pb-1 pr-4 pl-4  rounded-3xl flex lg:hidden justify-center items-center gap-2' onClick={() => setShowSlide(!showSlide)}>
+                <div className='absolute top-5 cursor-pointer left-4  bg-black pt-1 pb-1 pr-4 pl-4  rounded-3xl flex lg:hidden justify-center items-center gap-2' onClick={() => {setShowSlide(!showSlide); setNewSlideAppearence(false)}}>
                     <LuFileStack className='text-white flex lg:hidden' />
                     <p className='text-white font-Outfit'>{currentlyOnSlide}/{noOfSlide}</p>
                 </div>
 
                     {/* FLoating  Menu appear in mobile*/}
-                <div className={`fixed top-0 left-0 h-full z-[999] pt-6 bg-white transition-all duration-500 ease-in-out transform ${showSlide ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'} flex justify-center w-[40%]`}>
-                    <div className='fixed md:hidden z-[99999] left-[105%] border p-2 bg-black rounded-full ' onClick={() => setShowSlide(!showSlide)}>
-                        <RxCross2 className='text-white text-sm' />
+                <div className={`fixed top-0 left-0 h-full z-[999] pt-6 bg-white transition-all duration-500 ease-in-out transform ${showSlide ? 'translate-x-0 opacity-100 pointer-events-auto' : '-translate-x-full opacity-0 pointer-events-none'} flex justify-center w-[60%] sm:w[30%] md:w-[20%]`}>
+                    <div className='fixed md z-[99999] left-[105%] s border p-2 bg-black rounded-full ' onClick={() => setShowSlide(!showSlide)}>
+                        <RxCross2 className=' cursor-pointer text-white text-sm' />
                     </div>
 
                     <div className='flex  pr-5 pl-2 flex-col gap-4 items-center w-full'>
-                        <button onClick={() => setNewSlideAppearence(!NewSlideAppreance)} className='flex justify-center text-[13px] gap-1 pt-2 pb-2 pr-6 pl-6 bg-stone-900 text-white items-center font-Outfit rounded-2xl'>
+                        <button onClick={() => {setNewSlideAppearence(!NewSlideAppreance);setShowSlide(!showSlide)}} className='flex justify-center text-[13px] gap-1 pt-2 pb-2 pr-6 pl-6 bg-stone-900 text-white items-center font-Outfit rounded-2xl'>
                             <GoPlus />
                             <p>New Slide</p>
                         </button>

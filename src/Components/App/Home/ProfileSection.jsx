@@ -9,7 +9,7 @@ const ProfileSection = (props) => {
   const Logout = async () => {
     try {
       // Call backend to clear refresh token
-      const response = await fetch('https://ai-based-quiz-builder-quizfy-backend.onrender.com/user/Logout', {
+      const response = await fetch('https://quizidy-backend.duckdns.org/user/Logout', {
         method: 'POST',
         credentials: 'include', // important: sends the cookie
       });

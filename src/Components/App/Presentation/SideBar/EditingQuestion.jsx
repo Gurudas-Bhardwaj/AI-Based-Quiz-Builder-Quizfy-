@@ -67,7 +67,7 @@ const EditingQuestion = ({
     formData.append("questionId", questionId);
 
     try {
-      const res = await fetch(`https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/uploadImage`, {
+      const res = await fetch(`https://quizidy-backend.duckdns.org/handleQuestions/uploadImage`, {
         method: "POST",
         body: formData,
       });
@@ -124,7 +124,7 @@ const EditingQuestion = ({
 
     descrRef.current = setTimeout(async()=>{
       console.log("send")
-      const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/question/description",{
+      const response = await fetch("https://quizidy-backend.duckdns.org/handleQuestions/question/description",{
         method : "POST",
         headers : {
           "Content-type" : "application/json"
@@ -148,7 +148,7 @@ const EditingQuestion = ({
   }
 
   const deleteImage = async()=>{
-    const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/deleteImage",{
+    const response = await fetch("https://quizidy-backend.duckdns.org/handleQuestions/deleteImage",{
       method : "DELETE",
       headers : {
         "Content-type" : "application/json"
@@ -174,7 +174,7 @@ const EditingQuestion = ({
 
 
   const updateCorrectOption = async(optionId)=>{
-    const response = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/question/correctOption",{
+    const response = await fetch("https://quizidy-backend.duckdns.org/handleQuestions/question/correctOption",{
       method : "POST", 
       headers : {
         "Content-Type" : "application/json"

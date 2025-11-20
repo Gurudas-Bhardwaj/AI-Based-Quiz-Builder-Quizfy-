@@ -93,7 +93,7 @@ const AdminLiveSession = () => {
   useEffect(() => {
 
 
-    socket.current = io("https://ai-based-quiz-builder-quizfy-backend.onrender.com/adminControlledQuiz", {
+    socket.current = io("https://quizidy-backend.duckdns.org/adminControlledQuiz", {
       transports: ["websocket", "polling"]
     });
 

@@ -22,7 +22,7 @@ const JoinUsingAI = () => {
     setSending(true);
     
     const response = await fetch(
-      "https://ai-based-quiz-builder-quizfy-backend.onrender.com/AIFeatures/sendMessageForAIPoweredQuiz",
+      "https://quizidy-backend.duckdns.org/AIFeatures/sendMessageForAIPoweredQuiz",
       {
         method: "POST",
         headers: {
@@ -57,7 +57,7 @@ const JoinUsingAI = () => {
       console.log("user question");
       setIsQuestion(true);
 
-      const res = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/AIFeatures/AddQuestionGeneratedByAI", {
+      const res = await fetch("https://quizidy-backend.duckdns.org/AIFeatures/AddQuestionGeneratedByAI", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

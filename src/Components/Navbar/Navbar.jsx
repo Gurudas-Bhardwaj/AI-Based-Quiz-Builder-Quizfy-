@@ -29,12 +29,12 @@ const Navbar = () => {
         <div className='flex gap-10'>
           {isLogin?(
               <div>
-                <NavLink to="/App/Admin/Home" className='pt-1 hidden sm:flex text-sm cursor-pointer bg-in pb-1 pl-4 pr-4 rounded-3xl border border-blue-500 text-white font-poppins z-10' style={{ backgroundColor: "#5769e7" }}>Go to Home</NavLink>
+                <NavLink to="/App/Admin/Home" className='pt-1 hidden sm:flex text-sm cursor-pointer bg-in pb-1 pl-4 pr-4 rounded-3xl border border-blue-500 text-white font-Outfit z-10' style={{ backgroundColor: "#5769e7" }}>Go to Home</NavLink>
               </div>
             ):(
               <div className='hidden lg:flex '>
-                <NavLink to="/Login" className='pt-1 font-semibold text-sm cursor-pointer bg-in pb-1 pl-6 pr-6 rounded-3xl font-poppins z-10'>Login</NavLink>
-                <NavLink to="/SignUp" className='pt-1 text-sm cursor-pointer bg-in pb-1 pl-6 pr-6 rounded-3xl border border-blue-500 text-white font-poppins z-10' style={{ backgroundColor: "#5769e7" }}>SignUp</NavLink>
+                <NavLink to="/Login" className='pt-1 font-semibold text-sm cursor-pointer bg-in pb-1 pl-6 pr-6 rounded-3xl font-Outfit z-10'>Login</NavLink>
+                <NavLink to="/SignUp" className='pt-1 text-sm cursor-pointer bg-in pb-1 pl-6 pr-6 rounded-3xl border border-blue-500 text-white font-Outfit z-10' style={{ backgroundColor: "#5769e7" }}>SignUp</NavLink>
               </div>
             )
           }

@@ -22,7 +22,7 @@ const CreateUsingAI = () => {
     console.log("Creating presentation with items:", items);
     try {
       const response = await fetch(
-        "https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/createPresentation",
+        "https://quizidy-backend.duckdns.org/handleQuestions/createPresentation",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -45,7 +45,7 @@ const CreateUsingAI = () => {
         const { designType, designTemplate, options, question, description } =
           q;
         const res = await fetch(
-          "https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/addQuestion",
+          "https://quizidy-backend.duckdns.org/handleQuestions/addQuestion",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -90,7 +90,7 @@ const CreateUsingAI = () => {
 
     try {
       const res = await fetch(
-        "https://ai-based-quiz-builder-quizfy-backend.onrender.com/AIFeatures/sendMessageToAI",
+        "https://quizidy-backend.duckdns.org/AIFeatures/sendMessageToAI",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -39,7 +39,7 @@ const SelectPresenation = ({ onClose, isVisible, presentationId }) => {
   const createPresentationAndQuestion = async () => {
     try {
       // 1. Create Presentation
-      const presRes = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/createPresentation", {
+      const presRes = await fetch("https://quizidy-backend.duckdns.org/handleQuestions/createPresentation", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user: userId, title: "Untitled Presentation" })
@@ -49,7 +49,7 @@ const SelectPresenation = ({ onClose, isVisible, presentationId }) => {
       console
 
       // 2. Create Sample First Question
-      const quesRes = await fetch("https://ai-based-quiz-builder-quizfy-backend.onrender.com/handleQuestions/addQuestion", {
+      const quesRes = await fetch("https://quizidy-backend.duckdns.org/handleQuestions/addQuestion", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -84,7 +84,7 @@ const SelectPresenation = ({ onClose, isVisible, presentationId }) => {
             <ChartBarIncreasing className="text-indigo-500" size={28} />
             Create a Presentation
           </h1>
-          <p className="text-sm text-gray-500 mt-1 font-Sora">Start by choosing a question type and a beautiful template</p>
+          <p className="text-sm text-gray-500 mt-1 font-Outfit">Start by choosing a question type and a beautiful template</p>
         </div>
         {/* Content */}
         <div className="flex flex-col gap-6 px-8 py-6">
@@ -163,7 +163,7 @@ const SelectPresenation = ({ onClose, isVisible, presentationId }) => {
             <button
               onClick={createPresentationAndQuestion}
               disabled={!selectedDesignType || !selectedTemplate}
-              className={`flex items-center gap-2 px-8 py-2 rounded-2xl font-Sora text-base font-semibold shadow-lg transition-all duration-200
+              className={`flex items-center gap-2 px-8 py-2 rounded-2xl font-Outfit text-base font-semibold shadow-lg transition-all duration-200
                 ${selectedDesignType && selectedTemplate ? 'bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 text-white hover:scale-105 hover:shadow-xl' : 'bg-gray-300 text-gray-400 cursor-not-allowed'}`}
             >
             

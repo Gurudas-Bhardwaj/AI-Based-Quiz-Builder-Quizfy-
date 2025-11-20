@@ -1,15 +1,14 @@
 import React, { lazy, Suspense } from 'react';
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, Route, Router, RouterProvider } from 'react-router';
-import Layout from './Layout.jsx';
 import Basic from './Components/Loader/Basic.jsx';
 import AuthProvider from './Context/authContext.jsx';
 import LoggedInRoute from './Components/Protected_Route/LoggedInRoute.jsx';
 import ForUnLoggedUser from './Components/Protected_Route/accessOnlyRoute.jsx';
-import AdminLiveSession from './Components/App/Going Live Functionality/Admin Controlled/AdminLiveSession.jsx';
-import HowToUse from './Components/Landing/HowToUse.jsx';
 
+const Layout = lazy(() => import('./Layout.jsx'));
 const MyPresentation = lazy(() => import("./Components/App/Home/MyPresentation/MyPresentation.jsx"))
+const AdminLiveSession = lazy(() => import('./Components/App/Going Live Functionality/Admin Controlled/AdminLiveSession.jsx'));
 
 const LazyLandingPage = lazy(() => import("./Components/Landing/Landing_Page.jsx"));
 const Login = lazy(() => import("./Components/Authentications/Login.jsx"))
@@ -37,7 +36,7 @@ const LazyAIPoweredQuiz = lazy(()=> import("./Components/AI_Features_page/AI_Pow
 const route = createBrowserRouter([
   {
     path: "",
-    element: <Layout />,
+    element: <Suspense fallback={<Basic />}><Layout /></Suspense>,
     children: [
       { path: "/", element: <Suspense fallback={<Basic />}><LazyLandingPage /></Suspense> },
       { path : "/Billing", element : <Suspense fallback={<Basic />}><LazyBilling/></Suspense>},
@@ -74,7 +73,7 @@ const route = createBrowserRouter([
     </Suspense>
     ,
     children: [
-      { path: "Home", element: <Home /> },
+      { path: "Home", element: <Suspense fallback={<Basic />}><Home /></Suspense> },
       {
         path: "MyPresentation", element: <Suspense fallback={<Basic />}>
           <MyPresentation />
