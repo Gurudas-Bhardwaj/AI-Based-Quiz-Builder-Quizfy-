@@ -1,0 +1,6 @@
+import{c as a}from"./index-es2nNZ9l.js";/**
+ * @license lucide-react v0.541.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const s=[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["path",{d:"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3",key:"1u773s"}],["path",{d:"M12 17h.01",key:"p32p05"}]],B=a("circle-question-mark",s),G=[{id:"BG-1",className:"bg-BG-1"},{id:"BG-2",className:"bg-BG-2"},{id:"BG-3",className:"bg-BG-3"},{id:"BG-4",className:"bg-BG-4"},{id:"BG-5",className:"bg-BG-5"},{id:"BG-6",className:"bg-BG-6"},{id:"BG-7",className:"bg-BG-7"},{id:"BG-8",className:"bg-BG-8"},{id:"BG-9",className:"bg-BG-9"},{id:"BG-10",className:"bg-BG-10"},{id:"BG-11",className:"bg-BG-11"},{id:"BG-12",className:"bg-BG-12"},{id:"BG-13",className:"bg-BG-13"},{id:"BG-14",className:"bg-BG-14"},{id:"BG-15",className:"bg-BG-15"},{id:"BG-16",className:"bg-BG-16"}];export{B as C,G as t};

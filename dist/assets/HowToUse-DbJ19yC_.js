@@ -1,0 +1,1 @@
+import{R as e}from"./index-es2nNZ9l.js";const s=()=>e.createElement("div",{className:"w-screen h-screen flex justify-center items-center"},e.createElement("h1",{className:"text-3xl text-indigo-400  font-Outfit font-bold"},"This Page is under Construction!"));export{s as default};
