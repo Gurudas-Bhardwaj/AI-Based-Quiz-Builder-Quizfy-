@@ -1,10 +1,8 @@
 import { CirclePlus } from 'lucide-react';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
 
 const JoinPresentation = ({ isVisible, onClose }) => {
 
-    const navigate = useNavigate();
     const [presentationLink, setPresentationLink] = useState('');
 
     const Join = () => {
