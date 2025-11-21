@@ -7,7 +7,7 @@ const JoinPresentation = ({ isVisible, onClose }) => {
 
     const Join = () => {
         // Handle join presentation logic
-        window.location = presentationLink;
+        window.location = presentationLink ;
     };
 
     return (
